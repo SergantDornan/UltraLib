@@ -1,6 +1,22 @@
 #ifndef UBERMENSCHENAMOGUS228_ALGS_H
 #define UBERMENSCHENAMOGUS228_ALGS_H
 #include "header.h"
+
+
+void generateVector(std::vector<int>& v, int n, int maxnum){
+    v.clear();
+    for(int i = 0; i < n; ++i)
+        v.push_back(rand() % maxnum);
+}
+
+template <class T>
+T max(T& a, T& b){
+    if(a > b)
+        return a;
+    else
+        return b;
+}
+
 template <class T>
 void swap(T& a, T& b){
     T c = a;

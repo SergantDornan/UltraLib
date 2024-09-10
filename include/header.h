@@ -58,9 +58,6 @@ void matrixoutput(T** matrix, int N, int M){
     }
 }
 
-void debug(){
-    std::cout << "AAAAAAAAA" << std::endl;
-}
 
 template <class T>
 std::ostream& operator << (std::ostream& out, std::deque<T> q){

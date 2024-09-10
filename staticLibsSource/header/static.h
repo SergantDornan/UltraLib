@@ -1,3 +1,4 @@
 #include <iostream>
-void sourcestatic2(int);
-void sourcestatic1(int);
+void staticfunc1(int);
+void staticfunc2(int);
+const int Y = 10;
