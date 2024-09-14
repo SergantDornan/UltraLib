@@ -197,8 +197,32 @@ depsAndObjects/analysis.o: algAnal/source/analysis.cpp \
  /usr/include/c++/11/pstl/execution_defs.h /usr/include/c++/11/list \
  /usr/include/c++/11/bits/stl_list.h \
  /usr/include/c++/11/bits/allocated_ptr.h \
- /usr/include/c++/11/bits/list.tcc /usr/include/boost/stacktrace.hpp \
- /usr/include/boost/config.hpp /usr/include/boost/config/user.hpp \
+ /usr/include/c++/11/bits/list.tcc algAnal/header/analmath.h \
+ /usr/include/c++/11/cmath /usr/include/math.h \
+ /usr/include/x86_64-linux-gnu/bits/math-vector.h \
+ /usr/include/x86_64-linux-gnu/bits/libm-simd-decl-stubs.h \
+ /usr/include/x86_64-linux-gnu/bits/flt-eval-method.h \
+ /usr/include/x86_64-linux-gnu/bits/fp-logb.h \
+ /usr/include/x86_64-linux-gnu/bits/fp-fast.h \
+ /usr/include/x86_64-linux-gnu/bits/mathcalls-helper-functions.h \
+ /usr/include/x86_64-linux-gnu/bits/mathcalls.h \
+ /usr/include/x86_64-linux-gnu/bits/mathcalls-narrow.h \
+ /usr/include/x86_64-linux-gnu/bits/iscanonical.h \
+ /usr/include/c++/11/bits/specfun.h /usr/include/c++/11/limits \
+ /usr/include/c++/11/tr1/gamma.tcc \
+ /usr/include/c++/11/tr1/special_function_util.h \
+ /usr/include/c++/11/tr1/bessel_function.tcc \
+ /usr/include/c++/11/tr1/beta_function.tcc \
+ /usr/include/c++/11/tr1/ell_integral.tcc \
+ /usr/include/c++/11/tr1/exp_integral.tcc \
+ /usr/include/c++/11/tr1/hypergeometric.tcc \
+ /usr/include/c++/11/tr1/legendre_function.tcc \
+ /usr/include/c++/11/tr1/modified_bessel_func.tcc \
+ /usr/include/c++/11/tr1/poly_hermite.tcc \
+ /usr/include/c++/11/tr1/poly_laguerre.tcc \
+ /usr/include/c++/11/tr1/riemann_zeta.tcc \
+ /usr/include/boost/stacktrace.hpp /usr/include/boost/config.hpp \
+ /usr/include/boost/config/user.hpp \
  /usr/include/boost/config/detail/select_compiler_config.hpp \
  /usr/include/boost/config/compiler/gcc.hpp /usr/include/c++/11/cstddef \
  /usr/include/boost/config/detail/select_stdlib_config.hpp \
@@ -440,30 +464,7 @@ depsAndObjects/analysis.o: algAnal/source/analysis.cpp \
  /usr/include/c++/11/backward/auto_ptr.h \
  /usr/include/c++/11/bits/ranges_uninitialized.h \
  /usr/include/c++/11/bits/uses_allocator_args.h \
- /usr/include/c++/11/pstl/glue_memory_defs.h algAnal/header/analmath.h \
- /usr/include/c++/11/cmath /usr/include/math.h \
- /usr/include/x86_64-linux-gnu/bits/math-vector.h \
- /usr/include/x86_64-linux-gnu/bits/libm-simd-decl-stubs.h \
- /usr/include/x86_64-linux-gnu/bits/flt-eval-method.h \
- /usr/include/x86_64-linux-gnu/bits/fp-logb.h \
- /usr/include/x86_64-linux-gnu/bits/fp-fast.h \
- /usr/include/x86_64-linux-gnu/bits/mathcalls-helper-functions.h \
- /usr/include/x86_64-linux-gnu/bits/mathcalls.h \
- /usr/include/x86_64-linux-gnu/bits/mathcalls-narrow.h \
- /usr/include/x86_64-linux-gnu/bits/iscanonical.h \
- /usr/include/c++/11/bits/specfun.h /usr/include/c++/11/limits \
- /usr/include/c++/11/tr1/gamma.tcc \
- /usr/include/c++/11/tr1/special_function_util.h \
- /usr/include/c++/11/tr1/bessel_function.tcc \
- /usr/include/c++/11/tr1/beta_function.tcc \
- /usr/include/c++/11/tr1/ell_integral.tcc \
- /usr/include/c++/11/tr1/exp_integral.tcc \
- /usr/include/c++/11/tr1/hypergeometric.tcc \
- /usr/include/c++/11/tr1/legendre_function.tcc \
- /usr/include/c++/11/tr1/modified_bessel_func.tcc \
- /usr/include/c++/11/tr1/poly_hermite.tcc \
- /usr/include/c++/11/tr1/poly_laguerre.tcc \
- /usr/include/c++/11/tr1/riemann_zeta.tcc
+ /usr/include/c++/11/pstl/glue_memory_defs.h
 /usr/include/stdc-predef.h:
 algAnal/header/analysis.h:
 /usr/include/c++/11/iostream:
@@ -718,6 +719,32 @@ include/header.h:
 /usr/include/c++/11/bits/stl_list.h:
 /usr/include/c++/11/bits/allocated_ptr.h:
 /usr/include/c++/11/bits/list.tcc:
+algAnal/header/analmath.h:
+/usr/include/c++/11/cmath:
+/usr/include/math.h:
+/usr/include/x86_64-linux-gnu/bits/math-vector.h:
+/usr/include/x86_64-linux-gnu/bits/libm-simd-decl-stubs.h:
+/usr/include/x86_64-linux-gnu/bits/flt-eval-method.h:
+/usr/include/x86_64-linux-gnu/bits/fp-logb.h:
+/usr/include/x86_64-linux-gnu/bits/fp-fast.h:
+/usr/include/x86_64-linux-gnu/bits/mathcalls-helper-functions.h:
+/usr/include/x86_64-linux-gnu/bits/mathcalls.h:
+/usr/include/x86_64-linux-gnu/bits/mathcalls-narrow.h:
+/usr/include/x86_64-linux-gnu/bits/iscanonical.h:
+/usr/include/c++/11/bits/specfun.h:
+/usr/include/c++/11/limits:
+/usr/include/c++/11/tr1/gamma.tcc:
+/usr/include/c++/11/tr1/special_function_util.h:
+/usr/include/c++/11/tr1/bessel_function.tcc:
+/usr/include/c++/11/tr1/beta_function.tcc:
+/usr/include/c++/11/tr1/ell_integral.tcc:
+/usr/include/c++/11/tr1/exp_integral.tcc:
+/usr/include/c++/11/tr1/hypergeometric.tcc:
+/usr/include/c++/11/tr1/legendre_function.tcc:
+/usr/include/c++/11/tr1/modified_bessel_func.tcc:
+/usr/include/c++/11/tr1/poly_hermite.tcc:
+/usr/include/c++/11/tr1/poly_laguerre.tcc:
+/usr/include/c++/11/tr1/riemann_zeta.tcc:
 /usr/include/boost/stacktrace.hpp:
 /usr/include/boost/config.hpp:
 /usr/include/boost/config/user.hpp:
@@ -991,29 +1018,3 @@ include/header.h:
 /usr/include/c++/11/bits/ranges_uninitialized.h:
 /usr/include/c++/11/bits/uses_allocator_args.h:
 /usr/include/c++/11/pstl/glue_memory_defs.h:
-algAnal/header/analmath.h:
-/usr/include/c++/11/cmath:
-/usr/include/math.h:
-/usr/include/x86_64-linux-gnu/bits/math-vector.h:
-/usr/include/x86_64-linux-gnu/bits/libm-simd-decl-stubs.h:
-/usr/include/x86_64-linux-gnu/bits/flt-eval-method.h:
-/usr/include/x86_64-linux-gnu/bits/fp-logb.h:
-/usr/include/x86_64-linux-gnu/bits/fp-fast.h:
-/usr/include/x86_64-linux-gnu/bits/mathcalls-helper-functions.h:
-/usr/include/x86_64-linux-gnu/bits/mathcalls.h:
-/usr/include/x86_64-linux-gnu/bits/mathcalls-narrow.h:
-/usr/include/x86_64-linux-gnu/bits/iscanonical.h:
-/usr/include/c++/11/bits/specfun.h:
-/usr/include/c++/11/limits:
-/usr/include/c++/11/tr1/gamma.tcc:
-/usr/include/c++/11/tr1/special_function_util.h:
-/usr/include/c++/11/tr1/bessel_function.tcc:
-/usr/include/c++/11/tr1/beta_function.tcc:
-/usr/include/c++/11/tr1/ell_integral.tcc:
-/usr/include/c++/11/tr1/exp_integral.tcc:
-/usr/include/c++/11/tr1/hypergeometric.tcc:
-/usr/include/c++/11/tr1/legendre_function.tcc:
-/usr/include/c++/11/tr1/modified_bessel_func.tcc:
-/usr/include/c++/11/tr1/poly_hermite.tcc:
-/usr/include/c++/11/tr1/poly_laguerre.tcc:
-/usr/include/c++/11/tr1/riemann_zeta.tcc:
