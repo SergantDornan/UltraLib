@@ -1,5 +1,5 @@
 #include <iostream>
 #include <ctime>
-#include <cmath>
 #include "algs.h"
-const int N = 5000000;
+#include <boost/stacktrace.hpp>
+const int N = 500000;

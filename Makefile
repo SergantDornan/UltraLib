@@ -1,9 +1,10 @@
-ANAL=algs
+ANAL=analysis
 OUTPUT=prog
 TST=test
 
 ANALENTRY=entry
-TSTENTRY=entry
+TSTENTRY=TSTentry
+MAINENTRY=mainfunc
 
 ROOTDIR=.
 SOURCEDIR=./lib
@@ -26,7 +27,7 @@ INCDIRS=. ./include/ $(INCANAL) $(INCTST)
 STATICLIBGEN_name=static
 SHAREDLIBGEN_name=shared
 CPPC=g++
-C++standart=-std=c++20
+C++standart=-std=c++23
 OPT=-O2
 DEPFLAGS=-MP -MD
 GENERALFLAGS=$(C++standart) -g3
@@ -166,6 +167,15 @@ runanal:$(ANALdepend)
 runtst:$(TSTdepend)
 	@./$(TST)
 
+debug:$(OUTPUT)
+	@gdb ./$(OUTPUT)
+
+debuganal:$(ANALdepend)
+	@gdb ./$(ANAL)
+
+debugtst:$(TSTdepend)
+	@gdb ./$(TST)
+
 anal:$(ANALdepend)
 
 libs:$(STATICdepend) $(SHAREDdepend)
@@ -176,8 +186,10 @@ libshared:$(SHAREDdepend)
 
 tst:$(TSTdepend)
 
+prog:$(OUTPUT)
+
 $(OUTPUT):$(STATICdepend) $(SHAREDdepend) $(OBJECTS)
-	$(CPPC) $^ $(ISSTATIC) $(ISSHARED) $(foreach D,$(LIBSTATIC_names),-l$(D)) $(foreach D,$(LIBSHARED_names),-l$(D)) $(STATICLIBGEN_link) $(SHAREDLIBGEN_link) -o $@
+	$(CPPC) $^ -Wl,--defsym=main=$(MAINENTRY) $(ISSTATIC) $(ISSHARED) $(foreach D,$(LIBSTATIC_names),-l$(D)) $(foreach D,$(LIBSHARED_names),-l$(D)) $(STATICLIBGEN_link) $(SHAREDLIBGEN_link) -o $@
 	$(INCLUDESHARED)
 
 $(ANAL):$(STATICdepend) $(SHAREDdepend) $(ANALOBJECTS) $(OBJECTS)

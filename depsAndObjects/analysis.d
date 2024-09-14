@@ -161,30 +161,8 @@ depsAndObjects/analysis.o: algAnal/source/analysis.cpp \
  /usr/include/c++/11/bits/basic_ios.tcc \
  /usr/include/c++/11/bits/ostream.tcc /usr/include/c++/11/istream \
  /usr/include/c++/11/bits/istream.tcc /usr/include/c++/11/ctime \
- /usr/include/c++/11/cmath /usr/include/math.h \
- /usr/include/x86_64-linux-gnu/bits/math-vector.h \
- /usr/include/x86_64-linux-gnu/bits/libm-simd-decl-stubs.h \
- /usr/include/x86_64-linux-gnu/bits/flt-eval-method.h \
- /usr/include/x86_64-linux-gnu/bits/fp-logb.h \
- /usr/include/x86_64-linux-gnu/bits/fp-fast.h \
- /usr/include/x86_64-linux-gnu/bits/mathcalls-helper-functions.h \
- /usr/include/x86_64-linux-gnu/bits/mathcalls.h \
- /usr/include/x86_64-linux-gnu/bits/mathcalls-narrow.h \
- /usr/include/x86_64-linux-gnu/bits/iscanonical.h \
- /usr/include/c++/11/bits/specfun.h /usr/include/c++/11/limits \
- /usr/include/c++/11/tr1/gamma.tcc \
- /usr/include/c++/11/tr1/special_function_util.h \
- /usr/include/c++/11/tr1/bessel_function.tcc \
- /usr/include/c++/11/tr1/beta_function.tcc \
- /usr/include/c++/11/tr1/ell_integral.tcc \
- /usr/include/c++/11/tr1/exp_integral.tcc \
- /usr/include/c++/11/tr1/hypergeometric.tcc \
- /usr/include/c++/11/tr1/legendre_function.tcc \
- /usr/include/c++/11/tr1/modified_bessel_func.tcc \
- /usr/include/c++/11/tr1/poly_hermite.tcc \
- /usr/include/c++/11/tr1/poly_laguerre.tcc \
- /usr/include/c++/11/tr1/riemann_zeta.tcc include/algs.h include/header.h \
- /usr/include/c++/11/vector /usr/include/c++/11/bits/stl_uninitialized.h \
+ include/algs.h include/header.h /usr/include/c++/11/vector \
+ /usr/include/c++/11/bits/stl_uninitialized.h \
  /usr/include/c++/11/bits/stl_vector.h \
  /usr/include/c++/11/bits/stl_bvector.h \
  /usr/include/c++/11/bits/vector.tcc /usr/include/c++/11/map \
@@ -219,7 +197,273 @@ depsAndObjects/analysis.o: algAnal/source/analysis.cpp \
  /usr/include/c++/11/pstl/execution_defs.h /usr/include/c++/11/list \
  /usr/include/c++/11/bits/stl_list.h \
  /usr/include/c++/11/bits/allocated_ptr.h \
- /usr/include/c++/11/bits/list.tcc
+ /usr/include/c++/11/bits/list.tcc /usr/include/boost/stacktrace.hpp \
+ /usr/include/boost/config.hpp /usr/include/boost/config/user.hpp \
+ /usr/include/boost/config/detail/select_compiler_config.hpp \
+ /usr/include/boost/config/compiler/gcc.hpp /usr/include/c++/11/cstddef \
+ /usr/include/boost/config/detail/select_stdlib_config.hpp \
+ /usr/include/c++/11/version \
+ /usr/include/boost/config/stdlib/libstdcpp3.hpp /usr/include/unistd.h \
+ /usr/include/x86_64-linux-gnu/bits/posix_opt.h \
+ /usr/include/x86_64-linux-gnu/bits/environments.h \
+ /usr/include/x86_64-linux-gnu/bits/confname.h \
+ /usr/include/x86_64-linux-gnu/bits/getopt_posix.h \
+ /usr/include/x86_64-linux-gnu/bits/getopt_core.h \
+ /usr/include/x86_64-linux-gnu/bits/unistd.h \
+ /usr/include/x86_64-linux-gnu/bits/unistd_ext.h \
+ /usr/include/linux/close_range.h \
+ /usr/include/boost/config/detail/select_platform_config.hpp \
+ /usr/include/boost/config/platform/linux.hpp \
+ /usr/include/boost/config/detail/posix_features.hpp \
+ /usr/include/boost/config/detail/suffix.hpp \
+ /usr/include/boost/config/helper_macros.hpp \
+ /usr/include/boost/stacktrace/frame.hpp \
+ /usr/include/boost/core/explicit_operator_bool.hpp \
+ /usr/include/boost/config/workaround.hpp \
+ /usr/include/boost/stacktrace/safe_dump_to.hpp \
+ /usr/include/boost/stacktrace/detail/push_options.h \
+ /usr/include/boost/stacktrace/detail/pop_options.h \
+ /usr/include/boost/stacktrace/detail/safe_dump_posix.ipp \
+ /usr/include/fcntl.h /usr/include/x86_64-linux-gnu/bits/fcntl.h \
+ /usr/include/x86_64-linux-gnu/bits/fcntl-linux.h \
+ /usr/include/x86_64-linux-gnu/bits/types/struct_iovec.h \
+ /usr/include/linux/falloc.h /usr/include/x86_64-linux-gnu/bits/stat.h \
+ /usr/include/x86_64-linux-gnu/bits/struct_stat.h \
+ /usr/include/x86_64-linux-gnu/bits/fcntl2.h \
+ /usr/include/x86_64-linux-gnu/sys/stat.h \
+ /usr/include/x86_64-linux-gnu/bits/statx.h /usr/include/linux/stat.h \
+ /usr/include/linux/types.h /usr/include/x86_64-linux-gnu/asm/types.h \
+ /usr/include/asm-generic/types.h /usr/include/asm-generic/int-ll64.h \
+ /usr/include/x86_64-linux-gnu/asm/bitsperlong.h \
+ /usr/include/asm-generic/bitsperlong.h /usr/include/linux/posix_types.h \
+ /usr/include/linux/stddef.h \
+ /usr/include/x86_64-linux-gnu/asm/posix_types.h \
+ /usr/include/x86_64-linux-gnu/asm/posix_types_64.h \
+ /usr/include/asm-generic/posix_types.h \
+ /usr/include/x86_64-linux-gnu/bits/statx-generic.h \
+ /usr/include/x86_64-linux-gnu/bits/types/struct_statx_timestamp.h \
+ /usr/include/x86_64-linux-gnu/bits/types/struct_statx.h \
+ /usr/include/boost/stacktrace/detail/collect_unwind.ipp \
+ /usr/include/boost/predef.h /usr/include/boost/predef/language.h \
+ /usr/include/boost/predef/language/stdc.h \
+ /usr/include/boost/predef/version_number.h \
+ /usr/include/boost/predef/make.h /usr/include/boost/predef/detail/test.h \
+ /usr/include/boost/predef/language/stdcpp.h \
+ /usr/include/boost/predef/language/objc.h \
+ /usr/include/boost/predef/language/cuda.h \
+ /usr/include/boost/predef/architecture.h \
+ /usr/include/boost/predef/architecture/alpha.h \
+ /usr/include/boost/predef/architecture/arm.h \
+ /usr/include/boost/predef/architecture/blackfin.h \
+ /usr/include/boost/predef/architecture/convex.h \
+ /usr/include/boost/predef/architecture/ia64.h \
+ /usr/include/boost/predef/architecture/m68k.h \
+ /usr/include/boost/predef/architecture/mips.h \
+ /usr/include/boost/predef/architecture/parisc.h \
+ /usr/include/boost/predef/architecture/ppc.h \
+ /usr/include/boost/predef/architecture/ptx.h \
+ /usr/include/boost/predef/architecture/pyramid.h \
+ /usr/include/boost/predef/architecture/riscv.h \
+ /usr/include/boost/predef/architecture/rs6k.h \
+ /usr/include/boost/predef/architecture/sparc.h \
+ /usr/include/boost/predef/architecture/superh.h \
+ /usr/include/boost/predef/architecture/sys370.h \
+ /usr/include/boost/predef/architecture/sys390.h \
+ /usr/include/boost/predef/architecture/x86.h \
+ /usr/include/boost/predef/architecture/x86/32.h \
+ /usr/include/boost/predef/architecture/x86/64.h \
+ /usr/include/boost/predef/architecture/z.h \
+ /usr/include/boost/predef/compiler.h \
+ /usr/include/boost/predef/compiler/borland.h \
+ /usr/include/boost/predef/compiler/clang.h \
+ /usr/include/boost/predef/compiler/comeau.h \
+ /usr/include/boost/predef/compiler/compaq.h \
+ /usr/include/boost/predef/compiler/diab.h \
+ /usr/include/boost/predef/compiler/digitalmars.h \
+ /usr/include/boost/predef/compiler/dignus.h \
+ /usr/include/boost/predef/compiler/edg.h \
+ /usr/include/boost/predef/compiler/ekopath.h \
+ /usr/include/boost/predef/compiler/gcc_xml.h \
+ /usr/include/boost/predef/compiler/gcc.h \
+ /usr/include/boost/predef/detail/comp_detected.h \
+ /usr/include/boost/predef/compiler/greenhills.h \
+ /usr/include/boost/predef/compiler/hp_acc.h \
+ /usr/include/boost/predef/compiler/iar.h \
+ /usr/include/boost/predef/compiler/ibm.h \
+ /usr/include/boost/predef/compiler/intel.h \
+ /usr/include/boost/predef/compiler/kai.h \
+ /usr/include/boost/predef/compiler/llvm.h \
+ /usr/include/boost/predef/compiler/metaware.h \
+ /usr/include/boost/predef/compiler/metrowerks.h \
+ /usr/include/boost/predef/compiler/microtec.h \
+ /usr/include/boost/predef/compiler/mpw.h \
+ /usr/include/boost/predef/compiler/nvcc.h \
+ /usr/include/boost/predef/compiler/palm.h \
+ /usr/include/boost/predef/compiler/pgi.h \
+ /usr/include/boost/predef/compiler/sgi_mipspro.h \
+ /usr/include/boost/predef/compiler/sunpro.h \
+ /usr/include/boost/predef/compiler/tendra.h \
+ /usr/include/boost/predef/compiler/visualc.h \
+ /usr/include/boost/predef/compiler/watcom.h \
+ /usr/include/boost/predef/library.h \
+ /usr/include/boost/predef/library/c.h \
+ /usr/include/boost/predef/library/c/_prefix.h \
+ /usr/include/boost/predef/detail/_cassert.h /usr/include/c++/11/cassert \
+ /usr/include/assert.h /usr/include/boost/predef/library/c/cloudabi.h \
+ /usr/include/boost/predef/library/c/gnu.h \
+ /usr/include/boost/predef/library/c/uc.h \
+ /usr/include/boost/predef/library/c/vms.h \
+ /usr/include/boost/predef/library/c/zos.h \
+ /usr/include/boost/predef/library/std.h \
+ /usr/include/boost/predef/library/std/_prefix.h \
+ /usr/include/boost/predef/detail/_exception.h \
+ /usr/include/boost/predef/library/std/cxx.h \
+ /usr/include/boost/predef/library/std/dinkumware.h \
+ /usr/include/boost/predef/library/std/libcomo.h \
+ /usr/include/boost/predef/library/std/modena.h \
+ /usr/include/boost/predef/library/std/msl.h \
+ /usr/include/boost/predef/library/std/roguewave.h \
+ /usr/include/boost/predef/library/std/sgi.h \
+ /usr/include/boost/predef/library/std/stdcpp3.h \
+ /usr/include/boost/predef/library/std/stlport.h \
+ /usr/include/boost/predef/library/std/vacpp.h \
+ /usr/include/boost/predef/os.h /usr/include/boost/predef/os/aix.h \
+ /usr/include/boost/predef/os/amigaos.h \
+ /usr/include/boost/predef/os/beos.h /usr/include/boost/predef/os/bsd.h \
+ /usr/include/boost/predef/os/macos.h /usr/include/boost/predef/os/ios.h \
+ /usr/include/boost/predef/os/bsd/bsdi.h \
+ /usr/include/boost/predef/os/bsd/dragonfly.h \
+ /usr/include/boost/predef/os/bsd/free.h \
+ /usr/include/boost/predef/os/bsd/open.h \
+ /usr/include/boost/predef/os/bsd/net.h \
+ /usr/include/boost/predef/os/cygwin.h \
+ /usr/include/boost/predef/os/haiku.h /usr/include/boost/predef/os/hpux.h \
+ /usr/include/boost/predef/os/irix.h /usr/include/boost/predef/os/linux.h \
+ /usr/include/boost/predef/detail/os_detected.h \
+ /usr/include/boost/predef/os/os400.h \
+ /usr/include/boost/predef/os/qnxnto.h \
+ /usr/include/boost/predef/os/solaris.h \
+ /usr/include/boost/predef/os/unix.h /usr/include/boost/predef/os/vms.h \
+ /usr/include/boost/predef/os/windows.h /usr/include/boost/predef/other.h \
+ /usr/include/boost/predef/other/endian.h \
+ /usr/include/boost/predef/platform/android.h \
+ /usr/include/boost/predef/platform.h \
+ /usr/include/boost/predef/platform/cloudabi.h \
+ /usr/include/boost/predef/platform/mingw.h \
+ /usr/include/boost/predef/platform/mingw32.h \
+ /usr/include/boost/predef/platform/mingw64.h \
+ /usr/include/boost/predef/platform/windows_uwp.h \
+ /usr/include/boost/predef/platform/windows_desktop.h \
+ /usr/include/boost/predef/platform/windows_phone.h \
+ /usr/include/boost/predef/platform/windows_server.h \
+ /usr/include/boost/predef/platform/windows_store.h \
+ /usr/include/boost/predef/platform/windows_system.h \
+ /usr/include/boost/predef/platform/windows_runtime.h \
+ /usr/include/boost/predef/platform/ios.h \
+ /usr/include/boost/predef/hardware.h \
+ /usr/include/boost/predef/hardware/simd.h \
+ /usr/include/boost/predef/hardware/simd/x86.h \
+ /usr/include/boost/predef/hardware/simd/x86/versions.h \
+ /usr/include/boost/predef/hardware/simd/x86_amd.h \
+ /usr/include/boost/predef/hardware/simd/x86_amd/versions.h \
+ /usr/include/boost/predef/hardware/simd/arm.h \
+ /usr/include/boost/predef/hardware/simd/arm/versions.h \
+ /usr/include/boost/predef/hardware/simd/ppc.h \
+ /usr/include/boost/predef/hardware/simd/ppc/versions.h \
+ /usr/include/boost/predef/version.h \
+ /usr/lib/gcc/x86_64-linux-gnu/11/include/unwind.h \
+ /usr/include/boost/stacktrace/detail/frame_decl.hpp \
+ /usr/include/boost/stacktrace/detail/void_ptr_cast.hpp \
+ /usr/include/boost/static_assert.hpp \
+ /usr/include/boost/detail/workaround.hpp \
+ /usr/include/boost/type_traits/is_pointer.hpp \
+ /usr/include/boost/type_traits/integral_constant.hpp \
+ /usr/include/boost/stacktrace/detail/frame_unwind.ipp \
+ /usr/include/boost/stacktrace/detail/to_hex_array.hpp \
+ /usr/include/boost/array.hpp /usr/include/boost/assert.hpp \
+ /usr/include/boost/swap.hpp /usr/include/boost/core/swap.hpp \
+ /usr/include/boost/core/enable_if.hpp \
+ /usr/include/boost/throw_exception.hpp \
+ /usr/include/boost/assert/source_location.hpp \
+ /usr/include/boost/current_function.hpp /usr/include/boost/cstdint.hpp \
+ /usr/include/boost/exception/exception.hpp \
+ /usr/include/boost/type_traits/make_unsigned.hpp \
+ /usr/include/boost/type_traits/conditional.hpp \
+ /usr/include/boost/type_traits/is_integral.hpp \
+ /usr/include/boost/type_traits/is_signed.hpp \
+ /usr/include/boost/type_traits/remove_cv.hpp \
+ /usr/include/boost/type_traits/is_enum.hpp \
+ /usr/include/boost/type_traits/intrinsics.hpp \
+ /usr/include/boost/type_traits/detail/config.hpp \
+ /usr/include/boost/version.hpp /usr/include/c++/11/climits \
+ /usr/lib/gcc/x86_64-linux-gnu/11/include/limits.h \
+ /usr/lib/gcc/x86_64-linux-gnu/11/include/syslimits.h \
+ /usr/include/limits.h /usr/include/x86_64-linux-gnu/bits/posix1_lim.h \
+ /usr/include/x86_64-linux-gnu/bits/local_lim.h \
+ /usr/include/linux/limits.h \
+ /usr/include/x86_64-linux-gnu/bits/posix2_lim.h \
+ /usr/include/x86_64-linux-gnu/bits/xopen_lim.h \
+ /usr/include/x86_64-linux-gnu/bits/uio_lim.h \
+ /usr/include/boost/type_traits/is_unsigned.hpp \
+ /usr/include/boost/type_traits/is_same.hpp \
+ /usr/include/boost/type_traits/is_const.hpp \
+ /usr/include/boost/type_traits/is_volatile.hpp \
+ /usr/include/boost/type_traits/add_const.hpp \
+ /usr/include/boost/type_traits/add_volatile.hpp \
+ /usr/include/boost/stacktrace/detail/location_from_symbol.hpp \
+ /usr/include/dlfcn.h /usr/include/x86_64-linux-gnu/bits/dlfcn.h \
+ /usr/include/x86_64-linux-gnu/bits/dl_find_object.h \
+ /usr/include/boost/stacktrace/detail/to_dec_array.hpp \
+ /usr/include/boost/core/demangle.hpp /usr/include/c++/11/cxxabi.h \
+ /usr/include/x86_64-linux-gnu/c++/11/bits/cxxabi_tweaks.h \
+ /usr/include/boost/stacktrace/detail/unwind_base_impls.hpp \
+ /usr/include/boost/stacktrace/stacktrace.hpp \
+ /usr/include/boost/core/no_exceptions_support.hpp \
+ /usr/include/boost/container_hash/hash_fwd.hpp \
+ /usr/include/boost/stacktrace/stacktrace_fwd.hpp \
+ /usr/include/c++/11/memory \
+ /usr/include/c++/11/bits/stl_raw_storage_iter.h \
+ /usr/include/c++/11/bits/align.h /usr/include/c++/11/bit \
+ /usr/include/c++/11/bits/unique_ptr.h \
+ /usr/include/c++/11/bits/shared_ptr.h \
+ /usr/include/c++/11/bits/shared_ptr_base.h \
+ /usr/include/c++/11/ext/concurrence.h \
+ /usr/include/c++/11/bits/shared_ptr_atomic.h \
+ /usr/include/c++/11/bits/atomic_base.h \
+ /usr/include/c++/11/bits/atomic_lockfree_defines.h \
+ /usr/include/c++/11/bits/atomic_wait.h /usr/include/syscall.h \
+ /usr/include/x86_64-linux-gnu/sys/syscall.h \
+ /usr/include/x86_64-linux-gnu/asm/unistd.h \
+ /usr/include/x86_64-linux-gnu/asm/unistd_64.h \
+ /usr/include/x86_64-linux-gnu/bits/syscall.h \
+ /usr/include/c++/11/bits/std_mutex.h \
+ /usr/include/c++/11/backward/auto_ptr.h \
+ /usr/include/c++/11/bits/ranges_uninitialized.h \
+ /usr/include/c++/11/bits/uses_allocator_args.h \
+ /usr/include/c++/11/pstl/glue_memory_defs.h algAnal/header/analmath.h \
+ /usr/include/c++/11/cmath /usr/include/math.h \
+ /usr/include/x86_64-linux-gnu/bits/math-vector.h \
+ /usr/include/x86_64-linux-gnu/bits/libm-simd-decl-stubs.h \
+ /usr/include/x86_64-linux-gnu/bits/flt-eval-method.h \
+ /usr/include/x86_64-linux-gnu/bits/fp-logb.h \
+ /usr/include/x86_64-linux-gnu/bits/fp-fast.h \
+ /usr/include/x86_64-linux-gnu/bits/mathcalls-helper-functions.h \
+ /usr/include/x86_64-linux-gnu/bits/mathcalls.h \
+ /usr/include/x86_64-linux-gnu/bits/mathcalls-narrow.h \
+ /usr/include/x86_64-linux-gnu/bits/iscanonical.h \
+ /usr/include/c++/11/bits/specfun.h /usr/include/c++/11/limits \
+ /usr/include/c++/11/tr1/gamma.tcc \
+ /usr/include/c++/11/tr1/special_function_util.h \
+ /usr/include/c++/11/tr1/bessel_function.tcc \
+ /usr/include/c++/11/tr1/beta_function.tcc \
+ /usr/include/c++/11/tr1/ell_integral.tcc \
+ /usr/include/c++/11/tr1/exp_integral.tcc \
+ /usr/include/c++/11/tr1/hypergeometric.tcc \
+ /usr/include/c++/11/tr1/legendre_function.tcc \
+ /usr/include/c++/11/tr1/modified_bessel_func.tcc \
+ /usr/include/c++/11/tr1/poly_hermite.tcc \
+ /usr/include/c++/11/tr1/poly_laguerre.tcc \
+ /usr/include/c++/11/tr1/riemann_zeta.tcc
 /usr/include/stdc-predef.h:
 algAnal/header/analysis.h:
 /usr/include/c++/11/iostream:
@@ -419,31 +663,6 @@ algAnal/header/analysis.h:
 /usr/include/c++/11/istream:
 /usr/include/c++/11/bits/istream.tcc:
 /usr/include/c++/11/ctime:
-/usr/include/c++/11/cmath:
-/usr/include/math.h:
-/usr/include/x86_64-linux-gnu/bits/math-vector.h:
-/usr/include/x86_64-linux-gnu/bits/libm-simd-decl-stubs.h:
-/usr/include/x86_64-linux-gnu/bits/flt-eval-method.h:
-/usr/include/x86_64-linux-gnu/bits/fp-logb.h:
-/usr/include/x86_64-linux-gnu/bits/fp-fast.h:
-/usr/include/x86_64-linux-gnu/bits/mathcalls-helper-functions.h:
-/usr/include/x86_64-linux-gnu/bits/mathcalls.h:
-/usr/include/x86_64-linux-gnu/bits/mathcalls-narrow.h:
-/usr/include/x86_64-linux-gnu/bits/iscanonical.h:
-/usr/include/c++/11/bits/specfun.h:
-/usr/include/c++/11/limits:
-/usr/include/c++/11/tr1/gamma.tcc:
-/usr/include/c++/11/tr1/special_function_util.h:
-/usr/include/c++/11/tr1/bessel_function.tcc:
-/usr/include/c++/11/tr1/beta_function.tcc:
-/usr/include/c++/11/tr1/ell_integral.tcc:
-/usr/include/c++/11/tr1/exp_integral.tcc:
-/usr/include/c++/11/tr1/hypergeometric.tcc:
-/usr/include/c++/11/tr1/legendre_function.tcc:
-/usr/include/c++/11/tr1/modified_bessel_func.tcc:
-/usr/include/c++/11/tr1/poly_hermite.tcc:
-/usr/include/c++/11/tr1/poly_laguerre.tcc:
-/usr/include/c++/11/tr1/riemann_zeta.tcc:
 include/algs.h:
 include/header.h:
 /usr/include/c++/11/vector:
@@ -499,3 +718,302 @@ include/header.h:
 /usr/include/c++/11/bits/stl_list.h:
 /usr/include/c++/11/bits/allocated_ptr.h:
 /usr/include/c++/11/bits/list.tcc:
+/usr/include/boost/stacktrace.hpp:
+/usr/include/boost/config.hpp:
+/usr/include/boost/config/user.hpp:
+/usr/include/boost/config/detail/select_compiler_config.hpp:
+/usr/include/boost/config/compiler/gcc.hpp:
+/usr/include/c++/11/cstddef:
+/usr/include/boost/config/detail/select_stdlib_config.hpp:
+/usr/include/c++/11/version:
+/usr/include/boost/config/stdlib/libstdcpp3.hpp:
+/usr/include/unistd.h:
+/usr/include/x86_64-linux-gnu/bits/posix_opt.h:
+/usr/include/x86_64-linux-gnu/bits/environments.h:
+/usr/include/x86_64-linux-gnu/bits/confname.h:
+/usr/include/x86_64-linux-gnu/bits/getopt_posix.h:
+/usr/include/x86_64-linux-gnu/bits/getopt_core.h:
+/usr/include/x86_64-linux-gnu/bits/unistd.h:
+/usr/include/x86_64-linux-gnu/bits/unistd_ext.h:
+/usr/include/linux/close_range.h:
+/usr/include/boost/config/detail/select_platform_config.hpp:
+/usr/include/boost/config/platform/linux.hpp:
+/usr/include/boost/config/detail/posix_features.hpp:
+/usr/include/boost/config/detail/suffix.hpp:
+/usr/include/boost/config/helper_macros.hpp:
+/usr/include/boost/stacktrace/frame.hpp:
+/usr/include/boost/core/explicit_operator_bool.hpp:
+/usr/include/boost/config/workaround.hpp:
+/usr/include/boost/stacktrace/safe_dump_to.hpp:
+/usr/include/boost/stacktrace/detail/push_options.h:
+/usr/include/boost/stacktrace/detail/pop_options.h:
+/usr/include/boost/stacktrace/detail/safe_dump_posix.ipp:
+/usr/include/fcntl.h:
+/usr/include/x86_64-linux-gnu/bits/fcntl.h:
+/usr/include/x86_64-linux-gnu/bits/fcntl-linux.h:
+/usr/include/x86_64-linux-gnu/bits/types/struct_iovec.h:
+/usr/include/linux/falloc.h:
+/usr/include/x86_64-linux-gnu/bits/stat.h:
+/usr/include/x86_64-linux-gnu/bits/struct_stat.h:
+/usr/include/x86_64-linux-gnu/bits/fcntl2.h:
+/usr/include/x86_64-linux-gnu/sys/stat.h:
+/usr/include/x86_64-linux-gnu/bits/statx.h:
+/usr/include/linux/stat.h:
+/usr/include/linux/types.h:
+/usr/include/x86_64-linux-gnu/asm/types.h:
+/usr/include/asm-generic/types.h:
+/usr/include/asm-generic/int-ll64.h:
+/usr/include/x86_64-linux-gnu/asm/bitsperlong.h:
+/usr/include/asm-generic/bitsperlong.h:
+/usr/include/linux/posix_types.h:
+/usr/include/linux/stddef.h:
+/usr/include/x86_64-linux-gnu/asm/posix_types.h:
+/usr/include/x86_64-linux-gnu/asm/posix_types_64.h:
+/usr/include/asm-generic/posix_types.h:
+/usr/include/x86_64-linux-gnu/bits/statx-generic.h:
+/usr/include/x86_64-linux-gnu/bits/types/struct_statx_timestamp.h:
+/usr/include/x86_64-linux-gnu/bits/types/struct_statx.h:
+/usr/include/boost/stacktrace/detail/collect_unwind.ipp:
+/usr/include/boost/predef.h:
+/usr/include/boost/predef/language.h:
+/usr/include/boost/predef/language/stdc.h:
+/usr/include/boost/predef/version_number.h:
+/usr/include/boost/predef/make.h:
+/usr/include/boost/predef/detail/test.h:
+/usr/include/boost/predef/language/stdcpp.h:
+/usr/include/boost/predef/language/objc.h:
+/usr/include/boost/predef/language/cuda.h:
+/usr/include/boost/predef/architecture.h:
+/usr/include/boost/predef/architecture/alpha.h:
+/usr/include/boost/predef/architecture/arm.h:
+/usr/include/boost/predef/architecture/blackfin.h:
+/usr/include/boost/predef/architecture/convex.h:
+/usr/include/boost/predef/architecture/ia64.h:
+/usr/include/boost/predef/architecture/m68k.h:
+/usr/include/boost/predef/architecture/mips.h:
+/usr/include/boost/predef/architecture/parisc.h:
+/usr/include/boost/predef/architecture/ppc.h:
+/usr/include/boost/predef/architecture/ptx.h:
+/usr/include/boost/predef/architecture/pyramid.h:
+/usr/include/boost/predef/architecture/riscv.h:
+/usr/include/boost/predef/architecture/rs6k.h:
+/usr/include/boost/predef/architecture/sparc.h:
+/usr/include/boost/predef/architecture/superh.h:
+/usr/include/boost/predef/architecture/sys370.h:
+/usr/include/boost/predef/architecture/sys390.h:
+/usr/include/boost/predef/architecture/x86.h:
+/usr/include/boost/predef/architecture/x86/32.h:
+/usr/include/boost/predef/architecture/x86/64.h:
+/usr/include/boost/predef/architecture/z.h:
+/usr/include/boost/predef/compiler.h:
+/usr/include/boost/predef/compiler/borland.h:
+/usr/include/boost/predef/compiler/clang.h:
+/usr/include/boost/predef/compiler/comeau.h:
+/usr/include/boost/predef/compiler/compaq.h:
+/usr/include/boost/predef/compiler/diab.h:
+/usr/include/boost/predef/compiler/digitalmars.h:
+/usr/include/boost/predef/compiler/dignus.h:
+/usr/include/boost/predef/compiler/edg.h:
+/usr/include/boost/predef/compiler/ekopath.h:
+/usr/include/boost/predef/compiler/gcc_xml.h:
+/usr/include/boost/predef/compiler/gcc.h:
+/usr/include/boost/predef/detail/comp_detected.h:
+/usr/include/boost/predef/compiler/greenhills.h:
+/usr/include/boost/predef/compiler/hp_acc.h:
+/usr/include/boost/predef/compiler/iar.h:
+/usr/include/boost/predef/compiler/ibm.h:
+/usr/include/boost/predef/compiler/intel.h:
+/usr/include/boost/predef/compiler/kai.h:
+/usr/include/boost/predef/compiler/llvm.h:
+/usr/include/boost/predef/compiler/metaware.h:
+/usr/include/boost/predef/compiler/metrowerks.h:
+/usr/include/boost/predef/compiler/microtec.h:
+/usr/include/boost/predef/compiler/mpw.h:
+/usr/include/boost/predef/compiler/nvcc.h:
+/usr/include/boost/predef/compiler/palm.h:
+/usr/include/boost/predef/compiler/pgi.h:
+/usr/include/boost/predef/compiler/sgi_mipspro.h:
+/usr/include/boost/predef/compiler/sunpro.h:
+/usr/include/boost/predef/compiler/tendra.h:
+/usr/include/boost/predef/compiler/visualc.h:
+/usr/include/boost/predef/compiler/watcom.h:
+/usr/include/boost/predef/library.h:
+/usr/include/boost/predef/library/c.h:
+/usr/include/boost/predef/library/c/_prefix.h:
+/usr/include/boost/predef/detail/_cassert.h:
+/usr/include/c++/11/cassert:
+/usr/include/assert.h:
+/usr/include/boost/predef/library/c/cloudabi.h:
+/usr/include/boost/predef/library/c/gnu.h:
+/usr/include/boost/predef/library/c/uc.h:
+/usr/include/boost/predef/library/c/vms.h:
+/usr/include/boost/predef/library/c/zos.h:
+/usr/include/boost/predef/library/std.h:
+/usr/include/boost/predef/library/std/_prefix.h:
+/usr/include/boost/predef/detail/_exception.h:
+/usr/include/boost/predef/library/std/cxx.h:
+/usr/include/boost/predef/library/std/dinkumware.h:
+/usr/include/boost/predef/library/std/libcomo.h:
+/usr/include/boost/predef/library/std/modena.h:
+/usr/include/boost/predef/library/std/msl.h:
+/usr/include/boost/predef/library/std/roguewave.h:
+/usr/include/boost/predef/library/std/sgi.h:
+/usr/include/boost/predef/library/std/stdcpp3.h:
+/usr/include/boost/predef/library/std/stlport.h:
+/usr/include/boost/predef/library/std/vacpp.h:
+/usr/include/boost/predef/os.h:
+/usr/include/boost/predef/os/aix.h:
+/usr/include/boost/predef/os/amigaos.h:
+/usr/include/boost/predef/os/beos.h:
+/usr/include/boost/predef/os/bsd.h:
+/usr/include/boost/predef/os/macos.h:
+/usr/include/boost/predef/os/ios.h:
+/usr/include/boost/predef/os/bsd/bsdi.h:
+/usr/include/boost/predef/os/bsd/dragonfly.h:
+/usr/include/boost/predef/os/bsd/free.h:
+/usr/include/boost/predef/os/bsd/open.h:
+/usr/include/boost/predef/os/bsd/net.h:
+/usr/include/boost/predef/os/cygwin.h:
+/usr/include/boost/predef/os/haiku.h:
+/usr/include/boost/predef/os/hpux.h:
+/usr/include/boost/predef/os/irix.h:
+/usr/include/boost/predef/os/linux.h:
+/usr/include/boost/predef/detail/os_detected.h:
+/usr/include/boost/predef/os/os400.h:
+/usr/include/boost/predef/os/qnxnto.h:
+/usr/include/boost/predef/os/solaris.h:
+/usr/include/boost/predef/os/unix.h:
+/usr/include/boost/predef/os/vms.h:
+/usr/include/boost/predef/os/windows.h:
+/usr/include/boost/predef/other.h:
+/usr/include/boost/predef/other/endian.h:
+/usr/include/boost/predef/platform/android.h:
+/usr/include/boost/predef/platform.h:
+/usr/include/boost/predef/platform/cloudabi.h:
+/usr/include/boost/predef/platform/mingw.h:
+/usr/include/boost/predef/platform/mingw32.h:
+/usr/include/boost/predef/platform/mingw64.h:
+/usr/include/boost/predef/platform/windows_uwp.h:
+/usr/include/boost/predef/platform/windows_desktop.h:
+/usr/include/boost/predef/platform/windows_phone.h:
+/usr/include/boost/predef/platform/windows_server.h:
+/usr/include/boost/predef/platform/windows_store.h:
+/usr/include/boost/predef/platform/windows_system.h:
+/usr/include/boost/predef/platform/windows_runtime.h:
+/usr/include/boost/predef/platform/ios.h:
+/usr/include/boost/predef/hardware.h:
+/usr/include/boost/predef/hardware/simd.h:
+/usr/include/boost/predef/hardware/simd/x86.h:
+/usr/include/boost/predef/hardware/simd/x86/versions.h:
+/usr/include/boost/predef/hardware/simd/x86_amd.h:
+/usr/include/boost/predef/hardware/simd/x86_amd/versions.h:
+/usr/include/boost/predef/hardware/simd/arm.h:
+/usr/include/boost/predef/hardware/simd/arm/versions.h:
+/usr/include/boost/predef/hardware/simd/ppc.h:
+/usr/include/boost/predef/hardware/simd/ppc/versions.h:
+/usr/include/boost/predef/version.h:
+/usr/lib/gcc/x86_64-linux-gnu/11/include/unwind.h:
+/usr/include/boost/stacktrace/detail/frame_decl.hpp:
+/usr/include/boost/stacktrace/detail/void_ptr_cast.hpp:
+/usr/include/boost/static_assert.hpp:
+/usr/include/boost/detail/workaround.hpp:
+/usr/include/boost/type_traits/is_pointer.hpp:
+/usr/include/boost/type_traits/integral_constant.hpp:
+/usr/include/boost/stacktrace/detail/frame_unwind.ipp:
+/usr/include/boost/stacktrace/detail/to_hex_array.hpp:
+/usr/include/boost/array.hpp:
+/usr/include/boost/assert.hpp:
+/usr/include/boost/swap.hpp:
+/usr/include/boost/core/swap.hpp:
+/usr/include/boost/core/enable_if.hpp:
+/usr/include/boost/throw_exception.hpp:
+/usr/include/boost/assert/source_location.hpp:
+/usr/include/boost/current_function.hpp:
+/usr/include/boost/cstdint.hpp:
+/usr/include/boost/exception/exception.hpp:
+/usr/include/boost/type_traits/make_unsigned.hpp:
+/usr/include/boost/type_traits/conditional.hpp:
+/usr/include/boost/type_traits/is_integral.hpp:
+/usr/include/boost/type_traits/is_signed.hpp:
+/usr/include/boost/type_traits/remove_cv.hpp:
+/usr/include/boost/type_traits/is_enum.hpp:
+/usr/include/boost/type_traits/intrinsics.hpp:
+/usr/include/boost/type_traits/detail/config.hpp:
+/usr/include/boost/version.hpp:
+/usr/include/c++/11/climits:
+/usr/lib/gcc/x86_64-linux-gnu/11/include/limits.h:
+/usr/lib/gcc/x86_64-linux-gnu/11/include/syslimits.h:
+/usr/include/limits.h:
+/usr/include/x86_64-linux-gnu/bits/posix1_lim.h:
+/usr/include/x86_64-linux-gnu/bits/local_lim.h:
+/usr/include/linux/limits.h:
+/usr/include/x86_64-linux-gnu/bits/posix2_lim.h:
+/usr/include/x86_64-linux-gnu/bits/xopen_lim.h:
+/usr/include/x86_64-linux-gnu/bits/uio_lim.h:
+/usr/include/boost/type_traits/is_unsigned.hpp:
+/usr/include/boost/type_traits/is_same.hpp:
+/usr/include/boost/type_traits/is_const.hpp:
+/usr/include/boost/type_traits/is_volatile.hpp:
+/usr/include/boost/type_traits/add_const.hpp:
+/usr/include/boost/type_traits/add_volatile.hpp:
+/usr/include/boost/stacktrace/detail/location_from_symbol.hpp:
+/usr/include/dlfcn.h:
+/usr/include/x86_64-linux-gnu/bits/dlfcn.h:
+/usr/include/x86_64-linux-gnu/bits/dl_find_object.h:
+/usr/include/boost/stacktrace/detail/to_dec_array.hpp:
+/usr/include/boost/core/demangle.hpp:
+/usr/include/c++/11/cxxabi.h:
+/usr/include/x86_64-linux-gnu/c++/11/bits/cxxabi_tweaks.h:
+/usr/include/boost/stacktrace/detail/unwind_base_impls.hpp:
+/usr/include/boost/stacktrace/stacktrace.hpp:
+/usr/include/boost/core/no_exceptions_support.hpp:
+/usr/include/boost/container_hash/hash_fwd.hpp:
+/usr/include/boost/stacktrace/stacktrace_fwd.hpp:
+/usr/include/c++/11/memory:
+/usr/include/c++/11/bits/stl_raw_storage_iter.h:
+/usr/include/c++/11/bits/align.h:
+/usr/include/c++/11/bit:
+/usr/include/c++/11/bits/unique_ptr.h:
+/usr/include/c++/11/bits/shared_ptr.h:
+/usr/include/c++/11/bits/shared_ptr_base.h:
+/usr/include/c++/11/ext/concurrence.h:
+/usr/include/c++/11/bits/shared_ptr_atomic.h:
+/usr/include/c++/11/bits/atomic_base.h:
+/usr/include/c++/11/bits/atomic_lockfree_defines.h:
+/usr/include/c++/11/bits/atomic_wait.h:
+/usr/include/syscall.h:
+/usr/include/x86_64-linux-gnu/sys/syscall.h:
+/usr/include/x86_64-linux-gnu/asm/unistd.h:
+/usr/include/x86_64-linux-gnu/asm/unistd_64.h:
+/usr/include/x86_64-linux-gnu/bits/syscall.h:
+/usr/include/c++/11/bits/std_mutex.h:
+/usr/include/c++/11/backward/auto_ptr.h:
+/usr/include/c++/11/bits/ranges_uninitialized.h:
+/usr/include/c++/11/bits/uses_allocator_args.h:
+/usr/include/c++/11/pstl/glue_memory_defs.h:
+algAnal/header/analmath.h:
+/usr/include/c++/11/cmath:
+/usr/include/math.h:
+/usr/include/x86_64-linux-gnu/bits/math-vector.h:
+/usr/include/x86_64-linux-gnu/bits/libm-simd-decl-stubs.h:
+/usr/include/x86_64-linux-gnu/bits/flt-eval-method.h:
+/usr/include/x86_64-linux-gnu/bits/fp-logb.h:
+/usr/include/x86_64-linux-gnu/bits/fp-fast.h:
+/usr/include/x86_64-linux-gnu/bits/mathcalls-helper-functions.h:
+/usr/include/x86_64-linux-gnu/bits/mathcalls.h:
+/usr/include/x86_64-linux-gnu/bits/mathcalls-narrow.h:
+/usr/include/x86_64-linux-gnu/bits/iscanonical.h:
+/usr/include/c++/11/bits/specfun.h:
+/usr/include/c++/11/limits:
+/usr/include/c++/11/tr1/gamma.tcc:
+/usr/include/c++/11/tr1/special_function_util.h:
+/usr/include/c++/11/tr1/bessel_function.tcc:
+/usr/include/c++/11/tr1/beta_function.tcc:
+/usr/include/c++/11/tr1/ell_integral.tcc:
+/usr/include/c++/11/tr1/exp_integral.tcc:
+/usr/include/c++/11/tr1/hypergeometric.tcc:
+/usr/include/c++/11/tr1/legendre_function.tcc:
+/usr/include/c++/11/tr1/modified_bessel_func.tcc:
+/usr/include/c++/11/tr1/poly_hermite.tcc:
+/usr/include/c++/11/tr1/poly_laguerre.tcc:
+/usr/include/c++/11/tr1/riemann_zeta.tcc:
