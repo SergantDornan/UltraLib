@@ -1,4 +1,11 @@
 #include "analmath.h"
+long double classiqueFunc(long double x){
+	return x;
+}
+long double logFunc(long double x){
+	return log2(x);
+}
+
 Matrix::Matrix(std::vector<std::vector<long double>>& v){
 	m = v;}
 Matrix::Matrix(){

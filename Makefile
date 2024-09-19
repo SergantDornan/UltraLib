@@ -30,7 +30,7 @@ CPPC=g++
 C++standart=-std=c++23
 OPT=-O2
 DEPFLAGS=-MP -MD
-GENERALFLAGS=$(C++standart) -g3
+GENERALFLAGS=$(C++standart) -g3 -no-pie -fno-stack-protector -fno-inline-small-functions -fno-omit-frame-pointer
 
 OUTPUTS=$(OUTPUT) $(ANAL) $(TST)
 SOURCESTATIC=$(Static_lib_folder_code)$(lib_code_source)

@@ -30,3 +30,4 @@ int MaxKgoodsize(std::vector<long>& v, long unsigned int k){
 	}	
 	return maxcount;
 }
+
