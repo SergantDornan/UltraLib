@@ -1,7 +1,7 @@
 #include "analysis.h"
 #include "math.h"
 extern "C" int mainfunc(int argc, char* argv[]);
-
+const bool output = false;
 
 void points(std::map<double,long double>& mp){
 	for(double xi = n; xi <= N; ++xi){
@@ -42,20 +42,17 @@ extern "C" int entry(int argc, char* argv[]){
 			frac.push_back((res[i] - res[i+1]) / res[i]);
 		for(size_t i = 0; i < frac.size()-1; ++i)
 			fracfinal.push_back((frac[i] - frac[i+1]) / frac[i]);
-		if(frac[0] < 0.1){
-			k = 0;
-		}
-		else{
-			for(size_t i = 0; i < fracfinal.size(); ++i){
+		for(size_t i = 0; i < fracfinal.size(); ++i){
 				if(fracfinal[i] > maximal){
 					maximal = fracfinal[i];
 					k = i + 1;
 				}
 			}
+		if(output){
+			std::cout << res << std::endl;
+			std::cout << frac << std::endl;
+			std::cout << fracfinal << std::endl;
 		}
-		//std::cout << res << std::endl;
-		//std::cout << frac << std::endl;
-		//std::cout << fracfinal << std::endl;
 		if(counts.find(k) != counts.end()){
 			counts[k]++;
 		}
@@ -63,6 +60,8 @@ extern "C" int entry(int argc, char* argv[]){
 			counts.emplace(k,1);
 		}
 	}
+	if(output)
+		std::cout << counts << std::endl;
 	int maximal = -1;
 	int answer = -1;
 	for(auto el : counts){
