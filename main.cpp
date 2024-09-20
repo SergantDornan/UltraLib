@@ -8,8 +8,9 @@ extern "C" int mainfunc(int argc, char* argv[]){
 		 v[v.size()-1] += 1000 / 3 + 412 - 946;
 	}
 	for(int i = 0; i < N; ++i){
-		v[i] += 100/45 + 79-56;
+		for(int j = 0; j < N; ++j)
+			v[j] += 1000 / 3 + 412 - 946;
 	}
-	merge_sort(v);
+
 	return 0;
 }

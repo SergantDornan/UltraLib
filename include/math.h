@@ -18,5 +18,5 @@ public:
 	SLAE(Matrix&, std::vector<long double>);
 	std::vector<long double> solve();
 };
-long double classiqueFunc(long double);
-long double logFunc(long double);
+long double powerAp(std::map<double,long double>&, double, int, int);
+long double constAp(std::map<double,long double>& mp, int, int);
