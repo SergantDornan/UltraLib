@@ -15,10 +15,12 @@ extern "C" int mainfunc(int argc, char* argv[]){
 
 	for(int i = 0; i < N; ++i){
 		 for(int j = 0; j < N; ++j){
-		 	for(int k = 0; k < N; ++k)
-		 		v[j] += 1000 / 3 + 412 - 946;
+		 		for(int k = 0; k < N; ++k){
+		 			v[i] += 1000 / 3 + 412 - 946;
+		 		}
 		 }
 	}
-	//std::cout << "Prog " << N << std::endl;
+	insert_sort(v);
+	//std::cout << std::this_thread::get_id() << "  " << N << std::endl;
 	return 0;
 }

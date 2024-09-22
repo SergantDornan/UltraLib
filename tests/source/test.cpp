@@ -1,8 +1,4 @@
 #include "test.h"
-#include "analysis.h"
-extern "C" int mainfunc(int args, char* argv[]);
-extern "C" int entry(int argc, char* argv[]);
-
 extern "C" int TSTentry(int argc, char* argv[]){
 	char y;
 	std::cout << "Run analysis? [y/n]: ";

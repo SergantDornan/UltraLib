@@ -28,7 +28,7 @@ STATICLIBGEN_name=static
 SHAREDLIBGEN_name=shared
 CPPC=g++
 C++standart=-std=c++23
-OPT=-O3
+OPT=-O2
 DEPFLAGS=-MP -MD
 GENERALFLAGS=$(C++standart) -g3 -no-pie -fno-stack-protector -fno-inline-small-functions -fno-omit-frame-pointer
 
@@ -162,7 +162,7 @@ run:$(OUTPUT)
 	@./$(OUTPUT)
 
 runanal:$(ANALdepend)
-	@./$(ANAL)
+	@./$(ANAL) output
 
 runtst:$(TSTdepend)
 	@./$(TST)
