@@ -1,6 +1,7 @@
 #include <iostream>
 #include <ctime>
+#include <thread>
 #include "algs.h"
-const int n = 100;
-const int N = 250;
-const int defaultIterations = 15;
+const int n = 1000;
+const int N = 3000;
+const int defaultIterations = 5;
