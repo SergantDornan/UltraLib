@@ -11,16 +11,7 @@ extern "C" int mainfunc(int argc, char* argv[]){
 		 v.push_back(rand() % 1000);
 		 v[v.size()-1] += 1000 / 3 + 412 - 946;
 	}
-
-
-	for(int i = 0; i < N; ++i){
-		 for(int j = 0; j < N; ++j){
-		 		for(int k = 0; k < N; ++k){
-		 			v[i] += 1000 / 3 + 412 - 946;
-		 		}
-		 }
-	}
-	insert_sort(v);
+	merge_sort(v);
 	//std::cout << std::this_thread::get_id() << "  " << N << std::endl;
 	return 0;
 }
