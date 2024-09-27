@@ -6,6 +6,7 @@ ANALENTRY=entry
 TSTENTRY=TSTentry
 MAINENTRY=mainfunc
 
+ContCodeDir = ./ContestCode
 ROOTDIR=.
 SOURCEDIR=./lib
 DEPOBJDIR =./depsAndObjects
@@ -22,7 +23,12 @@ SOURCETST=./tests/source
 INCANAL=./algAnal/header
 INCTST=./tests/header
 
-INCDIRS=. ./include/ $(INCANAL) $(INCTST)
+ContINC = $(ContCodeDir)/header
+ContSource = $(ContCodeDir)/source
+ContOUTPUT = $(ContCodeDir)/filemaker
+ContFile = $(ContCodeDir)/code.cpp
+
+INCDIRS=. ./include/ $(INCANAL) $(INCTST) $(ContINC)
 
 STATICLIBGEN_name=static
 SHAREDLIBGEN_name=shared
@@ -30,15 +36,14 @@ CPPC=g++
 C++standart=-std=c++23
 OPT=-O2
 DEPFLAGS=-MP -MD
-GENERALFLAGS=$(C++standart) -g3 -no-pie -fno-stack-protector -fno-inline-small-functions -fno-omit-frame-pointer
+GENERALFLAGS=$(C++standart) -g3
 
-OUTPUTS=$(OUTPUT) $(ANAL) $(TST)
+OUTPUTS=$(OUTPUT) $(ANAL) $(TST) $(ContOUTPUT)
 SOURCESTATIC=$(Static_lib_folder_code)$(lib_code_source)
 SOURCESHARED=$(Shared_lib_folder_code)$(lib_code_source)
 INCDIRSTATIC=$(Static_lib_folder_code)$(lib_code_headers)
 INCDIRSHARED=$(Shared_lib_folder_code)$(lib_code_headers)
 STLIBGEN=$(STATLIBS)/lib$(STATICLIBGEN_name).a
-MAINLIB=lib$(MAINLIBNAME).a
 SHLIBGEN=$(SHLIBS)/lib$(SHAREDLIBGEN_name).so
 
 CFLAGS=$(GENERALFLAGS) $(OPT) $(DEPFLAGS)
@@ -52,8 +57,11 @@ SHAREDCFILES=$(foreach D, $(SOURCESHARED), $(wildcard $(D)/*.cpp))
 OBJECTSSTATIC=$(patsubst $(Static_lib_folder_code)$(lib_code_source)%.cpp, $(DEPOBJDIR)%.o, $(STATICCFILES))
 OBJECTSSHARED=$(patsubst $(Shared_lib_folder_code)$(lib_code_source)%.cpp, $(DEPOBJDIR)%.o, $(SHAREDCFILES))
 
+CONTCFILES=$(foreach D, $(ContSource), $(wildcard $(D)/*.cpp))
+CONTOBJECTS=$(patsubst $(ContSource)%.cpp, $(DEPOBJDIR)%.o, $(CONTCFILES))
+
 OBJECTS=$(patsubst $(ROOTDIR)%.cpp, $(DEPOBJDIR)%.o, $(CFILESROOT)) $(patsubst $(SOURCEDIR)%.cpp, $(DEPOBJDIR)%.o, $(CFILESSOURCE))
-DEPFILES=$(patsubst $(ROOTDIR)%.cpp, $(DEPOBJDIR)%.d, $(CFILESROOT)) $(patsubst $(SOURCEDIR)%.cpp, $(DEPOBJDIR)%.d, $(CFILESSOURCE)) $(patsubst $(SOURCESTATIC)/%.cpp, $(DEPOBJDIR)/%.d, $(STATICCFILES)) $(patsubst $(SOURCESHARED)/%.cpp, $(DEPOBJDIR)/%.d, $(SHAREDCFILES)) $(patsubst $(SOURCEANAL)/%.cpp, $(DEPOBJDIR)/%.d, $(ANALCFILES)) $(patsubst $(SOURCETST)/%.cpp, $(DEPOBJDIR)/%.d, $(TSTCFILES))  
+DEPFILES=$(patsubst $(ContSource)%.cpp, $(DEPOBJDIR)%.d, $(CONTCFILES)) $(patsubst $(ROOTDIR)%.cpp, $(DEPOBJDIR)%.d, $(CFILESROOT)) $(patsubst $(SOURCEDIR)%.cpp, $(DEPOBJDIR)%.d, $(CFILESSOURCE)) $(patsubst $(SOURCESTATIC)/%.cpp, $(DEPOBJDIR)/%.d, $(STATICCFILES)) $(patsubst $(SOURCESHARED)/%.cpp, $(DEPOBJDIR)/%.d, $(SHAREDCFILES)) $(patsubst $(SOURCEANAL)/%.cpp, $(DEPOBJDIR)/%.d, $(ANALCFILES)) $(patsubst $(SOURCETST)/%.cpp, $(DEPOBJDIR)/%.d, $(TSTCFILES))  
 LIBSTATIC_files=$(foreach D, $(STATLIBS), $(wildcard $(D)/lib*.a))
 LIBSHARED_files=$(foreach D, $(SHLIBS), $(wildcard $(D)/lib*.so))
 LIBSTATIC_names=
@@ -69,6 +77,16 @@ ifneq ($(LIBSTATIC_files), )
 	LIBSTATIC_names:=$(patsubst $(STATLIBS)/lib%.a, %, $(LIBSTATIC_files))
 else
 	LIBSTATIC_names:=
+endif
+
+
+
+CONTdepend=
+
+ifneq ($(strip $(CONTCFILES)), )
+	CONTdepend:=$(ContOUTPUT)
+else
+	CONTdepend:=
 endif
 
 ANALCFILES=$(foreach D, $(SOURCEANAL), $(wildcard $(D)/*.cpp))
@@ -155,7 +173,7 @@ else
 	INCLUDESHARED:=
 endif
 
-all:$(OUTPUT) $(ANALdepend) $(TSTdepend)
+all:$(OUTPUT) $(ANALdepend) $(TSTdepend) $(CONTdepend)
 	@echo SUCCES
 
 run:$(OUTPUT)
@@ -188,6 +206,10 @@ tst:$(TSTdepend)
 
 prog:$(OUTPUT)
 
+contestcode:$(CONTdepend)
+	@$(CONTdepend)
+	@#sublime-text.subl $(ContFile)
+
 $(OUTPUT):$(STATICdepend) $(SHAREDdepend) $(OBJECTS)
 	$(CPPC) $^ -Wl,--defsym=main=$(MAINENTRY) $(ISSTATIC) $(ISSHARED) $(foreach D,$(LIBSTATIC_names),-l$(D)) $(foreach D,$(LIBSHARED_names),-l$(D)) $(STATICLIBGEN_link) $(SHAREDLIBGEN_link) -o $@
 	$(INCLUDESHARED)
@@ -200,8 +222,15 @@ $(TST):$(STATICdepend) $(SHAREDdepend) $(TSTOBJECTS) $(OBJECTS) $(ANALOBJECTS)
 	$(CPPC) $(OBJECTS) $(TSTOBJECTS) $(ANALOBJECTS) -Wl,--defsym=main=$(TSTENTRY) $(ISSTATIC) $(ISSHARED) $(foreach D,$(LIBSTATIC_names),-l$(D)) $(foreach D,$(LIBSHARED_names),-l$(D)) $(STATICLIBGEN_link) $(SHAREDLIBGEN_link) -o $@
 	$(INCLUDESHARED)
 
+$(ContOUTPUT):$(ContFile) $(STATICdepend) $(SHAREDdepend) $(CONTOBJECTS)
+	$(CPPC) $(CONTOBJECTS) $(ISSTATIC) $(ISSHARED) $(foreach D,$(LIBSTATIC_names),-l$(D)) $(foreach D,$(LIBSHARED_names),-l$(D)) $(STATICLIBGEN_link) $(SHAREDLIBGEN_link) -o $@
+	$(INCLUDESHARED)
+
+$(ContFile):
+	touch $(ContFile)
+
 mrproper:
-	rm -rf $(OUTPUTS) $(OBJECTS) $(DEPFILES) $(STLIBGEN) $(SHLIBGEN) $(OBJECTSSTATIC) $(OBJECTSSHARED) $(ANALOBJECTS) $(TSTOBJECTS)
+	rm -rf $(OUTPUTS) $(OBJECTS) $(DEPFILES) $(STLIBGEN) $(SHLIBGEN) $(OBJECTSSTATIC) $(OBJECTSSHARED) $(ANALOBJECTS) $(TSTOBJECTS) $(CONTOBJECTS) $(ContFile)
 
 $(STLIBGEN):$(OBJECTSSTATIC)
 	ar rc $(STLIBGEN) $(OBJECTSSTATIC)
@@ -226,6 +255,9 @@ $(DEPOBJDIR)/%.o:$(SOURCEANAL)/%.cpp
 	$(CPPC) $(CFLAGS) $(foreach D,$(INCDIRS),-I$(D)) -c -o $@ $<
 
 $(DEPOBJDIR)/%.o:$(SOURCETST)/%.cpp
+	$(CPPC) $(CFLAGS) $(foreach D,$(INCDIRS),-I$(D)) -c -o $@ $<
+
+$(DEPOBJDIR)/%.o:$(ContSource)/%.cpp
 	$(CPPC) $(CFLAGS) $(foreach D,$(INCDIRS),-I$(D)) -c -o $@ $<
 
 -include $(DEPFILES) 

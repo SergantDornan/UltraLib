@@ -1,5 +1,5 @@
 #include "analysis.h"
-#include "math.h"
+#include <math.h>
 extern "C" int mainfunc(int argc, char* argv[]);
 
 void points(std::map<double,long double>& mp, int left, int right){

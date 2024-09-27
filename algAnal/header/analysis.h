@@ -1,7 +1,7 @@
 #include <chrono>
 #include <thread>
 #include <mutex>
-#include "algs.h"
+#include <algs.h>
 const int n = 1000;
 const int N = 5000;
 extern "C" int mainfunc(int args, char* argv[]);

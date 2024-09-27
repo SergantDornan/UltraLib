@@ -1,5 +1,6 @@
-#include "algs.h"
-extern "C" int mainfunc(int argc, char* argv[]){
+#include <math.h>
+extern "C" int mainfunc(int argc, char* argv[])
+{
 	int N = 0;
 	if(argc == 2)
 		N = atoi(argv[1]);
@@ -12,6 +13,12 @@ extern "C" int mainfunc(int argc, char* argv[]){
 		 v[v.size()-1] += 1000 / 3 + 412 - 946;
 	}
 	merge_sort(v);
+	std::cout << v << std::endl;
 	//std::cout << std::this_thread::get_id() << "  " << N << std::endl;
+	SLAE s({{4,-1,-3},
+		    {-1,5,4},
+		    {-3,4,6}},{0,0,12});
+	std::vector<long double> solution = s.solve();
+	std::cout << solution << std::endl;
 	return 0;
 }

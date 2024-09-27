@@ -1,5 +1,5 @@
 #include <cmath>
-#include "algs.h"
+#include <algs.h>
 class Matrix{
 public:
 	std::vector<std::vector<long double>> m;
