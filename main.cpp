@@ -1,24 +1,8 @@
-#include <math.h>
-extern "C" int mainfunc(int argc, char* argv[])
-{
-	int N = 0;
-	if(argc == 2)
-		N = atoi(argv[1]);
-	else
-		N = 20;
-	std::vector<int> v = {};
-	v.push_back(0);
-	for(int i = 0; i < N; ++i){
-		 v.push_back(rand() % 1000);
-		 v[v.size()-1] += 1000 / 3 + 412 - 946;
-	}
-	merge_sort(v);
-	std::cout << v << std::endl;
-	//std::cout << std::this_thread::get_id() << "  " << N << std::endl;
-	SLAE s({{4,-1,-3},
-		    {-1,5,4},
-		    {-3,4,6}},{0,0,12});
-	std::vector<long double> solution = s.solve();
-	std::cout << solution << std::endl;
+#include <reg.h>
+extern "C" int mainfunc(int argc, char* argv[]){
+	std::string str = "The ape 1234 12345 1234567 12345678 123456 ape)..xnak apeaboba";
+	std::regex reg("(\\w*)");
+	auto lines = find(str,reg);
+	std::cout << lines << std::endl;
 	return 0;
 }
