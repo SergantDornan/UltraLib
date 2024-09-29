@@ -1,8 +1,34 @@
 #ifndef UBERMENSCHENAMOGUS228_ALGS_H
 #define UBERMENSCHENAMOGUS228_ALGS_H
-#include "header.h"
+#include <inputs.h>
+#include <header.h>
+template <class T>
+bool find(std::vector<T>& v, T s){
+    bool b = false;
+    for(int i = 0; i < v.size(); ++i){
+        if(v[i] == s){
+            b = true;
+            break;
+        }
+    }
+    return b;
+}
 
-
+template <class T>
+int binarySearch(std::vector<T>& v, T x) {
+  int l = 0;
+  int r = v.size() - 1;
+  while (l <= r) {
+    int mid = l + (r - l) / 2;
+    if(v[mid] == x)
+      return mid;
+    else if(v[mid] < x)
+      l = mid + 1;
+    else
+      r = mid - 1;
+  }
+  return -1;
+}
 
 template <class T>
 T max(T& a, T& b){
@@ -67,5 +93,8 @@ void merge_sort(std::vector<T>& v){   // Merge Sort, O(n * log(n))
         merge(v,v1,v2);
     }
 } // Merge Sort, O(n * log(n)), по возрастанию
+
+
+
 
 #endif //UBERMENSCHENAMOGUS228_ALGS_H

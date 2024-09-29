@@ -1,3 +1,5 @@
+#ifndef math_h
+#define math_h
 #include <cmath>
 #include <algs.h>
 class Matrix{
@@ -20,3 +22,8 @@ public:
 };
 long double powerAp(std::map<double,long double>&, double, int, int);
 long double constAp(std::map<double,long double>& mp, int, int);
+
+
+bool is_prime(int);
+std::vector<std::pair<int,int>> canon(int);
+#endif

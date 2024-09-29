@@ -28,6 +28,9 @@ ContSource = $(ContCodeDir)/source
 ContOUTPUT = $(ContCodeDir)/filemaker
 ContFile = $(ContCodeDir)/code.cpp
 
+TSTfile = ./tests/testFile
+ANSfile = ./tests/answerFile
+
 INCDIRS=. ./include/ $(INCANAL) $(INCTST) $(ContINC)
 
 STATICLIBGEN_name=static
@@ -174,7 +177,7 @@ else
 endif
 
 all:$(OUTPUT) $(ANALdepend) $(TSTdepend) $(CONTdepend)
-	@echo SUCCES
+	@echo ========= SUCCES ==========
 
 run:$(OUTPUT)
 	@./$(OUTPUT)
@@ -218,7 +221,7 @@ $(ANAL):$(STATICdepend) $(SHAREDdepend) $(ANALOBJECTS) $(OBJECTS)
 	$(CPPC) $(OBJECTS) $(ANALOBJECTS) -Wl,--defsym=main=$(ANALENTRY) $(ISSTATIC) $(ISSHARED) $(foreach D,$(LIBSTATIC_names),-l$(D)) $(foreach D,$(LIBSHARED_names),-l$(D)) $(STATICLIBGEN_link) $(SHAREDLIBGEN_link) -o $@
 	$(INCLUDESHARED)
 
-$(TST):$(STATICdepend) $(SHAREDdepend) $(TSTOBJECTS) $(OBJECTS) $(ANALOBJECTS)
+$(TST):$(TSTfile) $(ANSfile) $(STATICdepend) $(SHAREDdepend) $(TSTOBJECTS) $(OBJECTS) $(ANALOBJECTS)
 	$(CPPC) $(OBJECTS) $(TSTOBJECTS) $(ANALOBJECTS) -Wl,--defsym=main=$(TSTENTRY) $(ISSTATIC) $(ISSHARED) $(foreach D,$(LIBSTATIC_names),-l$(D)) $(foreach D,$(LIBSHARED_names),-l$(D)) $(STATICLIBGEN_link) $(SHAREDLIBGEN_link) -o $@
 	$(INCLUDESHARED)
 
@@ -229,8 +232,14 @@ $(ContOUTPUT):$(ContFile) $(STATICdepend) $(SHAREDdepend) $(CONTOBJECTS)
 $(ContFile):
 	touch $(ContFile)
 
+$(TSTfile):
+	touch $(TSTfile)
+
+$(ANSfile):
+	touch $(ANSfile)
+
 mrproper:
-	rm -rf $(OUTPUTS) $(OBJECTS) $(DEPFILES) $(STLIBGEN) $(SHLIBGEN) $(OBJECTSSTATIC) $(OBJECTSSHARED) $(ANALOBJECTS) $(TSTOBJECTS) $(CONTOBJECTS) $(ContFile)
+	rm -rf $(OUTPUTS) $(OBJECTS) $(DEPFILES) $(STLIBGEN) $(SHLIBGEN) $(OBJECTSSTATIC) $(OBJECTSSHARED) $(ANALOBJECTS) $(TSTOBJECTS) $(CONTOBJECTS) $(ContFile) $(TSTfile) $(ANSfile)
 
 $(STLIBGEN):$(OBJECTSSTATIC)
 	ar rc $(STLIBGEN) $(OBJECTSSTATIC)

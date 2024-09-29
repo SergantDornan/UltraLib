@@ -24,7 +24,8 @@ std::ostream& operator <<(std::ostream&,std::queue<T>);
 template <class T>
 std::ostream& operator << (std::ostream&, std::vector<T>&);
 
-
+template <class T>
+std::istream& operator >> (std::istream&, std::vector<T>&);
 
 template <class T>
 std::ostream& operator << (std::ostream& out, std::stack<T> s){
@@ -41,7 +42,7 @@ std::ostream& operator << (std::ostream& out, std::set<T>& s){
 }
 template<class T>
 void dynammassout(T* mass, int N){
-    std::cout << "{ ";
+    std::cout << "{";
     for(int i = 0; i < N; ++i)
         std::cout << mass[i] << ' ';
     std::cout << " }";
@@ -69,7 +70,7 @@ std::ostream& operator << (std::ostream& out, std::deque<T> q){
 
 template <class T1, class T2>
 std::ostream& operator << (std::ostream& out, std::pair<T1,T2> pair){
-    out << '{' << pair.first << " , " << pair.second << "} ";
+    out << '{' << pair.first << "," << pair.second << "}";
     return out;
 }
 
@@ -83,12 +84,14 @@ std::ostream& operator << (std::ostream& out, std::queue<T> q){
 
 template <class T>
 std::ostream& operator << (std::ostream& out, std::vector<T>& v){
-    out << "{ ";
+    out << "{";
     for(long unsigned int i = 0; i < v.size(); ++i){
-        out << v[i] << ' ';
+        if(i != v.size()-1)
+            out << v[i] << ' ';
+        else
+            out << v[i];
     }
-    out << "} ";
-    out << '\n';
+    out << "}" << std::endl;
     return out;
 }
 
@@ -101,6 +104,7 @@ std::ostream& operator << (std::ostream& out, std::map<T1, T2>& mp){
     out << '\n';
     return out;
 }
+
 
 
 #endif //UBERMENSCHENAMOGUS228_HEADER_H

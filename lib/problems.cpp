@@ -1,4 +1,21 @@
 #include "problems.h"
+#include <inputs.h>
+
+extern std::vector<std::string> split(std::string s, char ch){
+	std::vector<std::string> res;
+	std::string curr;
+	for(int i = 0; i < s.size(); ++i){
+		if(s[i] == ch || i == s.size() - 1){
+			if(i == s.size() - 1 && s[i] != ch)
+				curr += s[i];
+			res.push_back(curr);
+			curr.clear();
+		}
+		else
+			curr += s[i];
+	}
+	return res;
+}
 
 //Дан массив целых чисел, назовем отрезов k-хорошим, если в нем не более k различных чисел
 //Найти длину наиболее длинного k-хорошего отрезка
@@ -29,5 +46,32 @@ int MaxKgoodsize(std::vector<long>& v, long unsigned int k){
 		maxcount = max(count,maxcount);
 	}	
 	return maxcount;
+}
+
+
+
+//дан отсортированный массив, найти количество пар чисел, у которых среднее арифметическое тоже в массиве
+std::vector<std::pair<int,int>> problem1(std::vector<int>& v){
+	std::set<int> set;
+	std::vector<std::pair<int,int>> res;
+	std::vector<int>::iterator it = v.begin();
+	while(it != v.end()){
+		if(set.find(*it) == set.end()){
+			set.insert(*it);
+			it++;
+		}
+		else
+		{
+			if(!find(res,{*it,*it}))
+				res.push_back({*it,*it});
+			v.erase(it);
+		}
+	}
+	std::cout << v << std::endl;
+	std::vector<int> sums;
+
+    merge_sort(sums);
+  	std::cout << sums << std::endl;
+	return res;
 }
 

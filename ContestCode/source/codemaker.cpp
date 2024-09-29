@@ -29,16 +29,6 @@ std::vector<std::string> getDirs(const std::string &path)
   return dirs;
 }
 
-bool find(std::vector<std::string>& v, std::string s){
-	bool b = false;
-	for(int i = 0; i < v.size(); ++i){
-		if(v[i] == s){
-			b = true;
-			break;
-		}
-	}
-	return b;
-}
 void includeList(std::vector<std::string>& includes, std::string file){
 	std::string path = headers + file;
 	if(!find(includes, file))
@@ -128,7 +118,7 @@ int main(){
     		break;
     	}
     }
-   // std::cout << includes << std::endl;
+    std::cout << includes << std::endl;
     include(includes, lines);
     std::vector<std::string> sourceCode = getDirs(source);
     std::vector<std::string> files;
@@ -143,7 +133,7 @@ int main(){
         			std::string s;
         			for(int j = 10; j < l.size() && l[j] != '>' && l[j] != '"'; ++j)
         				s+=l[j];
-        			if(find(includes, s)){
+        			if(find(includes, s) && !find(files, sourceCode[i])){
         				files.push_back(sourceCode[i]);
         			}
     			 }
