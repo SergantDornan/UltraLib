@@ -173,8 +173,12 @@ int main(){
     	input.close();
     }
     for(int i = k; i  <linesmain.size(); ++i){
-    	if(linesmain[i].find("mainfunc") !=  std::string::npos)
-        lines.push_back("int main(int argc, char* argv[])");
+    	if(linesmain[i].find("mainfunc") !=  std::string::npos){
+        if(linesmain[i].find("{") != std::string::npos)
+          lines.push_back("int main(int argc, char* argv[]){");
+        else
+          lines.push_back("int main(int argc, char* argv[])");
+      }
       else
         lines.push_back(linesmain[i]);
     }
@@ -202,10 +206,10 @@ int main(){
     if(find(ls, compileTest)){
       std::string cmdrm = "rm " + compileTest;
       system(cmdrm.c_str());
-      std::cout << "SUCCES" << std::endl;
+      std::cout << "================== SUCCES ==================" << std::endl;
     }
     else{
-      std::cout << "COMPILATION ERROR" << std::endl;
+      std::cout << "================== COMPILATION ERROR ==================" << std::endl;
     }
     return 0;
 }
