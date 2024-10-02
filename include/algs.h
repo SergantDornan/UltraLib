@@ -2,6 +2,12 @@
 #define UBERMENSCHENAMOGUS228_ALGS_H
 #include <inputs.h>
 #include <header.h>
+
+
+extern void fillVector(std::vector<int>& v, int maxRand ,int N);
+extern void fillVector(std::vector<double>& v, int maxRand ,int N);
+
+
 template <class T>
 bool find(std::vector<T>& v, T s){
     bool b = false;

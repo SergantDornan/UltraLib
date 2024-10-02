@@ -1,4 +1,4 @@
-#include "problems.h"
+#include <problems.h>
 #include <inputs.h>
 
 extern std::vector<std::string> split(std::string s, char ch){
@@ -15,6 +15,15 @@ extern std::vector<std::string> split(std::string s, char ch){
 			curr += s[i];
 	}
 	return res;
+}
+
+extern void fillVector(std::vector<int>& v, int maxRand, int N){
+    for(int i = 0; i < N; ++i)
+            v.push_back(rand() % maxRand);
+}
+extern void fillVector(std::vector<double>& v, int maxRand, int N){
+    for(int i = 0; i < N; ++i)
+            v.push_back(rand() % maxRand);
 }
 
 //Дан массив целых чисел, назовем отрезов k-хорошим, если в нем не более k различных чисел
