@@ -7,10 +7,14 @@ const std::string mainFile = "/home/andrew/MasterFolder/UBERMENSCHENAMOGUS228/te
 extern "C" int mainfunc(int argc, char* argv[]){
 	std::vector<std::vector<int>> input;
 	readVectors(input, testFile);
-
-
-
 	std::vector<int> res;
+
+	int m = -1;
+	int pos = 0;
+	std::vector<int> v = input[0];
+	
+	res.push_back(pos);
+	
 	writeVectors(res,mainFile);
 	return 0;
 }

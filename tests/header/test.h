@@ -108,6 +108,34 @@ public:
 		std::vector<T> res;
 
 
+		int m = -1;
+		int pos = 0;
+		for(int i = 0; i < v.size(); ++i){
+			if(v[i] == 0){
+				for(int j = i; j < v.size(); ++j){
+					if(v[j] == 1){
+						if(abs(i - j) > m){
+						m = abs(i - j);
+						pos = i;
+						}
+						break;
+					}
+				}
+				for(int j = i; j >= 0; --j){
+					if(v[j] == 1){
+						if(abs(i - j) > m){
+						m = abs(i - j);
+						pos = i;
+						}
+						break;
+					}
+				}
+			}
+		}
+		res.push_back(pos);
+
+
+
 
 		writeVectors(res,answerFile);
 	}
