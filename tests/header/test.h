@@ -6,10 +6,8 @@
 #include <filework.h>
 const bool analysis = false;
 extern "C" int mainfunc(int argc, char* argv[]);
-const std::string testFile = "/home/andrew/MasterFolder/UBERMENSCHENAMOGUS228/tests/testFile";
-const std::string answerFile = "/home/andrew/MasterFolder/UBERMENSCHENAMOGUS228/tests/answerFile";
-const std::string mainFile = "/home/andrew/MasterFolder/UBERMENSCHENAMOGUS228/tests/mainFile";
-
+const std::string workingFolder = "/home/andrew/MasterFolder/UBERMENSCHENAMOGUS228/tests/";
+const std::string testFile = workingFolder + "testFile";
 
 
 void runAnal(){
@@ -30,13 +28,16 @@ void runAnal(){
 	}
 }
 
+
+
+
 template <class T>
 class error{
 public:
 	std::vector<std::vector<T>> testInput;
 	std::vector<std::vector<T>> answerInput;
 	std::vector<std::vector<T>> mainInput;
-	error(std::string testPath = testFile, std::string mainPath = mainFile, std::string answerPath = answerFile){
+	error(std::string testPath, std::string mainPath, std::string answerPath){
 		readVectors(testInput, testPath);
 		readVectors(mainInput, mainPath);
 		readVectors(answerInput, answerPath);
@@ -100,69 +101,65 @@ class TEST{
 public:
 	errorInfo<T> errors;
 	int maxRand;
-	TEST(int x = 10){
-		maxRand = x;
-
+	int minRand;
+	int N;
+	TEST(std::pair<int,int> p = {0,10}, int n = 50){
+		maxRand = p.second;
+		minRand = p.first;
+		N = n;
 	}
-	void compfunc(std::vector<T>& v){ // UNIT TEST
-		std::vector<T> res;
-
-
-		int m = -1;
-		int pos = 0;
-		for(int i = 0; i < v.size(); ++i){
-			if(v[i] == 0){
-				for(int j = i; j < v.size(); ++j){
-					if(v[j] == 1){
-						if(abs(i - j) > m){
-						m = abs(i - j);
-						pos = i;
-						}
-						break;
-					}
-				}
-				for(int j = i; j >= 0; --j){
-					if(v[j] == 1){
-						if(abs(i - j) > m){
-						m = abs(i - j);
-						pos = i;
-						}
-						break;
-					}
-				}
+	void run(void (*solution)(std::string,std::string) = [](std::string,std::string){},  
+		void (*generateFile)(int,int,int) = [](int,int,int){},
+		void (*cut)(std::vector<std::vector<T>>&, std::vector<std::vector<T>>&,int&) 
+		= [](std::vector<std::vector<T>>& input, std::vector<std::vector<T>>& output, int& start){
+			if(start < input.size()){
+				output.clear();
+				output.push_back(input[start]);
+				start++;
+			}
+		} )
+	{
+		errors.clear();
+		generateFile(minRand, maxRand, N);
+		int start = 0;
+		std::vector<std::vector<T>> input;
+		std::vector<std::vector<T>> currInput;
+		readVectors(input, testFile);
+		std::string testf = workingFolder + "tstFile";
+		std::string ansf = workingFolder + "ansFile";
+		std::string mainf = workingFolder + "mainFile"; 
+		std::string cmd1 = "touch " + ansf;
+		std::string cmd2 = "touch " + mainf;
+		std::string cmd3 = "touch " + testf;
+		system(cmd1.c_str());
+		system(cmd2.c_str());
+		system(cmd3.c_str());
+		while(start < input.size()){
+			cut(input,currInput,start);
+			writeVectors(currInput, testf);
+			solution(testf, ansf);
+			char** str = new char*[3];
+			str[0] = const_cast<char*>("test");
+			str[1] = const_cast<char*>(testf.c_str());
+			str[2] = const_cast<char*>(mainf.c_str());
+			mainfunc(3, str);
+			delete[] str;
+			std::vector<std::vector<T>> mainInput;
+			std::vector<std::vector<T>> answerInput;
+			readVectors(mainInput, mainf);
+			readVectors(answerInput, ansf);
+			if(mainInput != answerInput){
+			//	std::cout << "============== WRONG ==============" << std::endl;
+				error<T> newerr(testf, mainf,ansf);
+				errors.push_back(newerr);
 			}
 		}
-		res.push_back(pos);
-
-
-
-
-		writeVectors(res,answerFile);
-	}
-
-	void vectorTest(){
-		errors.clear();
-	for(int n = 0; n < 1000; ++n){
-		std::vector<T> v;
-		fillVector(v,maxRand,50);
-		writeVectors(v, testFile);
-		char** str = new char*[2];
-		str[0] = const_cast<char*>("test");
-		str[1] = const_cast<char*>("arg");
-		mainfunc(2, str);
-		delete[] str;
-		compfunc(v);
-		std::vector<std::vector<T>> mainInput;
-		std::vector<std::vector<T>> answerInput;
-		readVectors(mainInput, mainFile);
-		readVectors(answerInput, answerFile);
-		if(mainInput != answerInput){
-			std::cout << "============== WRONG ==============" << std::endl;
-			error<T> newerr;
-			errors.push_back(newerr);
-		}
-	}
-	
+		std::string cmd4 = "rm " + ansf;
+		std::string cmd5 = "rm " + mainf;
+		std::string cmd6 = "rm " + testf;
+		system(cmd4.c_str());
+		system(cmd5.c_str());
+		system(cmd6.c_str());
 	}
 	void info(){
 		errors.info();

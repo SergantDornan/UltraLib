@@ -4,8 +4,9 @@ void points(std::map<double,long double>& mp, int left, int right){
 	for(double xi = left; xi <= right; ++xi){
 		auto old = std::chrono::steady_clock::now();
 		char** str = new char*[2];
+		
 		str[0] = const_cast<char*>("anal");
-		str[1] = const_cast<char*>(std::to_string(xi).c_str());
+		str[1] = const_cast<char*>(analFile.c_str());
 		mainfunc(2, str);
 		delete[] str;
 		auto dur = std::chrono::steady_clock::now() - old;

@@ -12,18 +12,6 @@ void stringToVector(std::string& s, std::vector<T>& v){
 }
 
 template <class T>
-void writeVectors(std::vector<T>& v, std::string path){
-	std::ofstream out(path);
-	if(!out.is_open()){
-		std::string s = "filework.h : writeVector: Cannot open file " + path; 
-		std::cout << s << std::endl; 
-	}
-	else
-		out << v;
-	out.close();
-}
-
-template <class T>
 void writeVectors(std::vector<std::vector<T>>& v, std::string path){
 	std::ofstream out(path);
 	if(!out.is_open()){
@@ -32,8 +20,26 @@ void writeVectors(std::vector<std::vector<T>>& v, std::string path){
 	}
 	else{
 		for(int i = 0; i < v.size(); ++i){
-			out << v[i] << std::endl;
+			for(int j = 0; j < v[i].size(); ++j)
+				out << v[i][j] << ' ';
+			out << '\n';
 		}
+	}
+	out.close();
+}
+
+template <class T>
+void writeVectors(std::vector<T>& v, std::string path){
+	std::ofstream out(path);
+	if(!out.is_open()){
+		std::string s = "filework.h : writeVector: Cannot open file " + path; 
+		std::cout << s << std::endl; 
+	}
+	else{
+		for(int i = 0; i < v.size(); ++i){
+				out << v[i] << ' ';
+		}
+		out << '\n';
 	}
 	out.close();
 }

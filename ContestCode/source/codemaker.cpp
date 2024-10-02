@@ -169,6 +169,16 @@ int main(){
         else
           lines.push_back("int main(int argc, char* argv[])");
       }
+      else if(linesmain[i].find("argv[1]") != std::string::npos){
+        std::regex reg("argv[^ ]{3}");
+        std::string newstr = std::regex_replace(linesmain[i],reg,"\"input.txt\"");
+        lines.push_back(newstr);
+      }
+      else if(linesmain[i].find("argv[2]") != std::string::npos){
+        std::regex reg("argv[^ ]{3}");
+        std::string newstr = std::regex_replace(linesmain[i],reg,"\"output.txt\"");
+        lines.push_back(newstr);
+      }
       else
         lines.push_back(linesmain[i]);
     }

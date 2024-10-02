@@ -41,10 +41,9 @@ template <class T>
 std::istream& operator >> (std::istream& in, std::vector<T>& v){
     std::string inp;
     std::getline(in, inp);
-    if(inp == "{}")
+    if(inp.size() == 0)
     	return in;
-    std::string s(inp.begin()+1, inp.end()-1);
-    auto vals = split(s);
+    auto vals = split(inp);
     for(int i = 0; i < vals.size(); ++i){
     	std::stringstream stream;
     	stream << vals[i];

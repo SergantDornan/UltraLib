@@ -29,8 +29,9 @@ ContOUTPUT = $(ContCodeDir)/filemaker
 ContFile = $(ContCodeDir)/code.cpp
 
 TSTfile = ./tests/testFile
-ANSfile = ./tests/answerFile
-MAINfile = ./tests/mainFile
+#ANSfile = ./tests/answerFile
+#MAINfile = ./tests/mainFile
+ANALfile = ./algAnal/analFile
 
 INCDIRS=. ./include/ $(INCANAL) $(INCTST) $(ContINC)
 
@@ -218,11 +219,11 @@ $(OUTPUT):$(STATICdepend) $(SHAREDdepend) $(OBJECTS)
 	$(CPPC) $^ -Wl,--defsym=main=$(MAINENTRY) $(ISSTATIC) $(ISSHARED) $(foreach D,$(LIBSTATIC_names),-l$(D)) $(foreach D,$(LIBSHARED_names),-l$(D)) $(STATICLIBGEN_link) $(SHAREDLIBGEN_link) -o $@
 	$(INCLUDESHARED)
 
-$(ANAL):$(STATICdepend) $(SHAREDdepend) $(ANALOBJECTS) $(OBJECTS)
+$(ANAL):$(ANALfile) $(STATICdepend) $(SHAREDdepend) $(ANALOBJECTS) $(OBJECTS)
 	$(CPPC) $(OBJECTS) $(ANALOBJECTS) -Wl,--defsym=main=$(ANALENTRY) $(ISSTATIC) $(ISSHARED) $(foreach D,$(LIBSTATIC_names),-l$(D)) $(foreach D,$(LIBSHARED_names),-l$(D)) $(STATICLIBGEN_link) $(SHAREDLIBGEN_link) -o $@
 	$(INCLUDESHARED)
 
-$(TST):$(MAINfile) $(TSTfile) $(ANSfile) $(STATICdepend) $(SHAREDdepend) $(TSTOBJECTS) $(OBJECTS) $(ANALOBJECTS)
+$(TST): $(TSTfile) $(STATICdepend) $(SHAREDdepend) $(TSTOBJECTS) $(OBJECTS) $(ANALOBJECTS)
 	$(CPPC) $(OBJECTS) $(TSTOBJECTS) $(ANALOBJECTS) -Wl,--defsym=main=$(TSTENTRY) $(ISSTATIC) $(ISSHARED) $(foreach D,$(LIBSTATIC_names),-l$(D)) $(foreach D,$(LIBSHARED_names),-l$(D)) $(STATICLIBGEN_link) $(SHAREDLIBGEN_link) -o $@
 	$(INCLUDESHARED)
 
@@ -236,14 +237,11 @@ $(ContFile):
 $(TSTfile):
 	touch $(TSTfile)
 
-$(ANSfile):
-	touch $(ANSfile)
-
-$(MAINfile):
-	touch $(MAINfile)
+$(ANALfile):
+	touch $(ANALfile)
 
 mrproper:
-	rm -rf $(OUTPUTS) $(OBJECTS) $(DEPFILES) $(STLIBGEN) $(SHLIBGEN) $(OBJECTSSTATIC) $(OBJECTSSHARED) $(ANALOBJECTS) $(TSTOBJECTS) $(CONTOBJECTS) $(ContFile) $(TSTfile) $(ANSfile) $(MAINfile)
+	rm -rf $(OUTPUTS) $(OBJECTS) $(DEPFILES) $(STLIBGEN) $(SHLIBGEN) $(OBJECTSSTATIC) $(OBJECTSSHARED) $(ANALOBJECTS) $(TSTOBJECTS) $(CONTOBJECTS) $(ContFile) $(TSTfile) $(ANALfile)
 
 $(STLIBGEN):$(OBJECTSSTATIC)
 	ar rc $(STLIBGEN) $(OBJECTSSTATIC)

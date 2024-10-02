@@ -4,8 +4,8 @@
 #include <header.h>
 
 
-extern void fillVector(std::vector<int>& v, int maxRand ,int N);
-extern void fillVector(std::vector<double>& v, int maxRand ,int N);
+extern void fillVector(std::vector<int>& v,int minRand, int maxRand ,int N);
+extern void fillVector(std::vector<double>& v,int minRand, int maxRand ,int N);
 
 
 template <class T>

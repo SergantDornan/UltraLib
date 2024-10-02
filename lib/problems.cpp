@@ -17,13 +17,13 @@ extern std::vector<std::string> split(std::string s, char ch){
 	return res;
 }
 
-extern void fillVector(std::vector<int>& v, int maxRand, int N){
+extern void fillVector(std::vector<int>& v,int minRand, int maxRand, int N){
     for(int i = 0; i < N; ++i)
-            v.push_back(rand() % maxRand);
+            v.push_back(minRand + (rand() % (maxRand+1)));
 }
-extern void fillVector(std::vector<double>& v, int maxRand, int N){
+extern void fillVector(std::vector<double>& v,int minRand, int maxRand, int N){
     for(int i = 0; i < N; ++i)
-            v.push_back(rand() % maxRand);
+            v.push_back(minRand + (rand() % (maxRand+1)));
 }
 
 //Дан массив целых чисел, назовем отрезов k-хорошим, если в нем не более k различных чисел

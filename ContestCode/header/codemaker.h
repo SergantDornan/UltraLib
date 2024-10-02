@@ -1,6 +1,7 @@
 #include <fstream>
 #include <string>
 #include <filesystem>
+#include <regex>
 const std::string folderPath = "/home/andrew/MasterFolder/UBERMENSCHENAMOGUS228/";
 const std::string codeFolder = folderPath + "ContestCode/";
 const std::string output = codeFolder + "code.cpp";
