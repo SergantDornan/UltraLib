@@ -30,6 +30,7 @@ void writeVectors(std::vector<std::vector<T>>& v, std::string path){
 
 template <class T>
 void writeVectors(std::vector<T>& v, std::string path){
+	//std::cout << path << std::endl;
 	std::ofstream out(path);
 	if(!out.is_open()){
 		std::string s = "filework.h : writeVector: Cannot open file " + path; 

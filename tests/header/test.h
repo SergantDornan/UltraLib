@@ -2,7 +2,6 @@
 #define test_H
 
 #include <algs.h>
-#include <analysis.h>
 #include <filework.h>
 const bool analysis = false;
 extern "C" int mainfunc(int argc, char* argv[]);
@@ -10,23 +9,6 @@ const std::string workingFolder = "/home/andrew/MasterFolder/UBERMENSCHENAMOGUS2
 const std::string testFile = workingFolder + "testFile";
 
 
-void runAnal(){
-	if(analysis){
-		char y;
-	std::cout << "Run analysis? [y/n]: ";
-	std::cin >> y;
-	while(y != 'y' && y != 'n'){
-		std::cout << '\n';
-		std::cout << "Enter [y/n]: ";
-		std::cin >> y;
-	}
-	if(y == 'y'){
-		std::cout << '\n';
-		std::cout << "Running analysis: " << std::endl;
-		entry(0,{}); 
-	}
-	}
-}
 
 
 

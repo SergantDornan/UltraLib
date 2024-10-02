@@ -1,15 +1,18 @@
 #include <analysis.h>
 #include <math.h>
-void points(std::map<double,long double>& mp, int left, int right){
+void points(std::map<double,long double>& mp, int left, int right, std::string file){
 	for(double xi = left; xi <= right; ++xi){
-		auto old = std::chrono::steady_clock::now();
-		char** str = new char*[2];
-		
+		std::vector<int> v;
+		fillVector(v,0,1,xi);
+		writeVectors(v,file);
+		char** str = new char*[3];
 		str[0] = const_cast<char*>("anal");
-		str[1] = const_cast<char*>(analFile.c_str());
-		mainfunc(2, str);
-		delete[] str;
+		str[1] = const_cast<char*>(file.c_str());
+		str[2] = const_cast<char*>(file.c_str());
+		auto old = std::chrono::steady_clock::now();
+		mainfunc(3, str);
 		auto dur = std::chrono::steady_clock::now() - old;
+		delete[] str;
 		long double elapsed_time = double(duration_cast<std::chrono::microseconds>(dur).count()) / 1000;
 		mp.emplace(xi,elapsed_time);
 	}
@@ -19,7 +22,16 @@ std::mutex mtx;
 
 void Iteration(std::map<int,int>& counts, bool output){
 	std::map<double,long double> mp;
-	points(mp,n,N);
+	std::stringstream stream;
+	std::string s;
+	stream << std::this_thread::get_id();
+	stream >> s;
+	std::string file = workingFolder + "analFile" + s;
+	std::string cmd1 = "touch " + file;
+	system(cmd1.c_str());
+	points(mp,n,N,file);
+	std::string cmd2 = "rm " + file;
+	system(cmd2.c_str());
 	for(double xi = n+1; xi <= N; ++xi){
 		double mid = xi-0.5;
 		mp.emplace(mid, (mp[xi-1] + mp[xi]) / 2);

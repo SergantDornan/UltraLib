@@ -6,7 +6,7 @@ void standartCut(std::vector<std::vector<T>>& input, std::vector<std::vector<T>>
 		output.clear();
 		for(int i = 0; i < size; ++i)
 			output.push_back(input[i]);
-		start += (N+1);
+		start += (size+1);
 	}
 }
 
@@ -69,7 +69,6 @@ extern "C" int TSTentry(int argc, char* argv[]){
 	TEST<int> test({0,1}, 10);
 	test.run(solution, [](int a,int b, int c){});
 	test.info();
-	runAnal();
 	std::cout << "================= SUCCES =================" << std::endl;
 	return 0;
 }
