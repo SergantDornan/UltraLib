@@ -63,4 +63,6 @@ void readVectors(std::vector<std::vector<T>>& v, std::string path){
 	}
 	input.close();
 }
+
+extern void clear(std::string);
 #endif

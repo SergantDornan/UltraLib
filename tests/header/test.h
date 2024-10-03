@@ -8,6 +8,7 @@ extern "C" int mainfunc(int argc, char* argv[]);
 const std::string workingFolder = "/home/andrew/MasterFolder/UBERMENSCHENAMOGUS228/tests/";
 const std::string testFile = workingFolder + "testFile";
 const std::string answerFile = workingFolder + "answerFile";
+const std::string logs = workingFolder + "logs";
 #define vec std::vector<std::vector<T>>
 extern void checkMode(std::string&);
 
@@ -179,8 +180,6 @@ public:
 		else
 			actual_run(answers, simpleCut, generateFile, simpleCut);
 	}
-
-
 	void run(void (*solution)(std::string,std::string,void (*cut)(vec&, vec&,int&),int&), void (*generateFile)(vec&,int,int,int),
 	 std::string mode = "simple")
 	{
@@ -237,13 +236,43 @@ public:
 		checkMode(mode);
 		actual_run(answers, solutionCut,generateFile,cut);
 	}
-
-
+	void segf(){
+		vec input;
+		readVectors(input, logs);
+		std::string testf = workingFolder + "tstFile";
+		std::string ansf = workingFolder + "ansFile";
+		std::string mainf = workingFolder + "mainFile"; 
+		std::string cmd4 = "rm " + ansf;
+		std::string cmd5 = "rm " + mainf;
+		std::string cmd6 = "rm " + testf;
+		system(cmd4.c_str());
+		system(cmd5.c_str());
+		system(cmd6.c_str());
+		if(input.size() != 0){
+			std::cout << '\n';
+			std::cout << '\n';
+			std::cout << "====================== SEGFAULT TESTCASE ======================" << std::endl;
+			for(int i = 0; i < input.size(); ++i)
+				std::cout << input[i] << std::endl;
+			clear(logs);
+			char ch = 'a';
+			std::cout << "===== Run the tests? [y/n]: ";
+			std::cin >> ch;
+			while(ch != 'n' && ch != 'y'){
+				std::cout << "Enter 'y' or 'n': ";
+				std::cin >> ch;
+			}
+			if(ch == 'n'){
+				exit(0);
+			}
+		}
+	}
 	void actual_run(void (*solution)(std::string,std::string,void(*cut)(vec&, vec&,int&),int&),
 		void (*solutionCut)(vec&, vec&,int&),
 		void (*generateFile)(vec&,int,int,int),
 		void (*cut)(vec&, vec&,int&))
 	{
+		segf();
 		errors.clear();
 		vec generationVector;
 		generateFile(generationVector,minRand, maxRand, N);
@@ -272,8 +301,10 @@ public:
 			str[0] = const_cast<char*>("test");
 			str[1] = const_cast<char*>(testf.c_str());
 			str[2] = const_cast<char*>(mainf.c_str());
+			writeVectors(currInput, logs);
 			mainfunc(3, str);
 			delete[] str;
+			clear(logs);
 			vec mainInput;
 			vec answerInput;
 			readVectors(mainInput, mainf);

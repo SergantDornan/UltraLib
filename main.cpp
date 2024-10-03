@@ -1,12 +1,13 @@
-#include <algs.h>
-#include <math.h>
 #include <problems.h>
+#include <algs.h>
 #include <filework.h>
 extern "C" int mainfunc(int argc, char* argv[]){
 	std::vector<std::vector<int>> input;
 	readVectors(input, argv[1]);
 	std::vector<int> res;
 	std::vector<int> v = input[0];
+	std::vector<int> dummy;
+	std::cout << dummy[100] << std::endl;
 	int m = -1;
 	int currk = 0;
 	int curr = 0;

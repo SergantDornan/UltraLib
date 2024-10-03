@@ -13,7 +13,7 @@ DEPOBJDIR =./depsAndObjects
 STATLIBS=./staticLibs
 SHLIBS=./sharedLibs
 Static_lib_folder_code=./staticLibsSource
-Shared_lib_folder_code=./sharedLibsSource
+Shared_lib_folder_code=./sharedLibsSo	urce
 lib_code_source=/source
 lib_code_headers=/header
 
@@ -30,6 +30,9 @@ ContFile = $(ContCodeDir)/code.cpp
 
 TSTfile = ./tests/testFile
 ANSfile = ./tests/answerFile
+TSTlogs = ./tests/logs
+
+TSTgarbage = ./tests/tstFile ./tests/ansFile ./tests/mainFile
 
 INCDIRS=. ./include/ $(INCANAL) $(INCTST) $(ContINC)
 
@@ -39,7 +42,7 @@ CPPC=g++
 C++standart=-std=c++23
 OPT=-O2
 DEPFLAGS=-MP -MD
-GENERALFLAGS=$(C++standart) -g3
+GENERALFLAGS=$(C++standart) -g3 -w
 
 OUTPUTS=$(OUTPUT) $(ANAL) $(TST) $(ContOUTPUT)
 SOURCESTATIC=$(Static_lib_folder_code)$(lib_code_source)
@@ -221,7 +224,7 @@ $(ANAL):$(STATICdepend) $(SHAREDdepend) $(ANALOBJECTS) $(OBJECTS)
 	$(CPPC) $(OBJECTS) $(ANALOBJECTS) -Wl,--defsym=main=$(ANALENTRY) $(ISSTATIC) $(ISSHARED) $(foreach D,$(LIBSTATIC_names),-l$(D)) $(foreach D,$(LIBSHARED_names),-l$(D)) $(STATICLIBGEN_link) $(SHAREDLIBGEN_link) -o $@
 	$(INCLUDESHARED)
 
-$(TST):$(ANSfile) $(TSTfile) $(STATICdepend) $(SHAREDdepend) $(TSTOBJECTS) $(OBJECTS) $(ANALOBJECTS)
+$(TST):$(TSTlogs) $(ANSfile) $(TSTfile) $(STATICdepend) $(SHAREDdepend) $(TSTOBJECTS) $(OBJECTS) $(ANALOBJECTS)
 	$(CPPC) $(OBJECTS) $(TSTOBJECTS) $(ANALOBJECTS) -Wl,--defsym=main=$(TSTENTRY) $(ISSTATIC) $(ISSHARED) $(foreach D,$(LIBSTATIC_names),-l$(D)) $(foreach D,$(LIBSHARED_names),-l$(D)) $(STATICLIBGEN_link) $(SHAREDLIBGEN_link) -o $@
 	$(INCLUDESHARED)
 
@@ -238,8 +241,11 @@ $(TSTfile):
 $(ANSfile):
 	touch $(ANSfile)
 
+$(TSTlogs):
+	touch $(TSTlogs)
+
 mrproper:
-	rm -rf $(OUTPUTS) $(OBJECTS) $(DEPFILES) $(STLIBGEN) $(SHLIBGEN) $(OBJECTSSTATIC) $(OBJECTSSHARED) $(ANALOBJECTS) $(TSTOBJECTS) $(CONTOBJECTS) $(ContFile) $(TSTfile)
+	rm -rf $(OUTPUTS) $(OBJECTS) $(DEPFILES) $(STLIBGEN) $(SHLIBGEN) $(OBJECTSSTATIC) $(OBJECTSSHARED) $(ANALOBJECTS) $(TSTOBJECTS) $(CONTOBJECTS) $(ContFile) $(TSTfile) $(ANSfile) $(TSTlogs) $(TSTgarbage)
 
 $(STLIBGEN):$(OBJECTSSTATIC)
 	ar rc $(STLIBGEN) $(OBJECTSSTATIC)

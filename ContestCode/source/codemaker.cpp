@@ -6,7 +6,13 @@ void push_line(std::vector<std::string>& v, std::string line){
       line.find("#ifndef") == std::string::npos &&
       line.find("#define") == std::string::npos &&
       line.find("endif") == std::string::npos){
-              v.push_back(line);
+             if(line.find("extern") != std::string::npos){
+                std::regex reg("extern");
+                std::string newstr = std::regex_replace(line,reg,"");
+                v.push_back(newstr);
+             }
+             else
+               v.push_back(line);
   }
 }
 std::vector<std::string> getDirs(const std::string &path)
