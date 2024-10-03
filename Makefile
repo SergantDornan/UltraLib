@@ -29,6 +29,7 @@ ContOUTPUT = $(ContCodeDir)/filemaker
 ContFile = $(ContCodeDir)/code.cpp
 
 TSTfile = ./tests/testFile
+ANSfile = ./tests/answerFile
 
 INCDIRS=. ./include/ $(INCANAL) $(INCTST) $(ContINC)
 
@@ -220,7 +221,7 @@ $(ANAL):$(STATICdepend) $(SHAREDdepend) $(ANALOBJECTS) $(OBJECTS)
 	$(CPPC) $(OBJECTS) $(ANALOBJECTS) -Wl,--defsym=main=$(ANALENTRY) $(ISSTATIC) $(ISSHARED) $(foreach D,$(LIBSTATIC_names),-l$(D)) $(foreach D,$(LIBSHARED_names),-l$(D)) $(STATICLIBGEN_link) $(SHAREDLIBGEN_link) -o $@
 	$(INCLUDESHARED)
 
-$(TST): $(TSTfile) $(STATICdepend) $(SHAREDdepend) $(TSTOBJECTS) $(OBJECTS) $(ANALOBJECTS)
+$(TST):$(ANSfile) $(TSTfile) $(STATICdepend) $(SHAREDdepend) $(TSTOBJECTS) $(OBJECTS) $(ANALOBJECTS)
 	$(CPPC) $(OBJECTS) $(TSTOBJECTS) $(ANALOBJECTS) -Wl,--defsym=main=$(TSTENTRY) $(ISSTATIC) $(ISSHARED) $(foreach D,$(LIBSTATIC_names),-l$(D)) $(foreach D,$(LIBSHARED_names),-l$(D)) $(STATICLIBGEN_link) $(SHAREDLIBGEN_link) -o $@
 	$(INCLUDESHARED)
 
@@ -233,6 +234,9 @@ $(ContFile):
 
 $(TSTfile):
 	touch $(TSTfile)
+
+$(ANSfile):
+	touch $(ANSfile)
 
 mrproper:
 	rm -rf $(OUTPUTS) $(OBJECTS) $(DEPFILES) $(STLIBGEN) $(SHLIBGEN) $(OBJECTSSTATIC) $(OBJECTSSHARED) $(ANALOBJECTS) $(TSTOBJECTS) $(CONTOBJECTS) $(ContFile) $(TSTfile)

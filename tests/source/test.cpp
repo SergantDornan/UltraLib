@@ -1,27 +1,11 @@
 #include <test.h>
-template <class T>
-void standartCut(std::vector<std::vector<T>>& input, std::vector<std::vector<T>>& output, int& start){
-	if(start < input.size()){
-		int size = input[start][0];
-		output.clear();
-		for(int i = 0; i < size; ++i)
-			output.push_back(input[i]);
-		start += (size+1);
-	}
-}
 
-void generateFile(int minRand, int maxRand, int size){
-	std::vector<std::vector<int>> v;
-	for(int i = 0; i < 1000; ++i){
-		std::vector<int> j;
-		fillVector(j,minRand,maxRand,size);
-		v.push_back(j);
-	}
-	writeVectors(v, testFile);
-}
-void solution(std::string task, std::string answer){
-	std::vector<std::vector<int>> input;
+template <class T>
+void solution(std::string task, std::string answer,void (*cut)(vec&, vec&,int&),int& start)
+{
+	std::vector<std::vector<T>> input;
 	readVectors(input, task);
+
 	//SOLUTION
 	std::vector<int> v = input[0];
 	std::vector<int> res;
@@ -64,10 +48,41 @@ void solution(std::string task, std::string answer){
 	writeVectors(res,answer);
 }
 
+template <class T>
+void solutionCut(vec& input, vec& output,int& start){
 
+}
+
+template <class T>
+void generateFile(vec& output,int minRand,int maxRand,int size_of_generation_unit){
+	//YANDEX generation
+
+	int maxLines = 100;
+	for(int i = 0; i < 1000; ++i){
+		int N = 1+(rand() % maxLines);
+		std::vector<T> num;
+		num.push_back(N);
+		output.push_back(num);
+		for(int j = 0; j < N; ++j){
+			std::vector<T> line;
+			fillVector(line,minRand,maxRand,size_of_generation_unit);
+			output.push_back(line);
+		}
+	}
+	writeVectors(output, testFile);
+
+	//END YANDEX generatio
+}
+
+template <class T>
+void inputCut(vec& input, vec& output,int& start){
+
+}
+
+// !!!! ARGUMENT ORDER : solution, solutionCut, generateFile, inputCut
 extern "C" int TSTentry(int argc, char* argv[]){
-	TEST<int> test({0,1}, 10);
-	test.run(solution, [](int a,int b, int c){});
+	TEST<int> test({0,1}, 100);
+	test.run(solution, "vec");
 	test.info();
 	std::cout << "================= SUCCES =================" << std::endl;
 	return 0;
