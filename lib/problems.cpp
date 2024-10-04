@@ -40,6 +40,23 @@ extern void clear(std::string path){
 	}
 	out.close();
 }
+
+extern void fillVector(std::vector<std::string>& v,int minRand, int maxRand ,int N){
+	for(int i = 0; i < N; ++i){
+		v.push_back(randomString(minRand, maxRand));
+    }
+}
+extern std::string randomString(int minRand, int maxRand, int n, int N){
+	int len = n + (rand() % N);
+	std::string s = "";
+	for(int i = 0; i < len; ++i){
+		char ch = char(minRand + (rand() % (maxRand - minRand)));
+		s+=ch;
+	}
+	return s;
+}
+
+
 //Дан массив целых чисел, назовем отрезов k-хорошим, если в нем не более k различных чисел
 //Найти длину наиболее длинного k-хорошего отрезка
 int MaxKgoodsize(std::vector<long>& v, long unsigned int k){
@@ -74,27 +91,66 @@ int MaxKgoodsize(std::vector<long>& v, long unsigned int k){
 
 
 //дан отсортированный массив, найти количество пар чисел, у которых среднее арифметическое тоже в массиве
-std::vector<std::pair<int,int>> problem1(std::vector<int>& v){
-	std::set<int> set;
-	std::vector<std::pair<int,int>> res;
-	std::vector<int>::iterator it = v.begin();
-	while(it != v.end()){
-		if(set.find(*it) == set.end()){
-			set.insert(*it);
-			it++;
-		}
-		else
-		{
-			if(!find(res,{*it,*it}))
-				res.push_back({*it,*it});
-			v.erase(it);
-		}
-	}
-	std::cout << v << std::endl;
-	std::vector<int> sums;
+std::vector<std::pair<int,int>> sortVmiddleNumber(std::vector<int>& v){
 
-    merge_sort(sums);
-  	std::cout << sums << std::endl;
-	return res;
 }
 
+void onesandzerosMaxMindistance(std::string inp, std::string output){
+	std::vector<std::vector<int>> input;
+	readVectors(input, inp);
+	std::vector<int> res;
+	std::vector<int> v = input[0];
+	int m = -1;
+	int currk = 0;
+	int curr = 0;
+	int pos = 0;
+	int start = 0;
+	for(int i = 0; i < v.size(); ++i){
+		if(v[i] == 1)
+		{
+			start = i;
+			break;
+		}
+	}
+	if(start > 0)
+		res.push_back(0);
+	m = start;
+	for(int i = start; i < v.size(); ++i){
+		if(v[i] == 1){
+			curr = (curr / 2) + (curr % 2);
+			if(curr >= m){
+				if(curr > m){
+					m = curr;
+					res.clear();
+				}
+				pos = ((currk+i)/2);
+				res.push_back(pos);
+				if((i + currk) % 2 == 1){
+					pos = ((currk+i)/2)+1;
+					res.push_back(pos);	
+				}
+			}
+			curr = 0;
+			currk = i;
+		}
+		else if(i == v.size() - 1){
+			curr++;
+			if(curr >= m){
+				pos = i;
+				if(curr > m){
+					m = curr;
+					res.clear();
+				}
+				res.push_back(pos);
+			}
+		}
+		else{
+			curr++;
+		}
+	}
+	writeVectors(res,output);
+}
+
+void HackatonTime(){
+
+}

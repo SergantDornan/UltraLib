@@ -7,6 +7,9 @@
 extern void fillVector(std::vector<int>& v,int minRand, int maxRand ,int N);
 extern void fillVector(std::vector<double>& v,int minRand, int maxRand ,int N);
 extern void fillVector(std::vector<char>& v,int minRand, int maxRand ,int N);
+extern std::string randomString(int, int, int n = 5,int N = 10);
+extern void fillVector(std::vector<std::string>& v,int minRand, int maxRand ,int N);
+
 
 template <class T>
 bool find(std::vector<T>& v, T s){

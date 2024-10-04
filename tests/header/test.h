@@ -3,6 +3,7 @@
 
 #include <algs.h>
 #include <filework.h>
+#include <clock.h>
 const bool analysis = false;
 extern "C" int mainfunc(int argc, char* argv[]);
 const std::string workingFolder = "/home/andrew/MasterFolder/UBERMENSCHENAMOGUS228/tests/";
@@ -14,13 +15,12 @@ extern void checkMode(std::string&);
 
 template <class T>
 void yandexCut(vec& input, vec& output, int& start){
-	if(start < input.size()){
-		int size = input[start][0];
-		output.clear();
-		for(int i = 0; i < size; ++i)
-			output.push_back(input[i]);
-		start += (size+1);
+	output.clear();
+	while(input[start].size() != 0 && start < input.size()){
+		output.push_back(input[start]);
+		start++;
 	}
+	start++;
 }
 template <class T>
 void simpleCut(vec& input, vec& output, int& start){
@@ -32,18 +32,20 @@ void simpleCut(vec& input, vec& output, int& start){
 }
 
 template <class T>
-void generateVectors(vec& v, int minRand, int maxRand, int size){
+void generateVectors(vec& v,std::string& path, int minRand, int maxRand, int size){
+	std::string cmd = "touch " + path;
+	system(cmd.c_str());
 	for(int i = 0; i < 1000; ++i){
 		std::vector<T> j;
 		fillVector(j,minRand,maxRand,size);
 		v.push_back(j);
 	}
-	writeVectors(v, testFile);
+	writeVectors(v, path);
 }
 
 template <class T>
 void answers(std::string task, std::string answer,void (*cut)(vec&, vec&,int&),int& start){
-	std::vector<std::vector<T>> input;
+	vec input;
 	readVectors(input, task);
 	vec res;
 	cut(input, res, start);
@@ -127,24 +129,32 @@ public:
 		minRand = p.first;
 		N = n;
 	}
+	void run(void (*generateFile)(vec&,std::string&,int,int,int), std::string mode = "simple")
+	{
+		checkMode(mode);
+		if(mode == "yandex" || mode == "yan")
+			actual_run(answers, yandexCut, generateFile,yandexCut);
+		else
+			actual_run(answers, simpleCut, generateFile, simpleCut);
+	}
 	void run(std::string mode = "simple"){
 		checkMode(mode);
 		if(mode == "simple")
-			actual_run(answers,simpleCut, [](vec&,int,int,int){}, simpleCut);
+			actual_run(answers,simpleCut, [](vec&,std::string&,int,int,int){}, simpleCut);
 		else if(mode == "vector" || mode == "vec")
 			actual_run(answers,simpleCut, generateVectors, simpleCut);
 		else if(mode == "yandex" || mode == "yan")
-			actual_run(answers,simpleCut, [](vec&,int,int,int){},yandexCut);
+			actual_run(answers,yandexCut, [](vec&,std::string&,int,int,int){},yandexCut);
 	}
 	void run(void (*solution)(std::string,std::string,void (*cut)(vec&, vec&,int&),int&),std::string mode = "simple")
 	{
 		checkMode(mode);
 		if(mode == "simple")
-			actual_run(solution,[](vec&, vec&,int&){}, [](vec&,int,int,int){}, simpleCut);
+			actual_run(solution,[](vec&, vec&,int&){}, [](vec&,std::string&,int,int,int){}, simpleCut);
 		else if(mode == "vector" || mode == "vec")
 			actual_run(solution,[](vec&, vec&,int&){}, generateVectors, simpleCut);
 		else if(mode == "yandex" || mode == "yan")
-			actual_run(solution,[](vec&, vec&,int&){}, [](vec&,int,int,int){},yandexCut);
+			actual_run(solution,[](vec&, vec&,int&){}, [](vec&,std::string&,int,int,int){},yandexCut);
 	}
 	void run(void (*someCut)(vec&, vec&,int&),std::string cutmode = "aboba", std::string mode = "simple")
 	{
@@ -160,32 +170,26 @@ public:
 		if(cutmode == "inp" || cutmode == "input"){
 			if(mode == "vector" || mode == "vec")
 				actual_run(answers, simpleCut, generateVectors, someCut);
+			else if(mode == "yandex" || mode == "yan")
+				actual_run(answers, yandexCut, [](vec&,std::string&,int,int,int){},someCut);
 			else
-				actual_run(answers, simpleCut, [](vec&,int,int,int){},someCut);
+				actual_run(answers, simpleCut, [](vec&,std::string&,int,int,int){},someCut);
 		}
 		else if(cutmode == "sol" || cutmode == "solution"){
 			if(mode == "simple")
-				actual_run(answers, someCut, [](vec&,int,int,int){}, simpleCut);
+				actual_run(answers, someCut, [](vec&,std::string&,int,int,int){}, simpleCut);
 			else if(mode == "vector" || mode == "vec")
 				actual_run(answers, someCut, generateVectors, simpleCut);
 			else if(mode == "yandex" || mode == "yan")
-				actual_run(answers, someCut, [](vec&,int,int,int){},yandexCut);
+				actual_run(answers, someCut, [](vec&,std::string&,int,int,int){},yandexCut);
 		}
 	}
-	void run(void (*generateFile)(vec&,int,int,int), std::string mode = "simple")
-	{
-		checkMode(mode);
-		if(mode == "yandex" || mode == "yan")
-			actual_run(answers, simpleCut, generateFile,yandexCut);
-		else
-			actual_run(answers, simpleCut, generateFile, simpleCut);
-	}
-	void run(void (*solution)(std::string,std::string,void (*cut)(vec&, vec&,int&),int&), void (*generateFile)(vec&,int,int,int),
+	void run(void (*solution)(std::string,std::string,void (*cut)(vec&, vec&,int&),int&), void (*generateFile)(vec&,std::string&,int,int,int),
 	 std::string mode = "simple")
 	{
 		checkMode(mode);
 		if(mode == "yandex" || mode == "yan")
-			actual_run(solution, simpleCut, generateFile,yandexCut);
+			actual_run(solution, yandexCut, generateFile,yandexCut);
 		else
 			actual_run(solution, simpleCut, generateFile, simpleCut);
 	}
@@ -196,9 +200,9 @@ public:
 		if(mode == "vector" || mode == "vec")
 			actual_run(solution,[](vec&, vec&,int&){}, generateVectors, cut);
 		else
-			actual_run(solution,[](vec&, vec&,int&){}, [](vec&,int,int,int){},cut);
+			actual_run(solution,[](vec&, vec&,int&){}, [](vec&,std::string&,int,int,int){},cut);
 	}
-	void run(void (*solutionCut)(vec&, vec&,int&), void (*generateFile)(vec&,int,int,int), std::string mode = "simple")
+	void run(void (*solutionCut)(vec&, vec&,int&), void (*generateFile)(vec&,std::string&,int,int,int), std::string mode = "simple")
 	{
 		checkMode(mode);
 		if(mode == "yandex" || mode == "yan")
@@ -212,16 +216,19 @@ public:
 		if(mode == "vector" || mode == "vec")
 			actual_run(answers, solutionCut, generateVectors, cut);
 		else
-			actual_run(answers, solutionCut, [](vec&,int,int,int){},cut);
+			actual_run(answers, solutionCut, [](vec&,std::string&,int,int,int){},cut);
 	}
-	void run(void (*generateFile)(vec&,int,int,int),void (*cut)(vec&, vec&,int&), std::string mode = "simple")
+	void run(void (*generateFile)(vec&,std::string&,int,int,int),void (*cut)(vec&, vec&,int&), std::string mode = "simple")
 	{
 		checkMode(mode);
-		actual_run(answers,simpleCut, generateFile, cut);
+		if(mode == "yandex" || mode == "yan")
+			actual_run(answers,yandexCut, generateFile, cut);
+		else
+			actual_run(answers,simpleCut, generateFile, cut);
 	}
 
 	void run(void (*solution)(std::string,std::string,void (*cut)(vec&, vec&,int&),int&),
-		void (*generateFile)(vec&,int,int,int),
+		void (*generateFile)(vec&,std::string&,int,int,int),
 		void (*cut)(vec&, vec&,int&),
 		std::string mode = "simple")
 	{
@@ -229,7 +236,7 @@ public:
 		actual_run(solution, [](vec&, vec&, int&){},generateFile,cut);
 	}
 	void run(void (*solutionCut)(vec&, vec&,int&),
-		void (*generateFile)(vec&,int,int,int),
+		void (*generateFile)(vec&,std::string&,int,int,int),
 		void (*cut)(vec&, vec&,int&),
 		std::string mode = "simple")
 	{
@@ -242,12 +249,9 @@ public:
 		std::string testf = workingFolder + "tstFile";
 		std::string ansf = workingFolder + "ansFile";
 		std::string mainf = workingFolder + "mainFile"; 
-		std::string cmd4 = "rm " + ansf;
-		std::string cmd5 = "rm " + mainf;
-		std::string cmd6 = "rm " + testf;
+		std::string generationFile = workingFolder + "genTest";
+		std::string cmd4 = "rm " + ansf + ' ' + mainf + ' ' + testf + ' ' + generationFile;
 		system(cmd4.c_str());
-		system(cmd5.c_str());
-		system(cmd6.c_str());
 		if(input.size() != 0){
 			std::cout << '\n';
 			std::cout << '\n';
@@ -269,27 +273,31 @@ public:
 	}
 	void actual_run(void (*solution)(std::string,std::string,void(*cut)(vec&, vec&,int&),int&),
 		void (*solutionCut)(vec&, vec&,int&),
-		void (*generateFile)(vec&,int,int,int),
+		void (*generateFile)(vec&,std::string&,int,int,int),
 		void (*cut)(vec&, vec&,int&))
 	{
 		segf();
 		errors.clear();
 		vec generationVector;
-		generateFile(generationVector,minRand, maxRand, N);
+		std::string generationFile = workingFolder + "genTest";
+		generateFile(generationVector,generationFile,minRand, maxRand, N);
 		int start = 0;
 		int solutionStart = 0;
 		vec input;
 		vec currInput;
-		readVectors(input, testFile);
+		std::string workingFile;
+		std::ifstream check(generationFile);
+		if(check.is_open())
+			workingFile = generationFile;
+		else
+			workingFile = testFile;
+		check.close();
+		readVectors(input, workingFile);
 		std::string testf = workingFolder + "tstFile";
 		std::string ansf = workingFolder + "ansFile";
 		std::string mainf = workingFolder + "mainFile"; 
-		std::string cmd1 = "touch " + ansf;
-		std::string cmd2 = "touch " + mainf;
-		std::string cmd3 = "touch " + testf;
+		std::string cmd1 = "touch " + ansf + ' ' + mainf + ' ' + testf;
 		system(cmd1.c_str());
-		system(cmd2.c_str());
-		system(cmd3.c_str());
 		while(start < input.size()){
 			cut(input,currInput,start);
 			writeVectors(currInput, testf);
@@ -315,12 +323,8 @@ public:
 				errors.push_back(newerr);
 			}
 		}
-		std::string cmd4 = "rm " + ansf;
-		std::string cmd5 = "rm " + mainf;
-		std::string cmd6 = "rm " + testf;
+		std::string cmd4 = "rm " + ansf + ' ' + mainf + ' ' + testf + ' ' + generationFile;
 		system(cmd4.c_str());
-		system(cmd5.c_str());
-		system(cmd6.c_str());
 	}
 	void info(){
 		errors.info();

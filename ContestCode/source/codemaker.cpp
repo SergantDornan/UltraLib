@@ -185,7 +185,7 @@ int main(){
         std::string newstr = std::regex_replace(linesmain[i],reg,"\"output.txt\"");
         lines.push_back(newstr);
       }
-      else
+      else if(linesmain[i].find("argc") == std::string::npos)
         lines.push_back(linesmain[i]);
     }
     std::ofstream out;
@@ -213,6 +213,8 @@ int main(){
       std::string cmdrm = "rm " + compileTest;
       system(cmdrm.c_str());
       std::cout << "================== SUCCES ==================" << std::endl;
+      std::string opencmd = "sublime-text.subl " + output;
+      system(opencmd.c_str()); 
     }
     else{
       std::cout << "================== COMPILATION ERROR ==================" << std::endl;

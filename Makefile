@@ -32,7 +32,7 @@ TSTfile = ./tests/testFile
 ANSfile = ./tests/answerFile
 TSTlogs = ./tests/logs
 
-TSTgarbage = ./tests/tstFile ./tests/ansFile ./tests/mainFile
+TSTgarbage = ./tests/tstFile ./tests/ansFile ./tests/mainFile ./tests/genTest
 
 INCDIRS=. ./include/ $(INCANAL) $(INCTST) $(ContINC)
 
@@ -214,7 +214,6 @@ prog:$(OUTPUT)
 
 contestcode:$(CONTdepend)
 	@$(CONTdepend)
-	@#sublime-text.subl $(ContFile)
 
 $(OUTPUT):$(STATICdepend) $(SHAREDdepend) $(OBJECTS)
 	$(CPPC) $^ -Wl,--defsym=main=$(MAINENTRY) $(ISSTATIC) $(ISSHARED) $(foreach D,$(LIBSTATIC_names),-l$(D)) $(foreach D,$(LIBSHARED_names),-l$(D)) $(STATICLIBGEN_link) $(SHAREDLIBGEN_link) -o $@
@@ -245,6 +244,9 @@ $(TSTlogs):
 	touch $(TSTlogs)
 
 mrproper:
+	rm -rf $(OUTPUTS) $(OBJECTS) $(DEPFILES) $(OBJECTSSTATIC) $(OBJECTSSHARED) $(ANALOBJECTS) $(TSTOBJECTS) $(CONTOBJECTS) $(TSTgarbage)
+
+purge:
 	rm -rf $(OUTPUTS) $(OBJECTS) $(DEPFILES) $(STLIBGEN) $(SHLIBGEN) $(OBJECTSSTATIC) $(OBJECTSSHARED) $(ANALOBJECTS) $(TSTOBJECTS) $(CONTOBJECTS) $(ContFile) $(TSTfile) $(ANSfile) $(TSTlogs) $(TSTgarbage)
 
 $(STLIBGEN):$(OBJECTSSTATIC)

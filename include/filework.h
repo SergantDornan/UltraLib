@@ -47,6 +47,7 @@ void writeVectors(std::vector<T>& v, std::string path){
 
 template <class T>
 void readVectors(std::vector<std::vector<T>>& v, std::string path){
+	
 	std::ifstream input(path);
 	if(!input.is_open()){
 		std::string s = "filework.h : readVectors: Cannot open file " + path; 
