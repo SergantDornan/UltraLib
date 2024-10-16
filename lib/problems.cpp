@@ -1,16 +1,22 @@
 #include <problems.h>
 #include <inputs.h>
 
-extern std::vector<std::string> split(std::string s, std::string ch){
+extern std::vector<std::string> split(std::string s, std::string ch, std::string except){
 	std::vector<std::string> res;
 	std::string curr;
 	bool push = true;
 	for(int i = 0; i < s.size(); ++i){
 		if(ch.find(s[i]) != std::string::npos && i != (s.size() - 1) && push){
-			std::cout << "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" << std::endl;
-			res.push_back(curr);
+			if(i != 0)
+				res.push_back(curr);
 			curr.clear();
+			if(except.find(s[i]) != std::string::npos){
+				curr += s[i];
+			}
 			push = false;
+		}
+		else if(ch.find(s[i]) != std::string::npos && i != (s.size() - 1) && !push && except.find(s[i]) != std::string::npos){
+			curr += s[i];
 		}
 		else if(i == (s.size() - 1)){
 		//	std::cout << "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" << std::endl;
@@ -18,10 +24,9 @@ extern std::vector<std::string> split(std::string s, std::string ch){
 				curr+=s[i];
 			res.push_back(curr);
 		}
-		else{
+		else if(ch.find(s[i]) == std::string::npos){
 			push = true;
 			curr += s[i];
-			std::cout << curr << std::endl;
 		}
 	}
 	return res;

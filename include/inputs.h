@@ -13,7 +13,7 @@
 #include <string>
 #include <list>
 #include <sstream>
-extern std::vector<std::string> split(std::string s, std::string ch = " ");
+extern std::vector<std::string> split(std::string s, std::string ch = " ", std::string except = "");
 extern std::string strip(std::string s, std::string ch = " ");
 
 

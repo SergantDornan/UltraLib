@@ -16,16 +16,55 @@ template <class T>
 class Range{
 public:
     std::vector<std::pair<T,T>> v;
-    Range(std::pair<T,T>& p){
+    Range(const std::pair<T,T> p){
         v.push_back(p);
     }
-    Range(std::vector<std::pait<T,T>>& p){
+    Range(const std::vector<std::pair<T,T>> p){
         v = p;
+    }
+    bool operator ()(std::vector<T>& x){
+        for(int i = 0; i < x.size(); ++i){
+            for(int j = 0; j < v.size(); ++j){
+                if(x[i] >= v[j].first && x[i] <= v[j].second)
+                    return true;
+            }
+        }
+        return false;
     }
     bool operator ()(T& x){
         for(int i = 0; i < v.size(); ++i){
-            
+            if(x >= v[i].first && x <= v[i].second)
+                return true;
         }
+        return false;
+    }
+};
+
+template <>
+class Range<std::string>{
+public:
+    std::vector<std::pair<int,int>> v;
+    Range(const std::pair<int,int> p){
+        v.push_back(p);
+    }
+    Range(const std::vector<std::pair<int,int>> p){
+        v = p;
+    }
+    bool operator ()(std::string& x){
+        for(int i = 0; i < x.size(); ++i){
+            for(int j = 0; j < v.size(); ++j){
+                if(int(x[i]) >= v[j].first && int(x[i]) <= v[j].second)
+                    return true;
+            }
+        }
+        return false;
+    }
+    bool operator ()(int& x){
+        for(int i = 0; i < v.size(); ++i){
+            if(x >= v[i].first && x <= v[i].second)
+                return true;
+        }
+        return false;
     }
 };
 

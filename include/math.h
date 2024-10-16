@@ -6,9 +6,10 @@ class Matrix{
 public:
 	std::vector<std::vector<long double>> m;
 	Matrix();
-	Matrix(std::vector<std::vector<long double>>&);
+	Matrix(const std::vector<std::vector<long double>>);
 	long double det();
 	int size();
+	void set(const std::vector<std::vector<long double>>);
 	std::vector<long double>& operator [] (int);
 	Matrix& operator = (const Matrix&);
 };
@@ -16,14 +17,20 @@ class SLAE{
 public:
 	Matrix A;
 	std::vector<long double> B;
-	SLAE(std::vector<std::vector<long double>>, std::vector<long double>);
-	SLAE(Matrix&, std::vector<long double>);
+	SLAE();
+	SLAE(const std::vector<std::vector<long double>>,const std::vector<long double>);
+	SLAE(Matrix&,const std::vector<long double>);
+	void set(const std::vector<std::vector<long double>>, const std::vector<long double>);
+	void set(Matrix&, const std::vector<long double>);
 	std::vector<long double> solve();
 };
 class EqSys{
 public:
 	std::vector<std::string> names;
 	SLAE s;
+	EqSys();
+	EqSys(const std::vector<std::string>);
+	void set(const std::vector<std::string>);
 };
 
 class Function{
@@ -39,5 +46,6 @@ Function powerAp(std::map<double,long double>&, double);
 long double constAp(std::map<double,long double>& mp);
 bool is_prime(int);
 std::istream& operator >> (std::istream&,EqSys&);
+std::ostream& operator << (std::ostream&,EqSys&);
 std::vector<std::pair<int,int>> canon(int);
 #endif

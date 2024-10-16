@@ -37,7 +37,7 @@ std::vector<std::string> getDirs(const std::string &path)
 
 void includeList(std::vector<std::string>& includes, std::string file){
 	std::string path = headers + file;
-	if(!find(includes, file))
+	if(find(includes, file) == -1)
 		includes.push_back(file);
     std::string l;
     std::ifstream input(path);
@@ -139,7 +139,7 @@ int main(){
         			std::string s;
         			for(int j = 10; j < l.size() && l[j] != '>' && l[j] != '"'; ++j)
         				s+=l[j];
-        			if(find(includes, s) && !find(files, sourceCode[i])){
+        			if(find(includes, s) && find(files, sourceCode[i]) == -1){
         				files.push_back(sourceCode[i]);
         			}
     			 }
@@ -209,7 +209,7 @@ int main(){
     std::string cmd = "g++ " + output + " -o " + compileTest;
     system(cmd.c_str());
     std::vector<std::string> ls = getDirs(codeFolder);
-    if(find(ls, compileTest)){
+    if(find(ls, compileTest) != -1){
       std::string cmdrm = "rm " + compileTest;
       system(cmdrm.c_str());
       std::cout << "================== SUCCES ==================" << std::endl;

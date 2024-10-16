@@ -12,15 +12,13 @@ extern void fillVector(std::vector<std::string>& v,int minRand, int maxRand ,int
 
 
 template <class T>
-bool find(std::vector<T>& v,const T s){
-    bool b = false;
+int find(std::vector<T>& v,const T s){
     for(int i = 0; i < v.size(); ++i){
         if(v[i] == s){
-            b = true;
-            break;
+            return i;
         }
     }
-    return b;
+    return -1;
 }
 
 template <class T>

@@ -1,6 +1,9 @@
 #include "math.h"
-Matrix::Matrix(std::vector<std::vector<long double>>& v){
+Matrix::Matrix(const std::vector<std::vector<long double>> v){
 	m = v;}
+void Matrix::set(const std::vector<std::vector<long double>> v){
+	m = v;
+}
 Matrix::Matrix(){
 	m = {};}
 int Matrix::size(){
@@ -30,17 +33,37 @@ long double Matrix::det(){
 		}
 	}
 	return sum;}
-SLAE::SLAE(std::vector<std::vector<long double>> V1, std::vector<long double> V2){
+SLAE::SLAE(){
+
+}
+SLAE::SLAE(const std::vector<std::vector<long double>> V1,const std::vector<long double> V2){
 	A.m = V1;
 	B = V2;}
-SLAE::SLAE(Matrix& M, std::vector<long double> V){
+SLAE::SLAE(Matrix& M,const std::vector<long double> V){
 	A = M;
 	B = V;}
+void SLAE::set(const std::vector<std::vector<long double>> V1, const std::vector<long double> V2){
+	A.m = V1;
+	B = V2;
+}
+void SLAE::set(Matrix& M, const std::vector<long double> V){
+	A = M;
+	B = V;
+}
 Matrix& Matrix::operator = (const Matrix& other){
 	(this -> m) = (other.m);
 	return *this;}
 std::vector<long double> SLAE::solve(){
 	std::vector<long double> solution;
+	if(A.size() < A[0].size()){
+		std::cout << "===================================== SLAE solution, number of rows less than nunber of variables =====================================" << std::endl;
+		return solution;
+	}
+	else if(A.size() > A[0].size()){
+		std::cout << "===================================== SLAE solution, number of rows bigger than nunber of variables =====================================" << std::endl;
+		std::cout << "========================================================== Undefined behaviour ==========================================================" << std::endl;
+		return solution;
+	}
 	long double d0 = A.det();
 	for(int i = 0; i < A.size();++i){
 		Matrix tmp = A;
@@ -156,26 +179,98 @@ std::vector<std::pair<int,int>> canon(int x){
 	}
 	return res;
 }
-std::istream& operator >> (std::istream& in, EqSys& eq){		
-		std::vector<std::string> names;
+EqSys::EqSys(){}
+EqSys::EqSys(const std::vector<std::string> v){
+		set(v);
+}
+void EqSys::set(const std::vector<std::string> v){
 		std::vector<std::vector<long double>> tempA;
 		std::vector<std::vector<long double>> A;
 		std::vector<std::vector<std::string>> tempNames;
 		std::vector<long double> B;
+		for(int n = 0; n < v.size(); ++n){
+			std::string s = v[n];
+			auto line = split(s, "+-=", "-");
+			Range<std::string> r({{'a','z'},{'A','Z'}});
+			std::vector<long double> Drow;
+			std::vector<std::string> Srow;
+			for(int i = 0; i < line.size(); ++i){
+				if(!r(line[i])){
+					std::stringstream stream;
+					stream << line[i];
+					long double k;
+					stream >> k;
+					B.push_back(k);	
+				}
+				else{
+					auto subline = split(line[i], "*");
+					if(subline.size() == 1){
+						if(subline[0][0] == '-'){
+							Drow.push_back(-1);
+							Srow.push_back(std::string(subline[0].begin() + 1, subline[0].end()));
+						}
+						else{
+							Drow.push_back(1);
+							Srow.push_back(subline[0]);
+						}
+					}
+					else{
+						for(int j = 0; j < subline.size(); ++j){
+						if(r(subline[j])){
+							Srow.push_back(subline[j]);
+						}
+						else{
+							long double k;
+							std::stringstream stream;
+							stream << subline[j];
+							stream >> k;
+							Drow.push_back(k);
+						}
+					}
+					}
+				}
+				for(int i = 0; i < Srow.size(); ++i){
+					if(find(names, Srow[i]) == -1){
+						names.push_back(Srow[i]);
+					}
+				}
+			}
+			tempA.push_back(Drow);
+			tempNames.push_back(Srow); 
+		}
+		for(int i = 0; i < tempA.size(); ++i){
+			std::vector<long double> row;
+			for(int j = 0; j < names.size(); ++j)
+				row.push_back(0);
+			for(int j = 0; j < names.size(); ++j){
+				int pos = find(tempNames[i], names[j]);
+				if(pos != -1){
+					row[j] = tempA[i][pos];
+				}
+			}
+			A.push_back(row);
+		}
+ 		s.set(A,B);
+}
+std::istream& operator >> (std::istream& in, EqSys& eq){	
 		std::cout << "End system with //" << std::endl;
-		// A-Z: 65 - 90
-		// a-z: 97 - 122
-		// 0-9: 48 - 57
+		std::vector<std::string> v;
 		while(true){
 			std::string s;
 			std::getline(in,s,'\n');
 			s = strip(s);
 			if(s == "$" || s == "$$" || s == "|" || s == "||" || s == "/" || s == "//")
 				break;
-			auto line = split(s, "+-=");
-			for(int i = 0; i < line.size(); ++i){
-				
-			}
+			v.push_back(s);
 		}
+		eq.set(v);
 		return in;
+}
+std::ostream& operator << (std::ostream& out, EqSys& eq){
+	auto solution = eq.s.solve();
+	for(int i = 0; i < eq.names.size(); ++i){
+		out << eq.names[i] << "  " << solution[i] << std::endl;
+	}
+	out << '\n';
+	return out;
 }
