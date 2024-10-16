@@ -50,20 +50,26 @@ std::vector<long double> SLAE::solve(){
 		solution.push_back(d / d0);
 	}
 	return solution;}
+Function::Function(long double(*func)(long double, std::vector<long double>, double), std::vector<long double> solution, double p){
+		power = p;
+		f = func;
+		k = solution;
+}
+long double Function::operator()(long double x){
+		return f(x,k,power);
+}
 
-long double powerAp(std::map<double,long double>& mp, double power, int n, int N){
-	if(power == 0)
-		return constAp(mp,n,N);
+Function powerAp(std::map<double,long double>& mp, double power){
 	std::vector<long double> a, b;
 	for(int i = 0; i < 2*power; ++i)
 		a.push_back(0);
 	for(int i = 0; i < power+1; ++i)
 		b.push_back(0);
-	for(double xi = n; xi <= N; ++xi){
+	for(auto el : mp){
 		for(int i = 0; i < 2*power;++i)
-			a[i] += pow(xi,i+1);
+			a[i] += pow(el.first,i+1);
 		for(int i = 0; i < power + 1; ++i)
-			b[i] += mp[xi]*pow(xi,power - i);
+			b[i] += el.second*pow(el.first,power - i);
 	}
 	Matrix M;
 	for(int i = 0; i < power + 1; ++i){
@@ -71,7 +77,7 @@ long double powerAp(std::map<double,long double>& mp, double power, int n, int N
 		for(int j = 0; j < power + 1; ++j){
 		//	std::cout << int(a.size() - 1 - i - j) << "  AAAAAAAAA" << std::endl;
 			if(int(a.size() - 1 - i - j) < 0)
-				row.push_back(N);
+				row.push_back(mp.size());
 			else
 				row.push_back(a[a.size() - 1 - i - j]);
 		}
@@ -79,28 +85,29 @@ long double powerAp(std::map<double,long double>& mp, double power, int n, int N
 	}
 	SLAE sl(M, b);
 	std::vector<long double> solution = sl.solve();
-	auto F = [&solution, &power](long double xi) -> long double{
+	auto F = [](long double xi, std::vector<long double> solution, double power) -> long double{
 		long double result = 0;
 		for(int i = 0; i < power + 1; ++i){
 			result += solution[i] * pow(xi, power - i);
 		}
 		return result;
 	};
-	long double result = 0;
-	for(double xi = n; xi <= N; xi+=0.25){
-		result += (F(xi) - mp[xi])*(F(xi) - mp[xi]);
-	}
+	Function result(F,solution,power);
 	return result;
+	// long double result = 0;
+	// for(double xi = n; xi <= N; xi+=0.25){
+	// 	result += (F(xi) - mp[xi])*(F(xi) - mp[xi]);
+	// }
 }
-long double constAp(std::map<double,long double>& mp,int n, int N){
+long double constAp(std::map<double,long double>& mp){
 	long double a = 0;
-	for(double xi = n; xi <= N; ++xi){
-		a += mp[xi];
+	for(auto el : mp){
+		a += el.second;
 	}
-	long double c = a / N;
+	long double c = a / mp.size();
 	long double res = 0;
-	for(double xi = n; xi <= N; xi+=0.25){
-		res += ((mp[xi] - c)*(mp[xi] - c));
+	for(auto el : mp){
+		res += ((el.second - c)*(el.second - c));
 	}
 	return res;
 }
@@ -148,4 +155,27 @@ std::vector<std::pair<int,int>> canon(int x){
 			i++;
 	}
 	return res;
+}
+std::istream& operator >> (std::istream& in, EqSys& eq){		
+		std::vector<std::string> names;
+		std::vector<std::vector<long double>> tempA;
+		std::vector<std::vector<long double>> A;
+		std::vector<std::vector<std::string>> tempNames;
+		std::vector<long double> B;
+		std::cout << "End system with //" << std::endl;
+		// A-Z: 65 - 90
+		// a-z: 97 - 122
+		// 0-9: 48 - 57
+		while(true){
+			std::string s;
+			std::getline(in,s,'\n');
+			s = strip(s);
+			if(s == "$" || s == "$$" || s == "|" || s == "||" || s == "/" || s == "//")
+				break;
+			auto line = split(s, "+-=");
+			for(int i = 0; i < line.size(); ++i){
+				
+			}
+		}
+		return in;
 }

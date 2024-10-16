@@ -13,8 +13,8 @@
 #include <string>
 #include <list>
 #include <sstream>
-extern std::vector<std::string> split(std::string s, char ch = ' ');
-
+extern std::vector<std::string> split(std::string s, std::string ch = " ");
+extern std::string strip(std::string s, std::string ch = " ");
 
 
 template <class T1, class T2>
@@ -24,7 +24,7 @@ std::istream& operator >> (std::istream& in, std::pair<T1,T2>& pair){
     if(s == "{}")
     	return in;
     std::string s1(s.begin()+1,s.end()-1);
-    auto vals = split(s1, ',');
+    auto vals = split(s1, ",");
     std::stringstream st1, st2;
     st1 << vals[0];
     st2 << vals[1];

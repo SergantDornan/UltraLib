@@ -696,13 +696,39 @@ void onesandzerosMaxMindistance(std::string inp, std::string output){
 void HackatonTime(){
 
 }
+const long double k = 7.8 * 2*pow(10,6) / (pow(10,3) + 50 + 2*pow(10,6));
+long double f(long double t){
+	return 7.8*(1 - pow(2.718, (-t)/((pow(10,3) + 50)*3*pow(10,-3))));
+}
+long double g(long double res,long double t){
+	return res*(pow(2.718, (-t)/((pow(10,3))*3*pow(10,-3))));
+}
 int main(int argc, char* argv[]){
-	std::vector<std::vector<double>> input;
-	std::vector<std::vector<double>> res;
-		readVectors(input, "input.txt");
-	int n = input[0][0];
-	int y = (pow(((1 + sqrt(5)) / 2), n) - pow(((1 - sqrt(5)) / 2), n)) / sqrt(5);
-	res.push_back({y});
-		writeVectors(res,"output.txt");
+	// std::vector<std::vector<int>> input;
+	// std::vector<std::vector<int>> res;
+	// 	readVectors(input, "input.txt");
+	// int n = input[0][0];
+	// int y = (pow(((1 + sqrt(5)) / 2), n) - pow(((1 - sqrt(5)) / 2), n)) / sqrt(5);
+	// res.push_back({y});
+	// 	writeVectors(res,"output.txt");	
+	long double c = 4169730.909;
+	std::vector<long double> u = {100,120,140};
+		std::vector<std::vector<long double>> I = {{2.43,1.59},{2.69,1.73,1.27,0.99},{2.96,1.91,1.43,1.12}};
+
+	std::vector<long double> R = {0.02,0.03,0.04,0.05};
+	long double mid = 0;
+	for(int i = 0; i < u.size(); ++i){
+		for(int j = 0; j < I[i].size(); ++j){
+
+			
+			long double r = (c * u[i] / (I[i][j] * R[j] * R[j] * I[i][j])) / pow(10,11);
+			mid += r;
+			std::cout << r << "        " << pow((r - 1.759),2) << std::endl;
+		}
+	}
+	mid /= 10;
+	std::cout << "==============================================" << std::endl;
+	std::cout << mid << std::endl;
 	return 0;
+
 }

@@ -12,7 +12,7 @@ extern void fillVector(std::vector<std::string>& v,int minRand, int maxRand ,int
 
 
 template <class T>
-bool find(std::vector<T>& v, T s){
+bool find(std::vector<T>& v,const T s){
     bool b = false;
     for(int i = 0; i < v.size(); ++i){
         if(v[i] == s){

@@ -1,18 +1,37 @@
 #include <problems.h>
 #include <inputs.h>
 
-extern std::vector<std::string> split(std::string s, char ch){
+extern std::vector<std::string> split(std::string s, std::string ch){
 	std::vector<std::string> res;
 	std::string curr;
+	bool push = true;
 	for(int i = 0; i < s.size(); ++i){
-		if(s[i] == ch || i == s.size() - 1){
-			if(i == s.size() - 1 && s[i] != ch)
-				curr += s[i];
+		if(ch.find(s[i]) != std::string::npos && i != (s.size() - 1) && push){
+			std::cout << "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" << std::endl;
 			res.push_back(curr);
 			curr.clear();
+			push = false;
 		}
-		else
+		else if(i == (s.size() - 1)){
+		//	std::cout << "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" << std::endl;
+			if(ch.find(s[i]) == std::string::npos)
+				curr+=s[i];
+			res.push_back(curr);
+		}
+		else{
+			push = true;
 			curr += s[i];
+			std::cout << curr << std::endl;
+		}
+	}
+	return res;
+}
+
+extern std::string strip(std::string s, std::string ch){
+	std::string res;
+	for(int i = 0; i < s.size(); ++i){
+		if(ch.find(s[i]) == std::string::npos)
+			res+=s[i];
 	}
 	return res;
 }

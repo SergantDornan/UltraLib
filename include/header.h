@@ -11,6 +11,24 @@
 #include <algorithm>
 #include <string>
 #include <list>
+
+template <class T>
+class Range{
+public:
+    std::vector<std::pair<T,T>> v;
+    Range(std::pair<T,T>& p){
+        v.push_back(p);
+    }
+    Range(std::vector<std::pait<T,T>>& p){
+        v = p;
+    }
+    bool operator ()(T& x){
+        for(int i = 0; i < v.size(); ++i){
+            
+        }
+    }
+};
+
 template <class T>
 std::ostream& operator <<(std::ostream&,std::stack<T>);
 template <class T>

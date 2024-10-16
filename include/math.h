@@ -20,10 +20,24 @@ public:
 	SLAE(Matrix&, std::vector<long double>);
 	std::vector<long double> solve();
 };
-long double powerAp(std::map<double,long double>&, double, int, int);
-long double constAp(std::map<double,long double>& mp, int, int);
+class EqSys{
+public:
+	std::vector<std::string> names;
+	SLAE s;
+};
 
+class Function{
+public:
+	long double(*f)(long double x, std::vector<long double> k, double power);
+	std::vector<long double> k;
+	double power;
+	Function(long double(*func)(long double, std::vector<long double>, double), std::vector<long double> solution, double p);
+	long double operator()(long double x);
+};
 
+Function powerAp(std::map<double,long double>&, double);
+long double constAp(std::map<double,long double>& mp);
 bool is_prime(int);
+std::istream& operator >> (std::istream&,EqSys&);
 std::vector<std::pair<int,int>> canon(int);
 #endif
