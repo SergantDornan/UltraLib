@@ -47,5 +47,9 @@ long double constAp(std::map<double,long double>& mp);
 bool is_prime(int);
 std::istream& operator >> (std::istream&,EqSys&);
 std::ostream& operator << (std::ostream&,EqSys&);
+std::ostream& operator << (std::ostream&, Function&);
 std::vector<std::pair<int,int>> canon(int);
+long double lim(long double(*f)(long double),std::string mode = "inf", Range<double> range = Range<double>("-inf","+inf"), long double start = 10000,long double e = 0.001);
+long double lim(long double(*f)(long double),Range<double> range = Range<double>("-inf","+inf"), std::string mode = "inf", long double start = 10000,long double e = 0.001);
+long double lim(long double(*f)(long double),long double x0,Range<double> range = Range<double>("-inf", "+inf"), long double e = 0.001);
 #endif

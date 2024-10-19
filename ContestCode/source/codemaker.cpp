@@ -91,7 +91,7 @@ void include(std::vector<std::string>& includes, std::vector<std::string>& lines
 }
 
 
-int main(){
+int main(int argc, char* argv[]){
 	std::string line;
     std::ifstream in(mainfile);
  //   std::cout << std::filesystem::current_path() << std::endl;
@@ -210,11 +210,19 @@ int main(){
     system(cmd.c_str());
     std::vector<std::string> ls = getDirs(codeFolder);
     if(find(ls, compileTest) != -1){
-      std::string cmdrm = "rm " + compileTest;
-      system(cmdrm.c_str());
       std::cout << "================== SUCCES ==================" << std::endl;
-      std::string opencmd = "sublime-text.subl " + output;
-      system(opencmd.c_str()); 
+      if(argc == 2 && argv[1] == "run"){
+        std::string runcmd = "./ " + compileTest;
+        system(runcmd.c_str());
+        std::string cmdrm = "rm " + compileTest;
+        system(cmdrm.c_str());
+      }
+      else{
+        std::string cmdrm = "rm " + compileTest;
+        system(cmdrm.c_str());
+        std::string opencmd = "sublime-text.subl " + output;
+        system(opencmd.c_str()); 
+      }
     }
     else{
       std::cout << "================== COMPILATION ERROR ==================" << std::endl;

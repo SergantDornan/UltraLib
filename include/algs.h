@@ -3,12 +3,37 @@
 #include <inputs.h>
 #include <header.h>
 
-
-extern void fillVector(std::vector<int>& v,int minRand, int maxRand ,int N);
-extern void fillVector(std::vector<double>& v,int minRand, int maxRand ,int N);
-extern void fillVector(std::vector<char>& v,int minRand, int maxRand ,int N);
-extern std::string randomString(int, int, int n = 5,int N = 10);
-extern void fillVector(std::vector<std::string>& v,int minRand, int maxRand ,int N);
+template <class T1, class T2>
+void fillVector(std::vector<T1>& v,Range<T2> range,int N){
+    for(int i = 0; i < N; ++i){
+        std::pair<int,int> p = range();
+        v.push_back(p.first + (rand() % (p.second - p.first +1)));
+    }          
+}
+template <class T>
+void fillVector(std::vector<char>& v,Range<T> range, int N){
+    for(int i = 0; i < N; ++i){
+        std::pair<int,int> p = range();
+        v.push_back(char(p.first + (rand() % (p.second - p.first +1))));
+    }       
+}
+template <class T>
+std::string randomString(Range<T> range, int n, int N){
+    int len = n + (rand() % (N-n+1));
+    std::string s = "";
+    for(int i = 0; i < len; ++i){
+        std::pair<int, int> p = range();
+        char ch = char(p.first + (rand() % (p.second - p.first + 1)));
+        s+=ch;
+    }
+    return s;
+}
+template <class T>
+void fillVector(std::vector<std::string>& v,Range<T> range, int minStringSize, int maxStringSize,int size){
+    for(int i = 0; i < size; ++i){
+        v.push_back(randomString(range, minStringSize, maxStringSize));
+    }
+}
 
 
 template <class T>
@@ -22,7 +47,7 @@ int find(std::vector<T>& v,const T s){
 }
 
 template <class T>
-int binarySearch(std::vector<T>& v, T x) {
+int binarySearch(std::vector<T>& v,const T x) {
   int l = 0;
   int r = v.size() - 1;
   while (l <= r) {
@@ -44,7 +69,6 @@ T max(T& a, T& b){
     else
         return b;
 }
-
 template <class T>
 void swap(T& a, T& b){
     T c = a;
@@ -54,9 +78,9 @@ void swap(T& a, T& b){
 
 
 template <class T>
-void insert_sort(std::vector<T>& a){    //insertion sort, O(n^2)
+void insert_sort(std::vector<T>& a, std::function<bool(T&, T&)> comp = [](T& x, T& y){return (x < y);}){    //insertion sort, O(n^2)
     for(long unsigned int i = 1; i < a.size(); ++i){
-        for(int j = i-1; j >= 0 && a[j] > a[j+1]; --j)
+        for(int j = i-1; j >= 0 && !comp(a[j],a[j+1]); --j)
             swap(a[j],a[j+1]);
     }
 }  //insertion sort, O(n^2), по возрастанию
@@ -87,9 +111,9 @@ void merge(std::vector<T>& v,std::vector<T>& v1, std::vector<T>& v2){
     }
 } // Вспомогательная функция merge sort
 template <class T>
-void merge_sort(std::vector<T>& v){   // Merge Sort, O(n * log(n))
+void merge_sort(std::vector<T>& v, std::function<bool(T&, T&)> comp = [](T& x, T& y){return (x < y);}){   // Merge Sort, O(n * log(n))
     if(v.size() == 2){
-        if(v[0] > v[1])
+        if(!comp(v[0],v[1]))
             swap(v[0],v[1]);
     }
     else if(v.size() > 2){

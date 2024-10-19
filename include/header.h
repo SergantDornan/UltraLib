@@ -11,16 +11,101 @@
 #include <algorithm>
 #include <string>
 #include <list>
+#include <cmath>
 
 template <class T>
 class Range{
 public:
     std::vector<std::pair<T,T>> v;
+    Range(Range<T>& r){
+        v = r.v;
+    }
     Range(const std::pair<T,T> p){
         v.push_back(p);
     }
     Range(const std::vector<std::pair<T,T>> p){
         v = p;
+    }
+    Range(const std::string s,const T x){
+        if(s != "-inf"){
+            std::cout << "======================================== ERROR ========================================" << std::endl;
+            std::cout << "===================== header.h: Range(const std::string, const T) =====================" << std::endl;
+            std::cout << "===================== first parameter is: " << s << " =====================" << std::endl;
+            std::cout << "=========================== but first parameter must be -inf ===========================" << std::endl; 
+        }
+        else{
+            v.push_back({T(-pow(10,9)), x});
+        }
+    }
+    Range(const std::string s,const T x,const std::pair<T,T> p){
+        if(s != "-inf"){
+            std::cout << "======================================== ERROR ========================================" << std::endl;
+            std::cout << "============ header.h: Range(const std::string, const T, std::pair<T,T>) ==============" << std::endl;
+            std::cout << "===================== first parameter is: " << s << " =====================" << std::endl;
+            std::cout << "=========================== but first parameter must be -inf ===========================" << std::endl; 
+        }
+        else{
+            v.push_back({T(-pow(10,9)), x});
+            v.push_back(p);
+        }
+    }
+    Range(const std::string s,const T x, const std::vector<std::pair<T,T>> p){
+        if(s != "-inf"){
+            std::cout << "======================================== ERROR ========================================" << std::endl;
+            std::cout << "====== header.h: Range(const std::string, const T, std::vector<std::pair<T,T>>) =======" << std::endl;
+            std::cout << "===================== first parameter is: " << s << " =====================" << std::endl;
+            std::cout << "=========================== but first parameter must be -inf ===========================" << std::endl; 
+        }
+        else{
+            v = p;
+            v.push_back({T(-pow(10,9)), x});
+        }
+    }
+    Range(const T x, const std::string s){
+        if(s != "inf" && s != "+inf"){
+            std::cout << "======================================== ERROR ========================================" << std::endl;
+            std::cout << "===================== header.h: Range(const T, const std::string) =====================" << std::endl;
+            std::cout << "===================== second parameter is: " << s << " =====================" << std::endl;
+            std::cout << "====================== but second parameter must be +inf or inf ======================" << std::endl; 
+        }
+        else{
+            v.push_back({x, T(pow(10,9))});
+        }
+    }
+    Range(const std::pair<T,T> p, const T x, const std::string s){
+        if(s != "inf" && s != "+inf"){
+            std::cout << "======================================== ERROR ========================================" << std::endl;
+            std::cout << "============ header.h: Range(std::pair<T,T>, const T, const std::string) ==============" << std::endl;
+            std::cout << "======================= last parameter is: " << s << " =======================" << std::endl;
+            std::cout << "======================== but last parameter must be +inf or inf ========================" << std::endl; 
+        }
+        else{
+            v.push_back(p);
+            v.push_back({x, T(pow(10,9))});
+        }
+    }
+    Range(const std::vector<std::pair<T,T>> p, const T x, const std::string s){
+        if(s != "inf" && s != "+inf"){
+            std::cout << "======================================== ERROR ========================================" << std::endl;
+            std::cout << "====== header.h: Range(std::vector<std::pair<T,T>>, const T, const std::string) =======" << std::endl;
+            std::cout << "======================= last parameter is: " << s << " =======================" << std::endl;
+            std::cout << "======================== but last parameter must be +inf or inf ========================" << std::endl; 
+        }
+        else{
+            v = p;
+            v.push_back({x, T(pow(10,9))});
+        }
+    }
+    Range(const std::string s1, const std::string s2){
+        if(s1 != "-inf" || (s2 != "inf" && s2 != "+inf")){
+            std::cout << "======================================== ERROR ========================================" << std::endl;
+            std::cout << "=============== header.h : Range(const std::string, const std::string) ================" << std::endl;
+            std::cout << "======================= parameters are: " << s1 << "  " << s2 << " =======================" << std::endl;
+            std::cout << "===================== but parameters must be -inf and inf or +inf =====================" << std::endl; 
+        }
+        else{
+            v.push_back({T(-pow(10,9)), T(pow(10,9))});
+        }
     }
     bool operator ()(std::vector<T>& x){
         for(int i = 0; i < x.size(); ++i){
@@ -37,6 +122,15 @@ public:
                 return true;
         }
         return false;
+    }
+    int size(){
+        return v.size();
+    }
+    std::pair<T,T> operator ()(){
+        return v[rand() % v.size()];
+    }
+    int max(){
+
     }
 };
 
@@ -65,6 +159,12 @@ public:
                 return true;
         }
         return false;
+    }
+    int size(){
+        return v.size();
+    }
+    std::pair<int,int> operator ()(){
+        return v[rand() % v.size()];
     }
 };
 
@@ -162,6 +262,11 @@ std::ostream& operator << (std::ostream& out, std::map<T1, T2>& mp){
     return out;
 }
 
+template <class T>
+std::ostream& operator <<(std::ostream& out, Range<T>& r){
+    out << r.v;
+    return out;
+}
 
 
 #endif //UBERMENSCHENAMOGUS228_HEADER_H

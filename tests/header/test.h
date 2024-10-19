@@ -37,7 +37,7 @@ void generateVectors(vec& v,std::string& path, int minRand, int maxRand, int siz
 	system(cmd.c_str());
 	for(int i = 0; i < 1000; ++i){
 		std::vector<T> j;
-		fillVector(j,minRand,maxRand,size);
+		fillVector(j,Range<int>({minRand,maxRand}),size);
 		v.push_back(j);
 	}
 	writeVectors(v, path);

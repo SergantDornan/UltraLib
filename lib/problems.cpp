@@ -40,19 +40,6 @@ extern std::string strip(std::string s, std::string ch){
 	}
 	return res;
 }
-
-extern void fillVector(std::vector<int>& v,int minRand, int maxRand, int N){
-    for(int i = 0; i < N; ++i)
-            v.push_back(minRand + (rand() % (maxRand+1)));
-}
-extern void fillVector(std::vector<double>& v,int minRand, int maxRand, int N){
-    for(int i = 0; i < N; ++i)
-            v.push_back(minRand + (rand() % (maxRand+1)));
-}
-extern void fillVector(std::vector<char>& v,int minRand, int maxRand, int N){
-    for(int i = 0; i < N; ++i)
-            v.push_back(char(minRand + (rand() % (maxRand+1))));
-}
 extern void clear(std::string path){
 	std::ofstream out(path);
 	if(!out.is_open()){
@@ -63,21 +50,6 @@ extern void clear(std::string path){
 		out << "";
 	}
 	out.close();
-}
-
-extern void fillVector(std::vector<std::string>& v,int minRand, int maxRand ,int N){
-	for(int i = 0; i < N; ++i){
-		v.push_back(randomString(minRand, maxRand));
-    }
-}
-extern std::string randomString(int minRand, int maxRand, int n, int N){
-	int len = n + (rand() % N);
-	std::string s = "";
-	for(int i = 0; i < len; ++i){
-		char ch = char(minRand + (rand() % (maxRand - minRand)));
-		s+=ch;
-	}
-	return s;
 }
 
 

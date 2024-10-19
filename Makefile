@@ -180,7 +180,7 @@ else
 endif
 
 all:$(OUTPUT) $(ANALdepend) $(TSTdepend) $(CONTdepend)
-	@echo ========= SUCCES ==========
+	@echo ========= SUCCESS ==========
 
 run:$(OUTPUT)
 	@./$(OUTPUT)
@@ -214,6 +214,9 @@ prog:$(OUTPUT)
 
 contestcode:$(CONTdepend)
 	@$(CONTdepend)
+
+runcontestcode:$(CONTdepend)
+	@$(CONTdepend) run
 
 $(OUTPUT):$(STATICdepend) $(SHAREDdepend) $(OBJECTS)
 	$(CPPC) $^ -Wl,--defsym=main=$(MAINENTRY) $(ISSTATIC) $(ISSHARED) $(foreach D,$(LIBSTATIC_names),-l$(D)) $(foreach D,$(LIBSHARED_names),-l$(D)) $(STATICLIBGEN_link) $(SHAREDLIBGEN_link) -o $@

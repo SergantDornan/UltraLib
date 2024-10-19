@@ -274,3 +274,60 @@ std::ostream& operator << (std::ostream& out, EqSys& eq){
 	out << '\n';
 	return out;
 }
+std::ostream& operator <<(std::ostream& out, Function& f){
+	out << f.k << std::endl;
+	return out;
+}
+long double lim(long double(*f)(long double x),Range<double> range,std::string mode, long double start,long double e){
+		long double prev = 1000;
+		long double res = 0;
+		int count = 0;
+		if(mode == "inf" || mode == "+inf"){
+			if(start < 0)
+				start*=-1;
+		}
+		else if(mode == "-inf"){
+			if(start > 0)
+				start *= -1;
+		}
+		else{
+			std::cout << "====================================================== ERROR ======================================================" << std::endl;
+			std::cout << "============== math.cpp::lim(f, std::string, long double, long double) ==============" << std::endl;
+			std::cout << "============== Unknown mode: " << mode << " =============="<<std::endl;
+			std::cout << "=================== Enter +inf or -inf ===================" << std::endl;
+			return 0;
+		}
+		while(abs(prev - res) > e){
+				prev = res;
+				res = f(start);
+				start*=2;
+				count++;
+				if(count > 100000){
+					if(mode == "-inf")
+						return -1000000;
+					else
+						return 1000000;
+				}
+		}
+		return res;
+}
+long double lim(long double(*f)(long double),long double x0, long double e){
+	long double left, right;
+	if(x0 < 0){
+		left = x0*1000;
+		right = -x0*1000;
+	}
+	else if(x0 > 0){
+		left = -x0*1000;
+		right = x0*1000;
+	}
+	else{
+		left = -1000;
+		right = 1000;
+	}
+	long double prev1 = 1000, prev2 = 1000;
+	long double res1 = 0, res2 = 0;
+	while(abs(prev1 - res1) > e){
+		
+	}
+}
