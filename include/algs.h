@@ -113,8 +113,9 @@ void merge(std::vector<T>& v,std::vector<T>& v1, std::vector<T>& v2){
 template <class T>
 void merge_sort(std::vector<T>& v, std::function<bool(T&, T&)> comp = [](T& x, T& y){return (x < y);}){   // Merge Sort, O(n * log(n))
     if(v.size() == 2){
-        if(!comp(v[0],v[1]))
+        if(!comp(v[0],v[1])){
             swap(v[0],v[1]);
+        }
     }
     else if(v.size() > 2){
         std::vector<T> v1(v.begin(), v.begin() + (v.size() / 2));

@@ -21,18 +21,15 @@ void points(std::map<double,long double>& mp, int left, int right, long double(*
 		mainfunc(3, str);
 		auto dur = std::chrono::steady_clock::now() - old;
 		delete[] str;
-		long double elapsed_time = double(duration_cast<std::chrono::microseconds>(dur).count());
-		old = std::chrono::steady_clock::now();
-		std::vector<std::vector<int>> input;
-		readVectors(input, file);
-		dur = std::chrono::steady_clock::now() - old;
-		long double Delta_time = double(duration_cast<std::chrono::microseconds>(dur).count());
-		elapsed_time -= Delta_time;
+		long double elapsed_time = double(duration_cast<std::chrono::microseconds>(dur).count())/100;
+		//elapsed_time -= Delta_time;
 		if(elapsed_time > 0)
-			mp.emplace(f(xi),f(elapsed_time));
+			mp.emplace(xi,elapsed_time);
 	}
 	std::string cmd2 = "rm " + file;
 	system(cmd2.c_str());
+	auto F = powerAp(mp,2);
+	std::cout << "points " << F.der(8000) << std::endl;
 	// mtx.lock();
 	// std::cout << "============== THREAD: " << std::this_thread::get_id() << " ==============" << std::endl;
 	// std::cout << "============== THREAD finished ==============" << std::endl;
@@ -40,7 +37,7 @@ void points(std::map<double,long double>& mp, int left, int right, long double(*
 	// std::cout << '\n' << '\n' << std::endl;
 	// mtx.unlock();
 }
-void foo(std::map<double,long double>& mp, int start,long double e, long double(*f)(long double) = [](long double x) -> long double{return x;}){
+void foo(){
 	std::stringstream stream;
 	std::string s;
 	stream << std::this_thread::get_id();
@@ -48,31 +45,42 @@ void foo(std::map<double,long double>& mp, int start,long double e, long double(
 	std::string file = workingFolder + "analFile" + s;
 	std::string cmd1 = "touch " + file;
 	system(cmd1.c_str());
-	long double prev = 100000;
-	long double res = 0;
-	while(abs(prev - res) > e){
-		prev = res;
-		std::vector<int> v;
-		fillVector(v,Range<int>({0,1000}),start);
-		writeVectors(v,file);
-		char** str = new char*[3];
-		str[0] = const_cast<char*>("anal");
-		str[1] = const_cast<char*>(file.c_str());
-		str[2] = const_cast<char*>("Dummy");
-		auto old = std::chrono::steady_clock::now();
-		mainfunc(3, str);
-		auto dur = std::chrono::steady_clock::now() - old;
-		delete[] str;
-		long double elapsed_time = double(duration_cast<std::chrono::microseconds>(dur).count()) / 1000;
-		res = log(elapsed_time) / log(start);
-		std::cout << res << ' ' << prev << std::endl;
-		start+=pow(10,6);
-	}
-	std::cout << '\n' << "=====================================================================" << std::endl;
-	std::cout << res << std::endl;
+	std::map<double, long double> mp;
+	// for(int xi = n; xi <= N; ++xi){
+	// 	std::vector<int> v;
+	// 	fillVector(v,Range<int>({0,10}),xi);
+	// 	writeVectors(v,file);
+	// 	char** str = new char*[3];
+	// 	str[0] = const_cast<char*>("anal");
+	// 	str[1] = const_cast<char*>(file.c_str());
+	// 	str[2] = const_cast<char*>("Dummy");
+	// 	auto old = std::chrono::steady_clock::now();
+	// 	mainfunc(3, str);
+	// 	auto dur = std::chrono::steady_clock::now() - old;
+	// 	delete[] str;
+	// 	long double elapsed_time = double(duration_cast<std::chrono::microseconds>(dur).count())/100;
+
+	// 	old = std::chrono::steady_clock::now();
+	// 	std::vector<std::vector<int>> test;
+	// 	readVectors(test,file);
+	// 	dur = std::chrono::steady_clock::now() - old;
+	// 	long double Delta_time = double(duration_cast<std::chrono::microseconds>(dur).count())/100;
+	// 	elapsed_time -= Delta_time;
+
+
+
+	// 	if(elapsed_time > 0)
+	// 		mp.emplace(log(xi),log(elapsed_time));
+	// 	else
+	// 		std::cout << "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" << std::endl;
+	// } 
+	// auto f = powerAp(mp,1);
+	Function g(Range<long double>("-inf", -0.001, 0.001, "+inf"));
+	g = [](long double xi){return 1/xi;};
+//	std::cout << lim(g, 0) << std::endl;
+	std::cout << "============================================" << std::endl;
 	std::string cmd2 = "rm " + file;
 	system(cmd2.c_str());
-	
 }
 
 void Iteration(std::map<int,int>& counts, bool output){
@@ -86,15 +94,15 @@ void Iteration(std::map<int,int>& counts, bool output){
 	// long double e = pow(10,-3);
 	std::vector<std::thread> threads;
 	for(int i = 0; i < iter; ++i){
-		//threads.push_back(std::thread(points,std::ref(mp), start, start + diff,[](long double x) -> long double{return log(x);}));
-		threads.push_back(std::thread(points,std::ref(mp), start, start + diff,[](long double x) -> long double{return log(x);}));
+	//	threads.push_back(std::thread(points,std::ref(mp), start, start + diff,[](long double x) -> long double{return log(x);}));
+		threads.push_back(std::thread(foo));
 		start+=diff;
 	}
 	for(int i = 0; i < threads.size(); ++i)
 		threads[i].join();
 
-	auto func = powerAp(mp, 1);
-	std::cout << func << std::endl;
+	// auto func = powerAp(mp, 1);
+	// std::cout << func << std::endl;
 }
 
 void time_control(){
@@ -154,8 +162,6 @@ extern "C" int entry(int argc, char* argv[]){
 	if(output){
 		std::cout << '\n';
 		std::cout << "=========== Analysis time: " << time << " seconds ===============" << std::endl; 
-		std::cout << '\n';
-		std::cout << "================ Accuracy: " << (maximal / iterations) << " =====================" << std::endl;
 	}
 	std::cout << '\n';
 	std::cout << "================== COMPLEXITY: O(n^" <<  answer << ") =====================" << std::endl;

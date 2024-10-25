@@ -2,6 +2,12 @@
 #define math_h
 #include <cmath>
 #include <algs.h>
+long double lim(std::function<long double(long double)> f,Range<long double> range = Range<long double>("-inf","+inf"),
+	std::string mode = "inf", long double start = 10000,long double e = 0.001);
+long double lim(std::function<long double(long double)> f,std::string mode = "inf",
+	Range<long double> range = Range<long double>("-inf","+inf"),long double start = 10000,long double e = 0.001);
+long double lim(std::function<long double(long double)> f,long double x0, long double left = -0.001, long double right = 0.001,
+	Range<long double> range = Range<long double>("-inf", "+inf"), long double e = 0.001);
 class Matrix{
 public:
 	std::vector<std::vector<long double>> m;
@@ -35,21 +41,33 @@ public:
 
 class Function{
 public:
-	long double(*f)(long double x, std::vector<long double> k, double power);
+	Range<long double> range;
+	std::string mode;
+	std::function<long double(long double)>simpfunc;
+	std::function<long double(long double,std::vector<long double>, double)>f;
 	std::vector<long double> k;
 	double power;
-	Function(long double(*func)(long double, std::vector<long double>, double), std::vector<long double> solution, double p);
+	Function(std::function<long double(long double,std::vector<long double>, double)> func, 
+		std::vector<long double> solution, double p, Range<long double> r);
+	Function(std::function<long double(long double,std::vector<long double>, double)> func, 
+		std::vector<long double> solution, double p);
+	Function(std::function<long double(long double)> func, Range<long double> r);
+	Function(std::function<long double(long double)> func);
+	Function(Range<long double> r = Range<long double>("-inf","inf"));
 	long double operator()(long double x);
+	Function der(std::string m = "simp");
+	Function& operator = (std::function<long double(long double)>);
+	long double der(long double);
+	long double defDer(long double, long double left = -0.001, long double right = 0.001);
 };
-
+long double lim(Function& f,
+	std::string mode = "inf", long double start = 10000, long double e = 0.001);
+long double lim(Function& f, long double x0, long double left = -0.001, long double right = 0.001, 
+	long double e = 0.001);
 Function powerAp(std::map<double,long double>&, double);
-long double constAp(std::map<double,long double>& mp);
 bool is_prime(int);
 std::istream& operator >> (std::istream&,EqSys&);
 std::ostream& operator << (std::ostream&,EqSys&);
 std::ostream& operator << (std::ostream&, Function&);
 std::vector<std::pair<int,int>> canon(int);
-long double lim(long double(*f)(long double),std::string mode = "inf", Range<double> range = Range<double>("-inf","+inf"), long double start = 10000,long double e = 0.001);
-long double lim(long double(*f)(long double),Range<double> range = Range<double>("-inf","+inf"), std::string mode = "inf", long double start = 10000,long double e = 0.001);
-long double lim(long double(*f)(long double),long double x0,Range<double> range = Range<double>("-inf", "+inf"), long double e = 0.001);
 #endif

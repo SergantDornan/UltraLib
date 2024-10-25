@@ -6,8 +6,8 @@
 #include <algs.h>
 #include <filework.h>
 #include <sstream>
-const int n = 1000;
-const int N = 3000;
+const int n = 3000;
+const int N = 5000;
 extern "C" int mainfunc(int args, char* argv[]);
 extern "C" int entry(int argc, char* argv[]);
 const int defaultIterations = std::thread::hardware_concurrency();
