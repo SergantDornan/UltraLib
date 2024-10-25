@@ -108,11 +108,5 @@ std::ostream& operator << (std::ostream& out, std::map<T1, T2>& mp){
     return out;
 }
 
-template <class T>
-std::ostream& operator <<(std::ostream& out, Range<T>& r){
-    out << r.v;
-    return out;
-}
-
 
 #endif //UBERMENSCHENAMOGUS228_HEADER_H

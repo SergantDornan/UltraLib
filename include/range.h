@@ -261,3 +261,9 @@ public:
         return v[rand() % v.size()];
     }
 };
+
+template <class T>
+std::ostream& operator <<(std::ostream& out, Range<T>& r){
+    out << r.v;
+    return out;
+}
