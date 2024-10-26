@@ -1,3 +1,5 @@
+#ifndef rangeh
+#define rangeh
 #include <header.h>
 template <class T>
 class Range{
@@ -267,3 +269,4 @@ std::ostream& operator <<(std::ostream& out, Range<T>& r){
     out << r.v;
     return out;
 }
+#endif

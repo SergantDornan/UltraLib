@@ -13,7 +13,19 @@
 #include <list>
 #include <cmath>
 
-
+template <class T>
+void swap(T& a, T& b){
+    T c = a;
+    a = b;
+    b = c;
+}
+template <class T>
+T max(T& a, T& b){
+    if(a > b)
+        return a;
+    else
+        return b;
+}
 template <class T>
 std::ostream& operator <<(std::ostream&,std::stack<T>);
 template <class T>

@@ -4,6 +4,7 @@
 #include <algs.h>
 #include <filework.h>
 #include <clock.h>
+#include <range.h>
 const bool analysis = false;
 extern "C" int mainfunc(int argc, char* argv[]);
 const std::string workingFolder = "/home/andrew/MasterFolder/UBERMENSCHENAMOGUS228/tests/";

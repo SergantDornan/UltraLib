@@ -2,6 +2,8 @@
 #define math_h
 #include <cmath>
 #include <algs.h>
+#include <range.h>
+#include <inputs.h>
 long double lim(std::function<long double(long double)> f,Range<long double> range = Range<long double>("-inf","+inf"),
 	std::string mode = "inf", long double start = 10000,long double e = 0.001);
 long double lim(std::function<long double(long double)> f,std::string mode = "inf",

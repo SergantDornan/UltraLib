@@ -1,5 +1,8 @@
+#ifndef randomh
+#define randomh
 #include <inputs.h>
 #include <header.h>
+#include <range.h>
 template <class T1, class T2>
 void fillVector(std::vector<T1>& v,Range<T2> range,int N){
     for(int i = 0; i < N; ++i){
@@ -31,3 +34,4 @@ void fillVector(std::vector<std::string>& v,Range<T> range, int minStringSize, i
         v.push_back(randomString(range, minStringSize, maxStringSize));
     }
 }
+#endif

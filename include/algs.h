@@ -1,9 +1,7 @@
 #ifndef UBERMENSCHENAMOGUS228_ALGS_H
 #define UBERMENSCHENAMOGUS228_ALGS_H
-#include <inputs.h>
 #include <header.h>
-#include <range.h>
-#include <random.h>
+#include <dataStructures.h>
 template <class T>
 int find(std::vector<T>& v,const T s){
     for(int i = 0; i < v.size(); ++i){
@@ -29,21 +27,6 @@ int binarySearch(std::vector<T>& v,const T x) {
   }
   return -1;
 }
-
-template <class T>
-T max(T& a, T& b){
-    if(a > b)
-        return a;
-    else
-        return b;
-}
-template <class T>
-void swap(T& a, T& b){
-    T c = a;
-    a = b;
-    b = c;
-}
-
 
 template <class T>
 void insert_sort(std::vector<T>& a, std::function<bool(T&, T&)> comp = [](T& x, T& y){return (x < y);}){    //insertion sort, O(n^2)

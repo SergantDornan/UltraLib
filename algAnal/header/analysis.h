@@ -6,6 +6,7 @@
 #include <algs.h>
 #include <filework.h>
 #include <sstream>
+#include <random.h>
 const int n = 3000;
 const int N = 5000;
 extern "C" int mainfunc(int args, char* argv[]);

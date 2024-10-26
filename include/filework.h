@@ -2,8 +2,7 @@
 #define filework_h
 #include <algs.h>
 #include <fstream>
-
-
+#include <inputs.h>
 template <class T>
 void stringToVector(std::string& s, std::vector<T>& v){
 	std::stringstream stream;

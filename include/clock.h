@@ -2,6 +2,7 @@
 #define chrono_H
 #include <chrono>
 #include <algs.h>
+#include <sstream>
 const bool plusDayAssumpsion = true;
 const std::chrono::steady_clock::time_point startPointnow = std::chrono::steady_clock::now();
 class duration;
