@@ -1,7 +1,7 @@
 #ifndef UBERMENSCHENAMOGUS228_ALGS_H
 #define UBERMENSCHENAMOGUS228_ALGS_H
 #include <header.h>
-#include <dataStructures.h>
+#include <binHeap.h>
 template <class T>
 int find(std::vector<T>& v,const T s){
     for(int i = 0; i < v.size(); ++i){
@@ -75,8 +75,7 @@ void merge_sort(std::vector<T>& v, std::function<bool(T&, T&)> comp = [](T& x, T
         merge_sort(v2);
         merge(v,v1,v2);
     }
-} // Merge Sort, O(n * log(n)), по возрастанию
-
+} // Merge Sort, O(n * log(n)), по возрастанию, O(n) - память
 
 
 

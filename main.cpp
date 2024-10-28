@@ -1,6 +1,6 @@
 #include <algs.h>
 #include <filework.h>
-
+#include <dHeap.h>
 typedef unsigned short u16;
 typedef short int i16;
 typedef int i32;
@@ -14,9 +14,9 @@ extern "C" int mainfunc(int argc, char* argv[]){
 	std::vector<std::vector<int>> res;
 	if(argc == 3)
 	 	readVectors(input, argv[1]);
-	binHeap<int> bh({1,2,3,4,5,6,7,8,9});
-	
 	if(argc == 3 && argv[0] != "anal")
 		writeVectors(res,argv[2]);	
 	return 0;
 }
+
+//Cormen 151 надо сделать упражнения

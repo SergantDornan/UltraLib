@@ -1,7 +1,7 @@
 #include <analysis.h>
 #include <math.h>
 std::mutex mtx;
-void points(std::map<double,long double>& mp, int left, int right, long double(*f)(long double) = [](long double x) -> long double{return x;}){
+void points(std::map<double,long double>& mp, int left, int right){
 	std::stringstream stream;
 	std::string s;
 	stream << std::this_thread::get_id();
@@ -9,7 +9,7 @@ void points(std::map<double,long double>& mp, int left, int right, long double(*
 	std::string file = workingFolder + "analFile" + s;
 	std::string cmd1 = "touch " + file;
 	system(cmd1.c_str());
-	for(long double xi = left; xi <= right; ++xi){
+	for(long double xi = left; xi <= right; xi+=400){
 		std::vector<int> v;
 		fillVector(v,Range<int>({0,10}),xi);
 		writeVectors(v,file);
@@ -24,12 +24,12 @@ void points(std::map<double,long double>& mp, int left, int right, long double(*
 		long double elapsed_time = double(duration_cast<std::chrono::microseconds>(dur).count())/100;
 		//elapsed_time -= Delta_time;
 		if(elapsed_time > 0)
-			mp.emplace(xi,elapsed_time);
+			mp.emplace(log(xi),log(elapsed_time));
 	}
 	std::string cmd2 = "rm " + file;
 	system(cmd2.c_str());
-	auto F = powerAp(mp,2);
-	std::cout << "points " << F.der(8000) << std::endl;
+	auto F = powerAp(mp,1);
+	std::cout << F << std::endl;
 	// mtx.lock();
 	// std::cout << "============== THREAD: " << std::this_thread::get_id() << " ==============" << std::endl;
 	// std::cout << "============== THREAD finished ==============" << std::endl;
@@ -94,8 +94,8 @@ void Iteration(std::map<int,int>& counts, bool output){
 	// long double e = pow(10,-3);
 	std::vector<std::thread> threads;
 	for(int i = 0; i < iter; ++i){
-	//	threads.push_back(std::thread(points,std::ref(mp), start, start + diff,[](long double x) -> long double{return log(x);}));
-		threads.push_back(std::thread(foo));
+		threads.push_back(std::thread(points,std::ref(mp), start, start + diff));
+	//	threads.push_back(std::thread(foo));
 		start+=diff;
 	}
 	for(int i = 0; i < threads.size(); ++i)
