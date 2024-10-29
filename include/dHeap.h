@@ -48,12 +48,13 @@ public:
 		return i/d;
 	}
 	int child(int i, int offset){
-		int result = 0;
+		int result =  d*i + offset;
 		if(d*i + offset - 1 >= size()){
 			std::cout << "=============================== ERROR ===============================" << std::endl;
 			std::cout << "================ dHeap.h: int heap::child(int,int) ================" << std::endl;
 			std::cout << "================ child index is out of vector range ================ " << std::endl;
 			std::cout << "=====================================================================" << std::endl;
+			result = 0;
 		}
 		if(offset >= d){
 			std::cout << "=============================== ERROR ===============================" << std::endl;
@@ -61,9 +62,8 @@ public:
 			std::cout << "================ offset is bigger than base of the heap (d) ================ " << std::endl;
 			std::cout << "================ there is up to "  << d << " childs, but you tying to get " << offset << " child ================ " << std::endl;
 			std::cout << "=====================================================================" << std::endl;
+			result = 0;
 		}
-		else
-			result  = d*i + offset;
 		return result;
 	}
 	int size(){
