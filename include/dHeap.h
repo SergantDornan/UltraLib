@@ -34,12 +34,12 @@ public:
 		for(int j = 0; j < childs.size(); ++j){
 			if(childs[j] <= size() && vector[childs[j]-1] > vector[largest-1])
 				largest = childs[j];
-		}
+		} 
 		if(largest != i){
 			swap(vector[i-1],vector[largest-1]);
 			heapify(largest-1);
 		}
-	} // O(lgn)
+	} // O(log_d(n))
 	void buildHeap(){
 		for(int i = size() / d; i >= 0; --i)
 			heapify(i);
@@ -48,7 +48,23 @@ public:
 		return i/d;
 	}
 	int child(int i, int offset){
-		return d*i + offset;
+		int result = 0;
+		if(d*i + offset - 1 >= size()){
+			std::cout << "=============================== ERROR ===============================" << std::endl;
+			std::cout << "================ dHeap.h: int heap::child(int,int) ================" << std::endl;
+			std::cout << "================ child index is out of vector range ================ " << std::endl;
+			std::cout << "=====================================================================" << std::endl;
+		}
+		if(offset >= d){
+			std::cout << "=============================== ERROR ===============================" << std::endl;
+			std::cout << "================ dHeap.h: int heap::child(int,int) ================" << std::endl;
+			std::cout << "================ offset is bigger than base of the heap (d) ================ " << std::endl;
+			std::cout << "================ there is up to "  << d << " childs, but you tying to get " << offset << " child ================ " << std::endl;
+			std::cout << "=====================================================================" << std::endl;
+		}
+		else
+			result  = d*i + offset;
+		return result;
 	}
 	int size(){
 		return vector.size();
@@ -87,7 +103,7 @@ public:
 			heapify(0);
 			return m;
 		}
-	} // O(lgn)
+	} // O(log_d(n))
 
 
 	T max(){
@@ -109,7 +125,7 @@ public:
 			i = parent(i);
 		}
 		vector[i-1] = x;
-	} //O(lgn) 
+	} //O(log_d(n)) 
 };
 template <class T>
 std::ostream& operator << (std::ostream& out, heap<T> h){

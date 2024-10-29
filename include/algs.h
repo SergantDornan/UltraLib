@@ -1,7 +1,7 @@
 #ifndef UBERMENSCHENAMOGUS228_ALGS_H
 #define UBERMENSCHENAMOGUS228_ALGS_H
 #include <header.h>
-#include <binHeap.h>
+#include <dHeap.h>
 template <class T>
 int find(std::vector<T>& v,const T s){
     for(int i = 0; i < v.size(); ++i){
