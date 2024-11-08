@@ -103,3 +103,19 @@ Function& Function::operator=(std::function<long double(long double)> func){
 	simpfunc = func;
 	return *this;
 }
+long double Function::operator[](int i){
+	if(i >= k.size()){
+		std::cout << "=========================== ERROR ===========================" << std::endl;
+		std::cout << "= mathFunction.cpp: long double Function::operator[](int i) =" << std::endl;
+		std::cout << "index is out of vector (k) range" << std::endl;
+		std::cout << "k.size(): " << k.size() << " index: " << i << std::endl;
+		std::cout << "also for this operation mode must be 'pow', now mode is: " << mode << std::endl;
+		std::cout << "=============================================================" << std::endl;
+		return 0;
+	}
+	else
+		return k[i];
+}
+Function::Function(std::map<double,long double>& mp, double p){
+	*this = powerAp(mp,p);
+}

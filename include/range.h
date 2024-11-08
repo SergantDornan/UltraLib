@@ -222,10 +222,10 @@ public:
     std::pair<T,T> operator ()(){
         return v[rand() % v.size()];
     }
-    T max(){
+    T right(){
         return v[v.size() - 1].second;
     }
-    T min(){
+    T left(){
         return v[0].first;
     }
 };

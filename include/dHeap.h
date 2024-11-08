@@ -5,19 +5,23 @@ class heap{
 public:
 	std::vector<T> vector;
 	int d;
-	heap(int x = 2){
+	bool (*comparator)(T&,T&);
+	heap(const int x = 2, bool(*comp)(T&,T&) = [](T& x, T& y){return (x < y);}){
 		d = x;
+		comparator = comp;
 	}
-	heap(std::vector<T>& v, int x = 2){
+	heap(const std::vector<T>& v,const int x = 2, bool(*comp)(T&,T&) = [](T& x, T& y){return (x < y);}){
 		d = x;
 		vector = v;
+		comparator = comp;
 		buildHeap();
 	}
-	heap(heap<T>& h){
+	heap(const heap<T>& h){
 		vector = h.vector;
 		d = h.d;
+		comparator = h.comparator;
 	}
-	heap<T>& operator=(std::vector<T> v){
+	heap<T>& operator=(const std::vector<T>& v){
 		vector = v;
 		buildHeap();
 		return *this;
@@ -28,11 +32,11 @@ public:
 	void heapify(int x){
 		int i = x + 1;
 		std::vector<int> childs;
-		for(int j = 0; j < d; ++j)
+		for(int j = 0; j < d && ischild(i,j); ++j)
 			childs.push_back(child(i,j));
 		int largest = i;
 		for(int j = 0; j < childs.size(); ++j){
-			if(childs[j] <= size() && vector[childs[j]-1] > vector[largest-1])
+			if(childs[j] <= size() && !comparator(vector[childs[j]-1],vector[largest-1]))
 				largest = childs[j];
 		} 
 		if(largest != i){
@@ -47,6 +51,9 @@ public:
 	int parent(int i){
 		return i/d;
 	}
+	bool ischild(int i, int offset){
+		return (offset < d && (d * i + offset - 1) < size());
+	}
 	int child(int i, int offset){
 		int result =  d*i + offset;
 		if(d*i + offset - 1 >= size()){
@@ -54,7 +61,7 @@ public:
 			std::cout << "================ dHeap.h: int heap::child(int,int) ================" << std::endl;
 			std::cout << "================ child index is out of vector range ================ " << std::endl;
 			std::cout << "=====================================================================" << std::endl;
-			result = 0;
+			result = -1;
 		}
 		if(offset >= d){
 			std::cout << "=============================== ERROR ===============================" << std::endl;
@@ -62,7 +69,7 @@ public:
 			std::cout << "================ offset is bigger than base of the heap (d) ================ " << std::endl;
 			std::cout << "================ there is up to "  << d << " childs, but you tying to get " << offset << " child ================ " << std::endl;
 			std::cout << "=====================================================================" << std::endl;
-			result = 0;
+			result = -1;
 		}
 		return result;
 	}
@@ -80,7 +87,10 @@ public:
     		s+= (prefix +
      		 ((i % d == 0) ? "├────" : "└───"));
   		}
-  		s += (std::to_string(vector[i-1]) + "\n");
+  		std::ostringstream stream;
+  		stream << vector[i-1];
+  		std::string subs = stream.str();
+  		s += (subs + "\n");
   		for(int j = 0; j < d; ++j)
   			s += toString(d*i+j, prefix + ((i % d != (d-1) && i != 1) ? "│   " : "    "));
   		return s;
@@ -128,7 +138,7 @@ public:
 	} //O(log_d(n)) 
 };
 template <class T>
-std::ostream& operator << (std::ostream& out, heap<T> h){
+std::ostream& operator << (std::ostream& out, heap<T>& h){
 	out << h.toString() << std::endl;
 	return out;
 }

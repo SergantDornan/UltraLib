@@ -5,7 +5,7 @@ long double lim(std::function<long double(long double)> f,Range<long double> ran
 		long double res = 0;
 		int count = 0;
 		if(mode == "inf" || mode == "+inf"){
-			if(range.max() < pow(10,9)){
+			if(range.right() < pow(10,9)){
 				std::cout << "====================================================== ERROR ======================================================" << std::endl;
 				std::cout << "============== math.cpp::lim(std::function,Range<double>, std::string, long double, long double) ==============" << std::endl;
 				std::cout << "============== Function right range is not +inf, but you trying to find lim x -> +inf ==============" <<std::endl;
@@ -15,7 +15,7 @@ long double lim(std::function<long double(long double)> f,Range<long double> ran
 				start*=-1;
 		}
 		else if(mode == "-inf"){
-			if(range.min() > -pow(10,9)){
+			if(range.left() > -pow(10,9)){
 				std::cout << "====================================================== ERROR ======================================================" << std::endl;
 				std::cout << "============== math.cpp::lim(std::function,Range<double>, std::string, long double, long double) ==============" << std::endl;
 				std::cout << "============== Function left range is not -inf, but you trying to find lim x -> -inf ==============" <<std::endl;
@@ -56,7 +56,7 @@ long double lim(std::function<long double(long double)> f,std::string mode,
 		long double res = 0;
 		int count = 0;
 		if(mode == "inf" || mode == "+inf"){
-			if(range.max() < pow(10,9)){
+			if(range.right() < pow(10,9)){
 				std::cout << "====================================================== ERROR ======================================================" << std::endl;
 				std::cout << "============== math.cpp::lim(std::function,std::string, Range<double>, long double, long double) ==============" << std::endl;
 				std::cout << "============== Function right range is not +inf, but you trying to find lim x -> +inf ==============" <<std::endl;
@@ -66,7 +66,7 @@ long double lim(std::function<long double(long double)> f,std::string mode,
 				start*=-1;
 		}
 		else if(mode == "-inf"){
-			if(range.min() > -pow(10,9)){
+			if(range.left() > -pow(10,9)){
 				std::cout << "====================================================== ERROR ======================================================" << std::endl;
 				std::cout << "============== math.cpp::lim(std::function,std::string, Range<double>, long double, long double) ==============" << std::endl;
 				std::cout << "============== Function left range is not -inf, but you trying to find lim x -> -inf ==============" <<std::endl;
@@ -103,14 +103,14 @@ long double lim(std::function<long double(long double)> f,std::string mode,
 long double lim(std::function<long double(long double)> f,long double x0, long double left, long double right,
 	Range<long double> range, long double e){
 
-	if(range.min() > -pow(10,9))
-		left = range.min();
+	if(range.left() > -pow(10,9))
+		left = range.left();
 	else if(x0 != 0)
 		left = (int(x0 < 0)*2 - 1) * x0 * 1000;
 
 
-	if(range.max() < pow(10,9))
-		right = range.max();
+	if(range.right() < pow(10,9))
+		right = range.right();
 	else if(x0 != 0)
 		right = (int(x0 > 0)*2 - 1)*x0*1000;
 

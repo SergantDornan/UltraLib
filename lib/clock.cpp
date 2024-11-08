@@ -1,4 +1,10 @@
 #include <clock.h>
+timePoint::timePoint(const timePoint& p){
+	point = p.point;
+}
+duration::duration(const duration& d){
+	dur = d.dur;
+}
 timePoint generateTime(){
 	std::string res = "";
 	for(int i = 0; i < 3; ++i){
@@ -17,17 +23,14 @@ timePoint generateTime(){
 	timePoint p(res);
 	return p;
 }
-timePoint::timePoint(std::string s){
+timePoint::timePoint(const std::string s){
 	set(s);
 }
-timePoint::timePoint(std::chrono::steady_clock::time_point p){
+timePoint::timePoint(const std::chrono::steady_clock::time_point& p){
 	point = p;
 	point += std::chrono::seconds(1);
 } 
-timePoint::timePoint(timePoint& t){
-	point = t.point;
-}
-void timePoint::set(const std::string time){
+void timePoint::set(const std::string& time){
 	std::chrono::steady_clock::time_point p;
 	std::chrono::seconds dur;
 	std::stringstream stream;
@@ -64,29 +67,27 @@ void timePoint::set(const std::string time){
 	}
 	point = p;
 }
-timePoint& timePoint::operator = (const std::string s){
+timePoint& timePoint::operator = (const std::string& s){
 	this -> set(s);
 	return *this;
 }
-duration::duration(duration& x){
-	dur = x.dur;
-}
-duration::duration(std::chrono::seconds x){
+duration::duration(const std::chrono::seconds& x){
 	dur = x;
 }
-duration::duration(int x){
+duration::duration(const int x){
 	dur =  std::chrono::seconds(x);
 }
-int duration::operator()(){
+int duration::toInt(){
 	int x = dur.count();
 	return x;
 }
-duration& duration::operator=(int x){
+duration& duration::operator=(const int x){
 	this -> dur = std::chrono::seconds(x);
 	return *this;
 }
-duration operator-(timePoint& p2, timePoint& p1){
-	if(duration_cast<std::chrono::seconds>(p2.point.time_since_epoch()).count() < 
+duration operator-(const timePoint& p2,const  timePoint& p1){
+	timePoint pastp = p2;
+	if(duration_cast<std::chrono::seconds>(pastp.point.time_since_epoch()).count() < 
 		duration_cast<std::chrono::seconds>(p1.point.time_since_epoch()).count()){
 		if(plusDayAssumpsion){
 			auto dur2 = duration_cast<std::chrono::seconds>(p2.point - start.point);
@@ -95,7 +96,7 @@ duration operator-(timePoint& p2, timePoint& p1){
 			int Idur1 = dur1.count();
 			if((Idur1 / 86400) == (Idur2 / 86400)){
 				std::chrono::seconds day = std::chrono::seconds(86400);
-				p2.point = p2.point + day;
+				pastp.point = p2.point + day;
 			}
 			else{
 				std::cout << "====================================== ERROR ======================================" << std::endl;
@@ -108,7 +109,7 @@ duration operator-(timePoint& p2, timePoint& p1){
 			}
 		}
 		else{
-			std::cout << "====================================== ERROR ======================================" << std::endl;
+			std::cout << "====================================== ERROR ======================================\n" << std::endl;
 			std::cout << "clock.cpp : duration operator-(timePoint&, timePoint&) : " << std::endl;
 			std::cout << "!!!! plusDayAssumption = FALSE (in clock.h)" << std::endl;
 			std::cout << "Substraction from less time point bigger time point" << std::endl;
@@ -117,13 +118,13 @@ duration operator-(timePoint& p2, timePoint& p1){
 			return duration(0);
 		}
 	}
-	return duration(duration_cast<std::chrono::seconds>(p2.point - p1.point));
+	return duration(duration_cast<std::chrono::seconds>(pastp.point - p1.point));
 }
-timePoint operator+(timePoint& p, duration& d){
+timePoint operator+(const timePoint& p,const  duration& d){
 	timePoint p1(p.point + d.dur);
 	return p1;
 }
-timePoint operator-(timePoint& p, duration& d){
+timePoint operator-(const timePoint& p,const  duration& d){
 	if(duration_cast<std::chrono::seconds>(p.point - start.point).count() - d.dur.count() < 0){
 		std::cout << "====================================== ERROR ======================================" << std::endl;
 		std::cout << "clock.cpp : timePoint operator-(timePoint&, duration&) : " << std::endl;
@@ -134,11 +135,11 @@ timePoint operator-(timePoint& p, duration& d){
 	else
 		return timePoint(p.point - d.dur);
 }
-timePoint& timePoint::operator += (duration& d){
+timePoint& timePoint::operator += (const duration& d){
 	(this -> point) = (this -> point) + d.dur;
 	return *this;
 }
-timePoint& timePoint::operator -= (duration& d){
+timePoint& timePoint::operator -= (const duration& d){
 	std::chrono::steady_clock::time_point p1 = (this -> point - d.dur);
 	if(duration_cast<std::chrono::seconds>(p1.time_since_epoch()).count() < duration_cast<std::chrono::seconds>(start.point.time_since_epoch()).count()){
 		std::cout << "====================================== ERROR ======================================" << std::endl;
@@ -150,11 +151,11 @@ timePoint& timePoint::operator -= (duration& d){
 		this -> point = p1;
 	return *this;
 }
-duration operator+(duration& d, int x){
+duration operator+(const duration& d,const int x){
 	duration d1(d.dur + std::chrono::seconds(x));
 	return d1;
 }
-duration operator-(duration& d, int x){
+duration operator-(const duration& d,const  int x){
 	if(d.dur.count() < x){
 		std::cout << "====================================== ERROR ======================================" << std::endl;
 		std::cout << "clock.cpp : duration operator-(duration&, int) : " << std::endl;
@@ -167,11 +168,11 @@ duration operator-(duration& d, int x){
 		return d1;
 	}
 }
-duration& duration::operator+=(int x){
+duration& duration::operator+=(const int x){
 	dur = dur + std::chrono::seconds(x);
 	return *this;
 }
-duration& duration::operator-=(int x){
+duration& duration::operator-=(const int x){
 	if(dur.count() < x){
 		std::cout << "====================================== ERROR ======================================" << std::endl;
 		std::cout << "clock.cpp : duration& duration::operator-=(int) : " << std::endl;
@@ -182,7 +183,7 @@ duration& duration::operator-=(int x){
 		dur = dur - std::chrono::seconds(x);
 	return *this;
 }
-std::string timePoint::operator()(){
+std::string timePoint::toString(){
 	int x = duration_cast<std::chrono::seconds>(point - start.point).count();
 	int d = x / 86400;
 	int h = (x % 86400) / 3600;
@@ -205,30 +206,30 @@ std::string timePoint::operator()(){
 		s = f(h) + ":" + f(min) + ":" + f(sec);
 	return s;
 }
-std::ostream& operator << (std::ostream& out, timePoint& p){
-	std::string s = p();
+std::ostream& operator << (std::ostream& out,timePoint& p){
+	std::string s = p.toString();
 	out << s;
 	return out;
 }
 std::ostream& operator << (std::ostream& out,duration& d){
-	int x = d.dur.count();
+	int x = d.toInt();
 	out << x;
 	return out;
 }
-timePoint operator+(timePoint& p, int x){
+timePoint operator+(timePoint& p,const  int x){
 	duration d(x);
 	return (p + d);
 }
-timePoint operator-(timePoint& p, int x){
+timePoint operator-(timePoint& p,const  int x){
 	duration d(x);
 	return (p - d);
 }
-timePoint& timePoint::operator+=(int x){
+timePoint& timePoint::operator+=(const int x){
 	duration d(x);
 	this -> point  = this -> point + d.dur;
 	return *this;
 }
-timePoint& timePoint::operator-=(int x){
+timePoint& timePoint::operator-=(const int x){
 	duration d(x);
 	if(duration_cast<std::chrono::seconds>(point - start.point).count() - d.dur.count() < 0){
 		std::cout << "====================================== ERROR ======================================" << std::endl;
@@ -240,7 +241,7 @@ timePoint& timePoint::operator-=(int x){
 		point = point - d.dur;
 	return *this;
 }
-std::istream& operator >>(std::istream& in, timePoint& p){
+std::istream& operator >>(std::istream& in,timePoint& p){
 	std::string s;
 	in >> s;
 	p = s;

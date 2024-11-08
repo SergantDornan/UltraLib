@@ -58,6 +58,7 @@ void includeList(std::vector<std::string>& includes, std::string file){
     		  }
         }
     }
+    //std::cout << "AAAAAAAAA " << includes << std::endl; 
     input.close();
 }
 void include(std::vector<std::string>& includes, std::vector<std::string>& lines){
@@ -133,17 +134,23 @@ int main(int argc, char* argv[]){
     	std::ifstream input(sourceCode[i]);
     	if (input.is_open())
   		{
+        bool b = true;
         	while (std::getline(input, l))
         	{
+            
         		if(l.find("#include") != std::string::npos){
         			std::string s;
         			for(int j = 10; j < l.size() && l[j] != '>' && l[j] != '"'; ++j)
         				s+=l[j];
-        			if(find(includes, s) && find(files, sourceCode[i]) == -1){
-        				files.push_back(sourceCode[i]);
+        			if(find(includes, s) == -1 || find(files, sourceCode[i]) != -1){
+                b = false;
         			}
     			 }
+
         	}
+          if(b)
+            files.push_back(sourceCode[i]);
+         
     	}
     	input.close();
     }

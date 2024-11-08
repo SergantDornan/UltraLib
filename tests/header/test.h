@@ -3,8 +3,9 @@
 
 #include <algs.h>
 #include <filework.h>
-#include <clock.h>
+#include <chrono>
 #include <range.h>
+#include <random.h>
 const bool analysis = false;
 extern "C" int mainfunc(int argc, char* argv[]);
 const std::string workingFolder = "/home/andrew/MasterFolder/UBERMENSCHENAMOGUS228/tests/";
@@ -33,6 +34,44 @@ void simpleCut(vec& input, vec& output, int& start){
 }
 
 template <class T>
+void yandexGen(vec& v,std::string& path, int minRand, int maxRand, int size){
+	std::string cmd = "touch " + path;
+	system(cmd.c_str());
+	int N = rand() % 10000;
+	std::vector<T> n;
+	n.push_back(N);
+	v.push_back(n);
+	for(int i = 0; i < N; ++i){
+		std::vector<T> j;
+		fillVector(j,Range<int>({minRand,maxRand}),size);
+		v.push_back(j);
+	}
+	writeVectors(v, path);
+}
+
+template <class T>
+void yandexGenLine(vec& v,std::string& path, int minRand, int maxRand, int size){
+	std::string cmd = "touch " + path;
+	system(cmd.c_str());
+	int N = rand() % 10000;
+	std::vector<T> n;
+	n.push_back(N);
+	v.push_back(n);
+	std::vector<T> j;
+	fillVector(j,Range<int>({minRand,maxRand}),N);
+	v.push_back(j);
+	writeVectors(v, path);
+}
+
+extern void yandexGen(std::vector<std::vector<std::string>>& v,std::string& path, 
+	int minRand, int maxRand, int size);
+
+
+extern void yandexGenLine(std::vector<std::vector<std::string>>& v,std::string& path, 
+	int minRand, int maxRand, int size);
+
+
+template <class T>
 void generateVectors(vec& v,std::string& path, int minRand, int maxRand, int size){
 	std::string cmd = "touch " + path;
 	system(cmd.c_str());
@@ -43,6 +82,7 @@ void generateVectors(vec& v,std::string& path, int minRand, int maxRand, int siz
 	}
 	writeVectors(v, path);
 }
+
 
 template <class T>
 void answers(std::string task, std::string answer,void (*cut)(vec&, vec&,int&),int& start){
@@ -59,10 +99,13 @@ public:
 	vec testInput;
 	vec answerInput;
 	vec mainInput;
-	error(std::string testPath, std::string mainPath, std::string answerPath){
+	double reqTime,actualTime;
+	error(std::string testPath, std::string mainPath, std::string answerPath, double req, double act){
 		readVectors(testInput, testPath);
 		readVectors(mainInput, mainPath);
 		readVectors(answerInput, answerPath);
+		reqTime = req;
+		actualTime = act;
 	}
 };
 
@@ -70,10 +113,17 @@ template <class T>
 std::ostream& operator <<(std::ostream& out,error<T>& er){
 	out << "====================== TESTCASE ======================" << std::endl;
 	out << er.testInput << std::endl;
-	out << "====================== RIGHT_ANSWER ======================" << std::endl;
-	out << er.answerInput << std::endl;
-	out << "====================== MAIN_ANSWER ======================" << std::endl;
-	out << er.mainInput << std::endl;
+	if(er.mainInput != er.answerInput){
+		out << "====================== RIGHT_ANSWER ======================" << std::endl;
+		out << er.answerInput << std::endl;
+		out << "====================== MAIN_ANSWER ======================" << std::endl;
+		out << er.mainInput << std::endl;
+	}
+	if(er.actualTime > er.reqTime){
+		std::cout << "============ !!!!!! TIME LIMIT !!!!! ============" << std::endl;
+		std::cout << "required time: " << er.reqTime << std::endl;
+		std::cout << "run time: " << er.actualTime << std::endl;
+	}
 	return out;
 }
 
@@ -81,9 +131,6 @@ template <class T>
 class errorInfo{
 public:
 	std::vector<error<T>> errors;
-	errorInfo(){
-
-	}
 	void push_back(error<T>& err){
 		errors.push_back(err);
 	}
@@ -125,10 +172,18 @@ public:
 	int maxRand;
 	int minRand;
 	int N;
-	TEST(std::pair<int,int> p = {0,10}, int n = 50){
+	int reqTime;
+	TEST(std::pair<int,int> p = {0,10}, int n = 50, int time = 2){
 		maxRand = p.second;
 		minRand = p.first;
 		N = n;
+		reqTime = time;
+	}
+	TEST(int time = 2){
+		maxRand = 10;
+		minRand = 0;
+		N = 50;
+		reqTime = time;
 	}
 	void run(void (*generateFile)(vec&,std::string&,int,int,int), std::string mode = "simple")
 	{
@@ -252,7 +307,8 @@ public:
 		std::string mainf = workingFolder + "mainFile"; 
 		std::string generationFile = workingFolder + "genTest";
 		std::string cmd4 = "rm " + ansf + ' ' + mainf + ' ' + testf + ' ' + generationFile;
-		system(cmd4.c_str());
+		if(input.size() != 0)
+			system(cmd4.c_str());
 		if(input.size() != 0){
 			std::cout << '\n';
 			std::cout << '\n';
@@ -311,20 +367,25 @@ public:
 			str[1] = const_cast<char*>(testf.c_str());
 			str[2] = const_cast<char*>(mainf.c_str());
 			writeVectors(currInput, logs);
+			auto old = std::chrono::steady_clock::now();
 			mainfunc(3, str);
+			auto dur = std::chrono::steady_clock::now() - old;
+			long double elapsed_time = double(duration_cast<std::chrono::microseconds>(dur).count())/1000000;
 			delete[] str;
 			clear(logs);
 			vec mainInput;
 			vec answerInput;
 			readVectors(mainInput, mainf);
 			readVectors(answerInput, ansf);
-			if(mainInput != answerInput){
+			if(mainInput != answerInput || elapsed_time > reqTime){
 			//	std::cout << "============== WRONG ==============" << std::endl;
-				error<T> newerr(testf, mainf,ansf);
+				error<T> newerr(testf, mainf,ansf,reqTime,elapsed_time);
 				errors.push_back(newerr);
 			}
 		}
-		std::string cmd4 = "rm " + ansf + ' ' + mainf + ' ' + testf + ' ' + generationFile;
+		std::string cmd4 = "rm " + ansf + ' ' + mainf + ' ' + testf;
+		if(workingFile == generationFile)
+			cmd4 += (' ' + generationFile);
 		system(cmd4.c_str());
 	}
 	void info(){

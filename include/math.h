@@ -4,6 +4,7 @@
 #include <algs.h>
 #include <range.h>
 #include <inputs.h>
+
 long double lim(std::function<long double(long double)> f,Range<long double> range = Range<long double>("-inf","+inf"),
 	std::string mode = "inf", long double start = 10000,long double e = 0.001);
 long double lim(std::function<long double(long double)> f,std::string mode = "inf",
@@ -56,11 +57,13 @@ public:
 	Function(std::function<long double(long double)> func, Range<long double> r);
 	Function(std::function<long double(long double)> func);
 	Function(Range<long double> r = Range<long double>("-inf","inf"));
+	Function(std::map<double,long double>&, double);
 	long double operator()(long double x);
 	Function der(std::string m = "simp");
 	Function& operator = (std::function<long double(long double)>);
 	long double der(long double);
 	long double defDer(long double, long double left = -0.001, long double right = 0.001);
+	long double operator [](int);
 };
 long double lim(Function& f,
 	std::string mode = "inf", long double start = 10000, long double e = 0.001);
@@ -68,8 +71,10 @@ long double lim(Function& f, long double x0, long double left = -0.001, long dou
 	long double e = 0.001);
 Function powerAp(std::map<double,long double>&, double);
 bool is_prime(int);
+int factorial(int);
 std::istream& operator >> (std::istream&,EqSys&);
 std::ostream& operator << (std::ostream&,EqSys&);
 std::ostream& operator << (std::ostream&, Function&);
 std::vector<std::pair<int,int>> canon(int);
+long int C(int,int);
 #endif

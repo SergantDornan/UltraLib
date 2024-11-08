@@ -1,7 +1,7 @@
 #ifndef UBERMENSCHENAMOGUS228_ALGS_H
 #define UBERMENSCHENAMOGUS228_ALGS_H
 #include <header.h>
-#include <dHeap.h>
+#include <functional>
 template <class T>
 int find(std::vector<T>& v,const T s){
     for(int i = 0; i < v.size(); ++i){
@@ -13,9 +13,10 @@ int find(std::vector<T>& v,const T s){
 }
 
 template <class T>
-int binarySearch(std::vector<T>& v,const T x) {
-  int l = 0;
-  int r = v.size() - 1;
+int binarySearch(std::vector<T>& v,const T x, int leftoffset = 0, int rightoffset = 0) 
+{
+  int l = leftoffset;
+  int r = v.size() - 1 - rightoffset;
   while (l <= r) {
     int mid = l + (r - l) / 2;
     if(v[mid] == x)
@@ -39,11 +40,11 @@ void insert_sort(std::vector<T>& a, std::function<bool(T&, T&)> comp = [](T& x, 
 
 
 template <class T>
-void merge(std::vector<T>& v,std::vector<T>& v1, std::vector<T>& v2){
+void merge(std::vector<T>& v,std::vector<T>& v1, std::vector<T>& v2, std::function<bool(T&,T&)> comp){
     v.clear();
     long unsigned int i = 0, j = 0;
     while(i < v1.size() && j < v2.size()){
-        if(v1[i] < v2[j]){
+        if(comp(v1[i],v2[j])){
             v.push_back(v1[i]);
             i++;
         }
@@ -71,12 +72,41 @@ void merge_sort(std::vector<T>& v, std::function<bool(T&, T&)> comp = [](T& x, T
     else if(v.size() > 2){
         std::vector<T> v1(v.begin(), v.begin() + (v.size() / 2));
         std::vector<T> v2(v.begin() + (v.size() / 2), v.end());
-        merge_sort(v1);
-        merge_sort(v2);
-        merge(v,v1,v2);
+        merge_sort(v1,comp);
+        merge_sort(v2,comp);
+        merge(v,v1,v2,comp);
     }
 } // Merge Sort, O(n * log(n)), по возрастанию, O(n) - память
 
+template <class T>
+int partition(std::vector<T>& v, int p, int r){
+    int x = v[p];
+    int i = p;
+    int j = r;
+    while(true){
+        while(v[j] <= x && j >= 0)
+            j--;
+        while(v[i] >= x && i < v.size())
+            i++;
+        if(i < j)
+            swap(v[i],v[j]);
+        else
+            return j;
+    }
+}
+template <class T>
+void quickSort(std::vector<T>& v, int p, int r){
+    if(p < r){
+        int q = partition(v,p,r);
+        quickSort(v,p,q);
+        quickSort(v,q+1,r);
+    }
+}
+template <class T>
+void quickSort(std::vector<T>& v){
+    int p = 0, r = v.size()-1;
+    quickSort(v,p,r);
+}
 
 
 #endif //UBERMENSCHENAMOGUS228_ALGS_H

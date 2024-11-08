@@ -27,6 +27,13 @@ T max(T& a, T& b){
         return b;
 }
 template <class T>
+T min(T& a, T& b){
+    if(a < b)
+        return a;
+    else
+        return b;
+}
+template <class T>
 std::ostream& operator <<(std::ostream&,std::stack<T>);
 template <class T>
 std::ostream& operator <<(std::ostream&,std::deque<T>);
@@ -119,6 +126,5 @@ std::ostream& operator << (std::ostream& out, std::map<T1, T2>& mp){
     out << '\n';
     return out;
 }
-
 
 #endif //UBERMENSCHENAMOGUS228_HEADER_H
