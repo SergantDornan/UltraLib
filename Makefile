@@ -33,14 +33,14 @@ ANSfile = ./tests/answerFile
 TSTlogs = ./tests/logs
 
 TSTgarbage = ./tests/tstFile ./tests/ansFile ./tests/mainFile ./tests/genTest
-
+ANALgarbage = ./algAnal/analFile
 INCDIRS=. ./include/ $(INCANAL) $(INCTST) $(ContINC)
 
 STATICLIBGEN_name=static
 SHAREDLIBGEN_name=shared
 CPPC=g++
 C++standart=-std=c++23
-OPT=-O2
+OPT=-O3
 DEPFLAGS=-MP -MD
 GENERALFLAGS=$(C++standart) -g3 -w
 
@@ -185,10 +185,10 @@ all:$(OUTPUT) $(ANALdepend) $(TSTdepend) $(CONTdepend)
 run:$(OUTPUT)
 	@./$(OUTPUT)
 
-runanal:$(ANALdepend)
+runanal:$(ANALdepend) $(OUTPUT) 
 	@./$(ANAL) output
 
-runtst:$(TSTdepend)
+runtst:$(TSTdepend) $(OUTPUT)
 	@./$(TST)
 
 debug:$(OUTPUT)
@@ -222,11 +222,11 @@ $(OUTPUT):$(STATICdepend) $(SHAREDdepend) $(OBJECTS)
 	$(CPPC) $^ -Wl,--defsym=main=$(MAINENTRY) $(ISSTATIC) $(ISSHARED) $(foreach D,$(LIBSTATIC_names),-l$(D)) $(foreach D,$(LIBSHARED_names),-l$(D)) $(STATICLIBGEN_link) $(SHAREDLIBGEN_link) -o $@
 	$(INCLUDESHARED)
 
-$(ANAL):$(STATICdepend) $(SHAREDdepend) $(ANALOBJECTS) $(OBJECTS)
+$(ANAL):$(STATICdepend) $(SHAREDdepend) $(ANALOBJECTS)
 	$(CPPC) $(OBJECTS) $(ANALOBJECTS) -Wl,--defsym=main=$(ANALENTRY) $(ISSTATIC) $(ISSHARED) $(foreach D,$(LIBSTATIC_names),-l$(D)) $(foreach D,$(LIBSHARED_names),-l$(D)) $(STATICLIBGEN_link) $(SHAREDLIBGEN_link) -o $@
 	$(INCLUDESHARED)
 
-$(TST):$(TSTlogs) $(ANSfile) $(TSTfile) $(STATICdepend) $(SHAREDdepend) $(TSTOBJECTS) $(OBJECTS) $(ANALOBJECTS)
+$(TST):$(TSTlogs) $(ANSfile) $(TSTfile) $(STATICdepend) $(SHAREDdepend) $(TSTOBJECTS) $(ANALOBJECTS)
 	$(CPPC) $(OBJECTS) $(TSTOBJECTS) $(ANALOBJECTS) -Wl,--defsym=main=$(TSTENTRY) $(ISSTATIC) $(ISSHARED) $(foreach D,$(LIBSTATIC_names),-l$(D)) $(foreach D,$(LIBSHARED_names),-l$(D)) $(STATICLIBGEN_link) $(SHAREDLIBGEN_link) -o $@
 	$(INCLUDESHARED)
 
@@ -247,10 +247,10 @@ $(TSTlogs):
 	touch $(TSTlogs)
 
 mrproper:
-	rm -rf $(OUTPUTS) $(OBJECTS) $(DEPFILES) $(OBJECTSSTATIC) $(OBJECTSSHARED) $(ANALOBJECTS) $(TSTOBJECTS) $(CONTOBJECTS) $(TSTgarbage)
+	rm -rf $(OUTPUTS) $(OBJECTS) $(DEPFILES) $(OBJECTSSTATIC) $(OBJECTSSHARED) $(ANALOBJECTS) $(TSTOBJECTS) $(CONTOBJECTS) $(TSTgarbage) $(ANALgarbage)
 
 purge:
-	rm -rf $(OUTPUTS) $(OBJECTS) $(DEPFILES) $(STLIBGEN) $(SHLIBGEN) $(OBJECTSSTATIC) $(OBJECTSSHARED) $(ANALOBJECTS) $(TSTOBJECTS) $(CONTOBJECTS) $(ContFile) $(TSTfile) $(ANSfile) $(TSTlogs) $(TSTgarbage)
+	rm -rf $(OUTPUTS) $(OBJECTS) $(DEPFILES) $(STLIBGEN) $(SHLIBGEN) $(OBJECTSSTATIC) $(OBJECTSSHARED) $(ANALOBJECTS) $(TSTOBJECTS) $(CONTOBJECTS) $(ContFile) $(TSTfile) $(ANSfile) $(TSTlogs) $(TSTgarbage) $(ANALgarbage)
 
 $(STLIBGEN):$(OBJECTSSTATIC)
 	ar rc $(STLIBGEN) $(OBJECTSSTATIC)

@@ -20,9 +20,9 @@ extern std::string randomString(Range<int> range, int n, int N){
 extern void fillVector(std::vector<std::string>& v,Range<int> range, 
     int size,int minStringSize, int maxStringSize){
     if(minStringSize == -1)
-        minStringSize = range.left();
+        minStringSize = range.min();
     if(maxStringSize == -1)
-        maxStringSize = range.right();
+        maxStringSize = range.max();
     for(int i = 0; i < size; ++i){
         v.push_back(randomString(range, minStringSize, maxStringSize));
     }

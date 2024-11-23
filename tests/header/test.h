@@ -7,11 +7,11 @@
 #include <range.h>
 #include <random.h>
 const bool analysis = false;
-extern "C" int mainfunc(int argc, char* argv[]);
 const std::string workingFolder = "/home/andrew/MasterFolder/UBERMENSCHENAMOGUS228/tests/";
 const std::string testFile = workingFolder + "testFile";
 const std::string answerFile = workingFolder + "answerFile";
 const std::string logs = workingFolder + "logs";
+const std::string prog = "outprog";
 #define vec std::vector<std::vector<T>>
 extern void checkMode(std::string&);
 
@@ -362,16 +362,16 @@ public:
 				solution(answerFile, ansf, solutionCut, solutionStart);
 			else
 				solution(testf, ansf, solutionCut, solutionStart);
-			char** str = new char*[3];
-			str[0] = const_cast<char*>("test");
-			str[1] = const_cast<char*>(testf.c_str());
-			str[2] = const_cast<char*>(mainf.c_str());
+			std::string runcmd = "./" + prog + " " + testf + " " + mainf;
 			writeVectors(currInput, logs);
 			auto old = std::chrono::steady_clock::now();
-			mainfunc(3, str);
+			int code = system(runcmd.c_str());
 			auto dur = std::chrono::steady_clock::now() - old;
+			if(code != 0){
+				std::cout << "==================== ERROR ====================" << std::endl;
+				std::cout << "main returned code is " << code << std::endl;
+			}
 			long double elapsed_time = double(duration_cast<std::chrono::microseconds>(dur).count())/1000000;
-			delete[] str;
 			clear(logs);
 			vec mainInput;
 			vec answerInput;

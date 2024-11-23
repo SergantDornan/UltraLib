@@ -57,7 +57,7 @@ alg power(int n);
 bool intersect(Rect& x, Rect& y);
 void Atask(std::vector<std::vector<int>>&,std::vector<std::vector<int>>&);
 void Btask(std::vector<std::vector<int>>&,std::vector<std::vector<int>>&);
-void Ctask(std::vector<std::vector<int>>&,std::vector<std::vector<int>>&);
+//void Ctask(std::vector<std::vector<int>>&,std::vector<std::vector<int>>&);
 void Dtask(std::vector<std::vector<int>>&,std::vector<std::vector<int>>&);
 void Etask(std::vector<std::vector<int>>&,std::vector<std::vector<int>>&);
 

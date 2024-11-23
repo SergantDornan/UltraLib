@@ -2,29 +2,29 @@
 #include <dHeap.h>
 //Дан массив целых чисел, назовем отрезов k-хорошим, если в нем не более k различных чисел
 //Найти длину наиболее длинного k-хорошего отрезка
-alg power(int n){
-	alg r(1);
-	int i = 1;
-	while(i <= n){
-		if(n - i >= 1999000){
-			r *= 247581393;
-			i += 1999000;
-		}
-		else if(n - i >= 35){
-			r *= 359738130;
-			i+=35;
-		}
-		else if(n - i >= 16){
-			r *= 65536;
-			i += 16;
-		}
-		else{
-			r *= 2;
-			i++;
-		}
-	}
-	return r;
-}
+// alg power(int n){
+// 	alg r(1);
+// 	int i = 1;
+// 	while(i <= n){
+// 		if(n - i >= 1999000){
+// 			r *= 247581393;
+// 			i += 1999000;
+// 		}
+// 		else if(n - i >= 35){
+// 			r *= 359738130;
+// 			i+=35;
+// 		}
+// 		else if(n - i >= 16){
+// 			r *= 65536;
+// 			i += 16;
+// 		}
+// 		else{
+// 			r *= 2;
+// 			i++;
+// 		}
+// 	}
+// 	return r;
+// }
 
 
 bool intersect(Rect& x, Rect& y){
@@ -100,32 +100,32 @@ void Btask(std::vector<std::vector<int>>& input,std::vector<std::vector<int>>& r
 	} 
 	res.push_back(r);
 }
-void Ctask(std::vector<std::vector<int>>& input,std::vector<std::vector<int>>& res){
-	int n = input[0][0];
-	alg g(0);
-	int n0 = n-1;
-	std::vector<i64> cv = {1};
-	for(int i = 0; i <= n0; ++i){
-		std::vector<i64> tmp;
-		for(int j = 0; j <= i; ++j){
-			if(j == 0 || j == i)
-				tmp.push_back(1);
-			else{
-				tmp.push_back(alg(cv[j-1]+cv[j]).x);
-			}
-		}
-		cv = tmp;
-	}
-	for(int k = 0; k <= n0;++k){
-		alg tmp(1);
-		tmp *= ((n0 - k) % 2 == 0 ? 1 : -1);
-		tmp *= power(k*(k-1)/2);
-		tmp *= cv[k];
-		g += tmp;
-	}
-	g*=n;
-	res.push_back(std::vector<int>{g.x});
-}
+// void Ctask(std::vector<std::vector<int>>& input,std::vector<std::vector<int>>& res){
+// 	int n = input[0][0];
+// 	alg g(0);
+// 	int n0 = n-1;
+// 	std::vector<i64> cv = {1};
+// 	for(int i = 0; i <= n0; ++i){
+// 		std::vector<i64> tmp;
+// 		for(int j = 0; j <= i; ++j){
+// 			if(j == 0 || j == i)
+// 				tmp.push_back(1);
+// 			else{
+// 				tmp.push_back(alg(cv[j-1]+cv[j]).x);
+// 			}
+// 		}
+// 		cv = tmp;
+// 	}
+// 	for(int k = 0; k <= n0;++k){
+// 		alg tmp(1);
+// 		tmp *= ((n0 - k) % 2 == 0 ? 1 : -1);
+// 		tmp *= power(k*(k-1)/2);
+// 		tmp *= cv[k];
+// 		g += tmp;
+// 	}
+// 	g*=n;
+// 	res.push_back(std::vector<int>{g.x});
+// }
 void Dtask(std::vector<std::vector<int>>& input,std::vector<std::vector<int>>& res){
 	for(int i = 1; i < input.size(); ++i){
 		int r = 1;

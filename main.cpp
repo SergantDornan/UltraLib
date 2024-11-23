@@ -16,11 +16,18 @@ extern "C" int mainfunc(int argc, char* argv[]){
 	std::vector<std::vector<int>> res;
 	if(argc == 3)
 	 	readVectors(input, argv[1]);
-	Num a(-10,2);
-	Num b(-4,2);
-	a -= b;
-	std::cout << a.toInt() << std::endl;
- 	if(argc == 3 && argv[0] != "anal")
+	// for(int i = 0; i < input[0].size(); ++i){
+	// 	for(int j = 0; j < input[0].size() - 10; ++j)
+	// 		input[0][i] += input[0][j+10]*10 + 644*1903 - 18*pow(2,10);
+	// }
+	// for(int i = 0; i < input[0].size()-10; ++i)
+	// 	input[0][i] += input[0][i+10]*10 + 644*1903 - 18*pow(2,10);
+	// for(int i = 0; i < input[0].size()-10; ++i)
+	// 	input[0][i] += input[0][i+10]*10 + 644*1903 - 18*pow(2,10);
+	// for(int i = 0; i < input[0].size()-10; ++i)
+	// 	input[0][i] += input[0][i+10]*10 + 644*1903 - 18*pow(2,10);
+	insert_sort(input[0]);
+ 	if(argc == 3 && argv[2] != "Dummy")
 		writeVectors(res,argv[2]);	
 	return 0;
 }
