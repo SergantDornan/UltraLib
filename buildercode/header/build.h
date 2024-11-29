@@ -1,0 +1,16 @@
+#include <filework.h>
+#include <reg.h>
+const std::string mainfile = "./main.cpp";
+const std::string includestmp = "includestmp";
+const std::string sourcetmp = "sourcetmp";
+const std::string depFolder = "depsAndObjects";
+const std::string defaultMakefile = "ENTRY=main\nDEPOBJDIR =./depsAndObjects\nSTATLIBS=./staticLibs\nSHLIBS=./sharedLibs\nContFile = ./code.$(EXT)\nTSTfile = ./testFile\nANSfile = ./answerFile\nTSTlogs = ./logs\nTSTgarbage = ./tstFile ./ansFile ./mainFile ./genTest\nANALgarbage = ./analFile\nSTATICLIBGEN_name=static\nSHAREDLIBGEN_name=shared\nC++standart=-std=c++23\nOPT=-O3\nDEPFLAGS=-MP -MD\nGENERALFLAGS=$(C++standart) -g3 -w\nSTLIBGEN=$(STATLIBS)/lib$(STATICLIBGEN_name).a\nSHLIBGEN=$(SHLIBS)/lib$(SHAREDLIBGEN_name).so\nCFLAGS=$(GENERALFLAGS) $(OPT) $(DEPFLAGS)\nDEPFILES=$(patsubst %.o, %.d, $(OBJECTS))\nLIBSTATIC_files=$(foreach D, $(STATLIBS), $(wildcard $(D)/lib*.a))\nLIBSHARED_files=$(foreach D, $(SHLIBS), $(wildcard $(D)/lib*.so))\nLIBSTATIC_names=\nLIBSHARED_names=\nifneq ($(LIBSHARED_files), )\n	LIBSHARED_names:=$(patsubst $(SHLIBS)/lib%.so, %, $(LIBSHARED_files))\nelse\n	LIBSHARED_names:=\nendif\nifneq ($(LIBSTATIC_files), )\n	LIBSTATIC_names:=$(patsubst $(STATLIBS)/lib%.a, %, $(LIBSTATIC_files))\nelse\n	LIBSTATIC_names:=\nendif\nISSHARED=\nISSTATIC=\nifneq ($(strip $(LIBSHARED_files)), )\n	ISSHARED:=$(foreach D,$(SHLIBS),-L$(D))\nelse\n	ISSHARED:=$(ISSHARED)\nendif\nifneq ($(strip $(LIBSTATIC_files)), )\n	ISSTATIC:=$(foreach D,$(STATLIBS),-L$(D))\nelse\n	ISSTATIC:=$(ISSTATIC)\nendif\nINCLUDESHARED:=\nifeq ($(ISSHARED),$(foreach D,$(SHLIBS),-L$(D)))\n	INCLUDESHARED:=export LD_LIBRARY_PATH=$$LD_LIBRARY_PATH:$(SHLIBS)\nelse\n	INCLUDESHARED:=\nendif\nall:$(OUTPUT)\n	@echo ========= SUCCESS ==========\nlibstatic:$(STATICdepend)\n	@echo ========= SUCCESS ==========\nlibshared:$(SHAREDdepend)\n	@echo ========= SUCCESS ==========\n$(OUTPUT):$(STATICdepend) $(SHAREDdepend) $(OBJECTS)\n	$(CPPC) $(OBJECTS) -Wl,--defsym=main=$(ENTRY) $(ISSTATIC) $(ISSHARED) $(foreach D,$(LIBSTATIC_names),-l$(D)) $(foreach D,$(LIBSHARED_names),-l$(D)) -o $@\n	$(INCLUDESHARED)\nmrproper:\n	rm -rf $(OBJECTS) $(DEPFILES) $(TSTgarbage) $(ANALgarbage)\npurge:\n	rm -rf $(OBJECTS) $(DEPFILES) $(STLIBGEN) $(SHLIBGEN) $(ContFile) $(TSTfile) $(ANSfile) $(TSTlogs) $(TSTgarbage) $(ANALgarbage)\n$(STLIBGEN):$(OBJECTS)\n	ar rc $(STLIBGEN) $(OBJECTS)\n	ranlib $(STLIBGEN)\n$(SHLIBGEN):$(OBJECTS)\n	$(CPPC) -shared -o $(SHLIBGEN) $(OBJECTS)";
+void getAllheaders(std::vector<std::string>& headers,const std::string path = "./");
+void getAllsource(std::vector<std::string>& source,const std::string extension, const std::string path = "./");
+void createMakeFile(const std::string& mode, const std::string extension, const std::string& outfile,
+	const std::vector<std::string>& headers, const std::vector<std::string>& source);
+void createEssentials(const std::string& mode, const std::string& extension, const std::string& outfile);
+void includeFiles(std::vector<std::string>& includes,const std::vector<std::string>& allHeaders, std::string file);
+void sourceFiles(std::vector<std::string>&,const std::vector<std::string>&,const std::vector<std::string>&);
+std::string rulesGen(const std::vector<std::string>&);
+std::string objectsGen(const std::vector<std::string>&);

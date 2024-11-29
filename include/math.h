@@ -137,6 +137,7 @@ public:
 	int size();
 	void set(const std::vector<std::vector<long double>>);
 	std::vector<long double>& operator [] (int);
+	void push_back(const std::vector<long double>);
 	Matrix& operator = (const Matrix&);
 };
 class SLAE{
@@ -158,7 +159,6 @@ public:
 	EqSys(const std::vector<std::string>);
 	void set(const std::vector<std::string>);
 };
-
 template <class T>
 class Function{
 public:
@@ -304,15 +304,13 @@ Function<std::function<long double(long double, std::vector<long double>, double
 		for(int i = 0; i < power + 1; ++i){
 			std::vector<long double> row = {};
 			for(int j = 0; j < power + 1; ++j){
-			//	std::cout << int(a.size() - 1 - i - j) << "  AAAAAAAAA" << std::endl;
 				if(int(a.size() - 1 - i - j) < 0)
 					row.push_back(mp.size());
 				else
 					row.push_back(a[a.size() - 1 - i - j]);
 			}
-			M.m.push_back(row);
+			M.push_back(row);
 		}
-
 		SLAE sl(M, b);
 		std::vector<long double> solution = sl.solve();
 		auto F = [](long double xi, std::vector<long double> solution, double power) -> long double{

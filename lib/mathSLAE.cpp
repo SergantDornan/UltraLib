@@ -19,11 +19,11 @@ void SLAE::set(Matrix& M, const std::vector<long double> V){
 std::vector<long double> SLAE::solve(){
 	std::vector<long double> solution;
 	if(A.size() < A[0].size()){
-		std::cout << "===================================== SLAE solution, number of rows less than nunber of variables =====================================" << std::endl;
+		std::cout << "===================================== SLAE solution, number of rows is less than nunber of variables =====================================" << std::endl;
 		return solution;
 	}
 	else if(A.size() > A[0].size()){
-		std::cout << "===================================== SLAE solution, number of rows bigger than nunber of variables =====================================" << std::endl;
+		std::cout << "===================================== SLAE solution, number of rows is bigger than nunber of variables =====================================" << std::endl;
 		std::cout << "========================================================== Undefined behaviour ==========================================================" << std::endl;
 		return solution;
 	}

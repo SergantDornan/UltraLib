@@ -94,7 +94,7 @@ void include(std::vector<std::string>& includes, std::vector<std::string>& lines
 
 int main(int argc, char* argv[]){
 	std::string line;
-    std::ifstream in(mainfile);
+  std::ifstream in(mainfile);
  //   std::cout << std::filesystem::current_path() << std::endl;
     std::vector<std::string> lines;
     std::vector<std::string> linesmain;

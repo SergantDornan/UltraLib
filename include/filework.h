@@ -3,6 +3,13 @@
 #include <algs.h>
 #include <fstream>
 #include <inputs.h>
+#include <filesystem>
+
+std::vector<std::string> getDirs(const std::string&); 
+// Выдает список файлов и папок, аналогично ls, только путь полный относительно папки, 
+// откуда вызывается функция
+
+
 template <class T>
 void stringToVector(std::string& s, std::vector<T>& v){
 	std::stringstream stream;

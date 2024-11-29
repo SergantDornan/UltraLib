@@ -4,6 +4,9 @@ Matrix::Matrix(const std::vector<std::vector<long double>> v){
 void Matrix::set(const std::vector<std::vector<long double>> v){
 	m = v;
 }
+void Matrix::push_back(const std::vector<long double> v){
+	m.push_back(v);
+}
 Matrix::Matrix(){
 	m = {};}
 int Matrix::size(){

@@ -10,3 +10,25 @@ extern void clear(std::string path){
 	}
 	out.close();
 }
+std::vector<std::string> getDirs(const std::string &path) {
+	std::vector<std::string> dirs;
+	if(!std::filesystem::is_directory(path)){
+		std::cout << "======================= ERROR =======================" << std::endl;
+		std::cout << "=============== filework.cpp: getDirs ===============" << std::endl;
+		std::cout << "path leads to a file, not diretory" << std::endl;
+		std::cout << "=====================================================" << std::endl;
+		return dirs;
+	}
+  std::string back = path;
+  while (back.back() != '/')
+    {
+      back.pop_back();
+    }
+  back.pop_back();
+  dirs = {back};
+  for (const std::filesystem::directory_entry &dir : std::filesystem::directory_iterator(path))
+    {
+      dirs.push_back(dir.path().string());
+    }
+  return dirs;
+}

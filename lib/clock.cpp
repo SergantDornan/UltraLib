@@ -1,4 +1,5 @@
 #include <clock.h>
+using std::chrono::duration_cast;
 timePoint::timePoint(const timePoint& p){
 	point = p.point;
 }

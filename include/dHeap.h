@@ -114,8 +114,6 @@ public:
 			return m;
 		}
 	} // O(log_d(n))
-
-
 	T max(){
 		if(vector.size() == 0){
 			std::cout << "========================== ERROR ==========================" << std::endl;

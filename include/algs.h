@@ -3,14 +3,17 @@
 #include <header.h>
 #include <functional>
 template <class T>
-int find(std::vector<T>& v,const T s){
+int find(const std::vector<T>& v,const T& s){
     for(int i = 0; i < v.size(); ++i){
-        if(v[i] == s){
+        if(v[i] == s)
             return i;
-        }
     }
     return -1;
 }
+int find(const std::vector<std::string>& v, const char* s);
+int find(const std::string& s,const char s0);
+int find(const std::string& s,const std::string& s0);
+
 
 template <class T>
 int binarySearch(std::vector<T>& v,const T x, int leftoffset = 0, int rightoffset = 0) 

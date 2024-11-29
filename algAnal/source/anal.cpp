@@ -29,7 +29,6 @@ void points(){
 		std::vector<int> v;
 		fillVector(v,Range<int>({0,1000}),xi);
 		writeVectors(v,file);
-
 		auto old = std::chrono::steady_clock::now();
 		int code = system(cmd.c_str());
 		auto dur = std::chrono::steady_clock::now() - old;
@@ -38,7 +37,6 @@ void points(){
 				std::cout << "main returned code is " << code << std::endl;
 		}
 		long double elapsed_time = double(duration_cast<std::chrono::microseconds>(dur).count())/100;
-		
 		//elapsed_time -= Delta_time;
 		if(elapsed_time > 0)
 			mp.emplace(log(xi),log(elapsed_time));
@@ -83,38 +81,8 @@ extern "C" int entry(int argc, char* argv[]){
 			output = true;
 		}
 	}
-	// if(output){
-	// 	std::cout << '\n';
-	// 	std::cout << '\n';
-	// 	std::cout << "====== Number of threads: " << iterations << " =========" << std::endl;
-	// 	std::cout << '\n';
-	// 	std::cout << '\n';
-	// }
 	std::thread time_controller(time_control);
 	time_controller.detach();
 	points();
-	points();
-	points();
-	points();
-	points();
-	//iter = (defaultIterations - 1);
-	// int startingPoint = pow(10,3);
-	// long double e = pow(10,-3);
-	// auto func = powerAp(mp, 1);
-	// std::cout << func << std::endl;
-	//threads.push_back(std::thread(Iteration, std::ref(counts),output));
-	//threads[0].join();
-	// double maximal = -1;
-	// int answer = -1;
-	
-	// auto dur = std::chrono::steady_clock::now() - old;
-	// long double time = double(duration_cast<std::chrono::milliseconds>(dur).count()) / 1000;
-	// if(output){
-	// 	std::cout << '\n';
-	// 	std::cout << "=========== Analysis time: " << time << " seconds ===============" << std::endl; 
-	// }
-	// std::cout << '\n';
-	// std::cout << "================== COMPLEXITY: O(n^" <<  answer << ") =====================" << std::endl;
-	// std::cout << '\n';
 	return 0;
 }

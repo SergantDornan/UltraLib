@@ -7,7 +7,7 @@
 #include <range.h>
 #include <random.h>
 const bool analysis = false;
-const std::string workingFolder = "/home/andrew/MasterFolder/UBERMENSCHENAMOGUS228/tests/";
+const std::string workingFolder = "./";
 const std::string testFile = workingFolder + "testFile";
 const std::string answerFile = workingFolder + "answerFile";
 const std::string logs = workingFolder + "logs";
