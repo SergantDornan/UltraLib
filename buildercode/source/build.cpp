@@ -62,7 +62,7 @@ int main(int argc, char* argv[]){
   			mode = "onefile";
   		}
   		else if(std::string(argv[i]) == "--shared" || std::string(argv[i]) == "-sh")
-  			mode = "shared";
+  			mode = "shar";
   		else if(std::string(argv[i]) == "--static" || std::string(argv[i]) == "-st")
   			mode = "stat";
   		else if(std::string(argv[i]) == "--test" || std::string(argv[i]) == "-tst"){
@@ -133,9 +133,9 @@ int main(int argc, char* argv[]){
   		system("make mrproper");
   	else if(mode == "purge")
   		system("make purge");
-  	else if(mode == "static")
+  	else if(mode == "stat")
   		system("make libstatic");
-  	else if(mode == "shared")
+  	else if(mode == "shar")
   		system("make libshared");
   	else
   		system("make");

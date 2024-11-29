@@ -79,12 +79,12 @@ void createMakeFile(const std::string& mode, const std::string extension, const 
 		out << "CPPC=gcc" << std::endl;
 	out << "INCDIR=" << incfolders << std::endl;
 	out << objectsGen(sourcenames) << std::endl;
-	if(mode == "static"){
+	if(mode == "stat"){
 		out << "STATICdepend=./staticLibs/libstatic.a" << std::endl;
 		out << "SHAREDdepend=" << std::endl;
 		out << "SHAREDFLAG=" << std::endl;
 	}
-	else if(mode == "shared"){
+	else if(mode == "shar"){
 		out << "STATICdepend=" << std::endl;
 		out << "SHAREDdepend=./sharedLibs/libshared.so" << std::endl;
 		out << "SHAREDFLAG= -fPIC" << std::endl;
@@ -114,7 +114,7 @@ void createEssentials(const std::string& mode, const std::string& extension, con
 		if(find(dirs, "./staticLibs") == -1)
 			system("mkdir staticLibs");
 	}
-	else if(mode == "shared"){
+	else if(mode == "shar"){
 		if(find(dirs, "./sharedLibs") == -1)
 			system("mkdir sharedLibs");
 	}
