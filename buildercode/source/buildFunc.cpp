@@ -8,7 +8,7 @@ void getAllheaders(std::vector<std::string>& headers,const std::string path){
 			getAllheaders(headers, dirs[i]);
 	}
 }
-void getAllsource(std::vector<std::string>& source,const std::string extension, const std::string path){
+void getAllsource(std::vector<std::string>& source, const std::string path){
 	auto dirs = getDirs(path);
 	for(int i = 1; i < dirs.size(); ++i){
 		int index = -1;
@@ -20,11 +20,11 @@ void getAllsource(std::vector<std::string>& source,const std::string extension, 
 		}
 		if(index != -1){
 			std::string ext(dirs[i].begin() + index + 1,dirs[i].end());
-			if(find(source, dirs[i]) == -1 && ext == extension)
+			if(find(source, dirs[i]) == -1 && (ext == "cpp" || ext == "c"))
 				source.push_back(dirs[i]);
 		}
 		if(std::filesystem::is_directory(dirs[i]))
-			getAllsource(source,extension, dirs[i]);
+			getAllsource(source, dirs[i]);
 	}
 }
 void createMakeFile(const std::string& mode, const std::string extension, const std::string& outfile,
@@ -208,4 +208,22 @@ std::string objectsGen(const std::vector<std::string>& sourcenames){
 		s += ("./" + depFolder + "/" + tmp + " ");
 	}
 	return s;
+}
+void stripExt(std::vector<std::string>& allSource, const std::string& extension){
+	auto it = allSource.begin();
+	while (it != allSource.end()){
+		int index = -1;
+		for(int j = (*it).size()-1; j >= 0; --j){
+			if((*it)[j] == '.'){
+				index = j;
+				break;
+			}
+		}
+		std::string ext((*it).begin() + index +1,(*it).end());
+		if(ext != extension){
+			allSource.erase(it);
+		}
+		else
+			it++;
+	}
 }
