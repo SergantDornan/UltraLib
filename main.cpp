@@ -14,10 +14,11 @@ typedef long int i64;
 int main(int argc, char* argv[]){
 	std::vector<std::vector<int>> input;
 	std::vector<std::vector<int>> res;
-	if(argc == 3)
+	if(argc >= 2)
 	 	readVectors(input, argv[1]);
-	std::cout << "ABOBA" << std::endl;
- 	if(argc == 3 && argv[2] != "Dummy")
+	auto d = getDirs("./");
+	std::cout << d << std::endl;
+ 	if(argc >= 3)
 		writeVectors(res,argv[2]);	
 	return 0;
 }

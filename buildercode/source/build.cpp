@@ -1,7 +1,5 @@
 #include <build.h>
 
-
-
 // -o
 // -onefile -one
 // -shared -sh
@@ -13,9 +11,11 @@
 // self
 // (run)filename(run) (extension)
 int main(int argc, char* argv[]){
+	auto dirs = getDirs("./");
 	std::string extension = "default";
 	std::string outfile = "default";
 	std::string mode = "default";
+	std::string entryPoint = "main";
   	std::vector<std::string> allHeaders;
   	std::vector<std::string> allSource;
   	getAllheaders(allHeaders);
@@ -26,13 +26,10 @@ int main(int argc, char* argv[]){
   		arg = argv[1];
   	if(arg == "self"){
   		std::cout << "===================== SELF COMPILE =====================" << std::endl;
-  		std::cout << std::endl;
-  		std::string mainFile = "./buildercode/source/build.cpp";
-  		std::string outfile = "builder";
   		std::vector<std::string> source;
   		std::vector<std::string> headers;
   		stripExt(allSource, "cpp");
-  		includeFiles(headers,allHeaders,mainFile);
+  		includeFiles(headers,allHeaders,mainSourceFileName);
   		sourceFiles(source,allSource,headers);
   		std::vector<std::string> headerfoldesrs;
   		for(int i = 0; i < headers.size(); ++i){
@@ -52,7 +49,7 @@ int main(int argc, char* argv[]){
   			self_compile += (" -I" + headerfoldesrs[i] + " ");
   		for(int i = 0; i < source.size(); ++i)
   			self_compile += (" " + source[i] + " ");
-  		self_compile += " -o ./builder";
+  		self_compile += (" -o ./" + builderOutfile);
   		system(self_compile.c_str());
   		return 0;
   	}
@@ -93,14 +90,22 @@ int main(int argc, char* argv[]){
   	bool run = (find(arg,"run") != -1 && arg != "");
   	if(!(arg == "" || arg == "run")){
   		int index = find(arg,"run");
-  		if(index == 0){
+  		if(index == 0)
   			mainFile = std::string(arg.begin() + 3, arg.end());
-  		}
-  		else if(index == arg.size() - 3){
+  		else if(index == arg.size() - 3)
   			mainFile = std::string(arg.begin(), arg.end() - 3);
-  		}
   		else
   			mainFile = arg;
+  	}
+  	if(outfile == "default")
+  		outfile = mainFile;
+  	std::ifstream makefile("./Makefile");
+  	if(makefile.is_open()){
+  		std::string l;
+  		std::getline(makefile, l);
+  		std::string name(l.begin() + 7, l.end());
+  		if(name != outfile)
+  			remakeMakefile = true;
   	}
   	bool b = false;
   	for(int i = 0; i < allSource.size(); ++i){
@@ -108,12 +113,9 @@ int main(int argc, char* argv[]){
   			if(allSource[i][j] == '/'){
   				std::string tmp(allSource[i].begin() + j + 1, allSource[i].end());
   				int f = find(tmp,'.');
-  				tmp1 = std::string(tmp.begin(), tmp.begin() + f);
+  				std::string tmp1(tmp.begin(), tmp.begin() + f);
   				if(tmp1 == mainFile){
-
   					b = true;
-  					if(outfile == "default")
-  						outfile = mainFile;
   					extension = std::string(tmp.begin() + f + 1, tmp.end());
   					mainFile = allSource[i];
   					break;
@@ -128,6 +130,8 @@ int main(int argc, char* argv[]){
   		std::cout << "===================================================" << std::endl;
   		return 0;
   	}
+  	entryPoint = defineEntryPoint(mainFile);
+  	refreshObjects(mode);
   	createEssentials(mode,extension,outfile);
   	std::vector<std::string> source;
   	std::vector<std::string> headers;
@@ -136,21 +140,66 @@ int main(int argc, char* argv[]){
   	includeFiles(headers,allHeaders,mainFile);
   	sourceFiles(source,allSource,headers);
   	if(remakeMakefile){
-  		auto dirs = getDirs("./");
   		if(find(dirs,"./Makefile") != -1)
   			system("rm ./Makefile");
   	}
-  	createMakeFile(mode,extension,outfile,headers,source);
-  	if(mode == "mrproper")
-  		system("make mrproper");
-  	else if(mode == "purge")
-  		system("make purge");
+  	createMakeFile(mode,extension,outfile,headers,source,entryPoint);
+  	if(mode == "mrproper" || mode == "purge"){
+  		if(mode == "mrproper")
+  			system("make mrproper");
+  		else
+  			system("make purge");
+  		if(find(dirs, "./Makefile") != -1)
+  			system("rm ./Makefile");
+  		std::string codeFile = ("./" + contFile + "." + extension);
+  		if(find(dirs, codeFile) != -1){
+  			std::string cmd = ("rm " + codeFile);
+  			system(cmd.c_str());
+  		}
+  		std::string statFldr = ("./" + staticLibsFolder); 
+  		if(find(dirs, statFldr) != -1){
+  			auto statLibs = getDirs(statFldr);
+  			std::string statlibgen = ("./" + staticLibsFolder + "/lib" + STATICLIBGEN_name + ".a");
+  			if(statLibs.size() <= 2){
+  				std::string cmd = ("rm -rf " + statFldr);
+  				system(cmd.c_str());
+  			}
+  			else{
+  				if(find(statLibs, statlibgen) != -1){
+  					std::string cmd = ("rm " + statlibgen);
+  					system(cmd.c_str());
+  				}
+  			}
+  		}
+  		std::string sharFldr = ("./" + sharedLibsFolder); 
+  		if(find(dirs, sharFldr) != -1){
+  			auto sharLibs = getDirs(sharFldr);
+  			std::string sharlibgen = ("./" + sharedLibsFolder + "/lib" + SHAREDLIBGEN_name + ".so");
+  			if(sharLibs.size() <= 2){
+  				std::string cmd = ("rm -rf " + sharFldr);
+  				system(cmd.c_str());
+  			}
+  			else{
+  				if(find(sharLibs, sharlibgen) != -1){
+  					std::string cmd = ("rm " + sharlibgen);
+  					system(cmd.c_str());
+  				}
+  			}
+  		}
+  		std::string depFldr = ("./" + depFolder);
+  		if(find(dirs, depFldr) != -1){
+  			std::string cmd = ("rm -rf " + depFldr);
+  			system(cmd.c_str());
+  		}
+  	}
+  	else if(mode == "onefile")
+  		createOnefile(mainFile,headers, source, entryPoint,extension);
   	else if(mode == "stat")
-  		system("make libstatic");
+  		system("make libstatic -j 20");
   	else if(mode == "shar")
-  		system("make libshared");
+  		system("make libshared -j 20");
   	else
-  		system("make");
+  		system("make -j 20");
   	if(run){
   		std::string runcmd = "./" + outfile;
   		system(runcmd.c_str());

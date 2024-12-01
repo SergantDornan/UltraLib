@@ -11,7 +11,7 @@ const std::string workingFolder = "./";
 const std::string testFile = workingFolder + "testFile";
 const std::string answerFile = workingFolder + "answerFile";
 const std::string logs = workingFolder + "logs";
-const std::string prog = "outprog";
+const std::string prog = "main";
 #define vec std::vector<std::vector<T>>
 extern void checkMode(std::string&);
 

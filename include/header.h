@@ -34,30 +34,30 @@ T min(T& a, T& b){
         return b;
 }
 template <class T>
-std::ostream& operator <<(std::ostream&,std::stack<T>);
+std::ostream& operator <<(std::ostream&,const std::stack<T>&);
 template <class T>
-std::ostream& operator <<(std::ostream&,std::deque<T>);
+std::ostream& operator <<(std::ostream&,const std::deque<T>&);
 
 template <class T1, class T2>
-std::ostream& operator <<(std::ostream&,std::pair<T1,T2>);
+std::ostream& operator <<(std::ostream&,const std::pair<T1,T2>&);
 template <class T>
-std::ostream& operator <<(std::ostream&,std::queue<T>);
+std::ostream& operator <<(std::ostream&,const std::queue<T>&);
 
 template <class T>
-std::ostream& operator << (std::ostream&, std::vector<T>&);
+std::ostream& operator << (std::ostream&,const std::vector<T>&);
 
 template <class T>
-std::istream& operator >> (std::istream&, std::vector<T>&);
+std::istream& operator >> (std::istream&,const std::vector<T>&);
 
 template <class T>
-std::ostream& operator << (std::ostream& out, std::stack<T> s){
+std::ostream& operator << (std::ostream& out,const std::stack<T>& s){
     for(auto el : s)
         out << el << ' ';
     out << '\n';
     return out;
 }
 template <class T>
-std::ostream& operator << (std::ostream& out, std::set<T>& s){
+std::ostream& operator << (std::ostream& out,const std::set<T>& s){
     for(auto it = s.begin(); it != s.end(); ++it)
         out << *it << std::endl;
     return out;
@@ -83,7 +83,7 @@ void matrixoutput(T** matrix, int N, int M){
 
 
 template <class T>
-std::ostream& operator << (std::ostream& out, std::deque<T> q){
+std::ostream& operator << (std::ostream& out,const std::deque<T>& q){
     for(auto el : q)
         out << q << ' ';
     out << '\n';
@@ -91,13 +91,13 @@ std::ostream& operator << (std::ostream& out, std::deque<T> q){
 }
 
 template <class T1, class T2>
-std::ostream& operator << (std::ostream& out, std::pair<T1,T2> pair){
+std::ostream& operator << (std::ostream& out,const std::pair<T1,T2>& pair){
     out << '{' << pair.first << "," << pair.second << "}";
     return out;
 }
 
 template <class T>
-std::ostream& operator << (std::ostream& out, std::queue<T> q){
+std::ostream& operator << (std::ostream& out,const std::queue<T>& q){
     for(auto el : q)
         out << q << ' ';
     out << '\n';
@@ -105,7 +105,7 @@ std::ostream& operator << (std::ostream& out, std::queue<T> q){
 }
 
 template <class T>
-std::ostream& operator << (std::ostream& out, std::vector<T>& v){
+std::ostream& operator << (std::ostream& out,const std::vector<T>& v){
     out << "{";
     for(long unsigned int i = 0; i < v.size(); ++i){
         if(i != v.size()-1)
@@ -118,7 +118,7 @@ std::ostream& operator << (std::ostream& out, std::vector<T>& v){
 }
 
 template <class T1, class T2>
-std::ostream& operator << (std::ostream& out, std::map<T1, T2>& mp){
+std::ostream& operator << (std::ostream& out,const std::map<T1, T2>& mp){
     for(auto it = mp.begin(); it != mp.end(); ++it){
         out << (*it).first << " : " << std::endl;
         out << (*it).second << std::endl;

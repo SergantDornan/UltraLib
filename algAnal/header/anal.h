@@ -7,5 +7,5 @@
 #include <random.h>
 const std::string workingFolder = "./";
 const std::string analFile = workingFolder + "analFile";
-const std::string prog = "outprog";
+const std::string prog = "main";
 #endif

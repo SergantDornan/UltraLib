@@ -1,11 +1,11 @@
-#include <analysis.h>
+#include <anal.h>
 #include <math.h>
 void points(){
 	std::map<long double,long double> mp;
 	std::string file = workingFolder + "analFile";
 	std::string cmd1 = "touch " + file;
 	system(cmd1.c_str());
-	std::string cmd = "./" + prog + " " + file + " Dummy";
+	std::string cmd = "./" + prog + " " + file;
 	std::vector<int> testV;
 	fillVector(testV,Range<int>({0,1000}),10000);
 	writeVectors(testV,file);
@@ -72,7 +72,7 @@ void time_control(){
 	}
 }
 
-extern "C" int entry(int argc, char* argv[]){
+int main(int argc, char* argv[]){
 	bool output = false;
 	auto old = std::chrono::steady_clock::now();
 	if(argc >= 2){
