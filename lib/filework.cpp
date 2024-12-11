@@ -15,7 +15,8 @@ std::vector<std::string> getDirs(const std::string &path) {
 	if(!std::filesystem::is_directory(path)){
 		std::cout << "======================= ERROR =======================" << std::endl;
 		std::cout << "=============== filework.cpp: getDirs ===============" << std::endl;
-		std::cout << "path leads to a file, not diretory" << std::endl;
+		std::cout << "path leads to a file, not directory" << std::endl;
+		std::cout << path << std::endl;
 		std::cout << "=====================================================" << std::endl;
 		return dirs;
 	}

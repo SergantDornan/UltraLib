@@ -9,6 +9,7 @@ std::vector<std::string> getDirs(const std::string&);
 // Выдает список файлов и папок, аналогично ls, только путь полный относительно папки, 
 // откуда вызывается функция
 
+extern void clear(std::string);
 
 template <class T>
 void stringToVector(std::string& s, std::vector<T>& v){
@@ -70,5 +71,5 @@ void readVectors(std::vector<std::vector<T>>& v, std::string path){
 	}
 	input.close();
 }
-extern void clear(std::string);
+
 #endif

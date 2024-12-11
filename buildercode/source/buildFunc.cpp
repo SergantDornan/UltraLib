@@ -1,4 +1,11 @@
 #include <build.h>
+std::string getFolder(const std::string& s){
+	for(int i = s.size() - 1; i >= 0; --i){
+		if(s[i] == '/')
+			return std::string(s.begin(), s.begin() + i);
+	}
+	return "";
+}
 void getAllheaders(std::vector<std::string>& headers,const std::string path){
 	auto dirs = getDirs(path);
 	for(int i = 1; i < dirs.size(); ++i){
@@ -27,19 +34,20 @@ void getAllsource(std::vector<std::string>& source, const std::string path){
 			getAllsource(source, dirs[i]);
 	}
 }
-void createMakeFile(const std::string& mode, const std::string& extension, const std::string& outfile,
+void createMakeFile (const std::string& mode, const std::string& extension, const std::string& outline,
 	const std::vector<std::string>& headers, const std::vector<std::string>& source, const std::string& entryPoint){
 	
 	auto dirs = getDirs("./");
-	bool newfile = false;
-	if(find(dirs,"./Makefile") == -1){
-		newfile = true;
-		system("touch Makefile");
+	bool newline = false;
+	if (find (dirs,"./Makeline") == -1)
+	{
+		newline = true;
+		system ("touch Makeline");
 	}
 	std::vector<std::string> lines;
 	std::string l;
-	if(!newfile){
-		std::ifstream in("./Makefile");
+	if(!newline){
+		std::ifstream in("./Makeline");
 		while (std::getline(in, l))
 			lines.push_back(l);
 		in.close();
@@ -70,8 +78,8 @@ void createMakeFile(const std::string& mode, const std::string& extension, const
 			}
 		}
 	}
-	std::ofstream out("./Makefile");
-	out << "OUTPUT=" << outfile << std::endl;
+	std::ofstream out("./Makeline");
+	out << "OUTPUT=" << outline << std::endl;
 	out << "EXT=" << extension << std::endl;
 	if(extension == "cpp")
 		out << "CPPC=g++" << std::endl;
@@ -80,13 +88,13 @@ void createMakeFile(const std::string& mode, const std::string& extension, const
 	out << "INCDIR=" << incfolders << std::endl;
 	out << objectsGen(sourcenames) << std::endl;
 	if(mode == "stat"){
-		out << "STATICdepend=./staticLibs/libstatic.a" << std::endl;
+		out << std::string("STATICdepend=./lib" + STATICLIBGEN_name + ".a") << std::endl;
 		out << "SHAREDdepend=" << std::endl;
 		out << "SHAREDFLAG=" << std::endl;
 	}
 	else if(mode == "shar"){
 		out << "STATICdepend=" << std::endl;
-		out << "SHAREDdepend=./sharedLibs/libshared.so" << std::endl;
+		out << std::string("SHAREDdepend=./lib" + SHAREDLIBGEN_name+".so") << std::endl;
 		out << "SHAREDFLAG= -fPIC" << std::endl;
 	}
 	else{
@@ -96,8 +104,6 @@ void createMakeFile(const std::string& mode, const std::string& extension, const
 	}
 	out << std::string("ENTRY=" + entryPoint) << std::endl;
 	out << std::string("DEPOBJDIR=./" + depFolder) << std::endl;
-	out << std::string("STATLIBS=./" + staticLibsFolder) << std::endl;
-	out << std::string("SHLIBS=./" + sharedLibsFolder) << std::endl;
 	out << std::string("ContFile=./" + contFile + "." + extension) << std::endl;
 	out << std::string("TSTfile=./" + TSTfile) << std::endl;
 	out << std::string("ANSfile=./" + ANSfile) << std::endl;
@@ -110,38 +116,50 @@ void createMakeFile(const std::string& mode, const std::string& extension, const
 		analGarbage += ("./" + ANALgarbage[i] + " ");
 	out << std::string("TSTgarbage=" + testGarbage) << std::endl;
 	out << std::string("ANALgarbage=" + analGarbage) << std::endl;
-	out << std::string("STATICLIBGEN_name=" + STATICLIBGEN_name) << std::endl;
-	out << std::string("SHAREDLIBGEN_name=" + SHAREDLIBGEN_name) << std::endl;
-	if(newfile){
+	out << std::string("STLIBGEN=./lib" + STATICLIBGEN_name + ".a") << std::endl;
+	out << std::string("SHLIBGEN=./lib" + SHAREDLIBGEN_name + ".so") << std::endl;
+	std::vector<std::string> allstaticLibs;
+	std::vector<std::string> allsharedLibs;
+	getAllStaticLibs(allstaticLibs);
+	getAllSharedLibs(allsharedLibs);
+	std::vector<std::string> LibFldrs;
+	std::vector<std::string> LibNames;
+	getLibsFolders(LibFldrs, allsharedLibs);
+	std::string libnamesline = "", libfoldersline = "";
+	if(allsharedLibs.size() > 0){
+		for(int i = 0; i < LibFldrs.size(); ++i)
+			libfoldersline += (LibFldrs[i] + " ");
+		out << std::string("SHAREDLIBCOMMAND=export LD_LIBRARY_PATH=$$LD_LIBRARY_PATH:" + libfoldersline) << std::endl;
+	}
+	else
+		out << "SHAREDLIBCOMMAND=" << std::endl;
+	getLibsFolders(LibFldrs, allstaticLibs);
+	getLibNamesStatic(LibNames, allstaticLibs);
+	getLibNamesShared(LibNames, allsharedLibs);
+	for(int i = 0; i < LibFldrs.size(); ++i)
+		libfoldersline += (LibFldrs[i] + " ");
+	for(int i = 0; i < LibNames.size(); ++i)
+		libnamesline += (LibNames[i] + " ");
+	out << std::string("LIBNAMES=" + libnamesline) << std::endl;
+	out << std::string("LIBFOLDERS=" + libfoldersline) << std::endl;
+	if(newline){
 		out << defaultMakefile << std::endl;
 		out << rulesGen(sourcefolders) << std::endl;
 		out << "-include $(DEPFILES)" << std::endl;
 	}
 	else{
-		for(int i = 20; i < lines.size(); ++i)
+		for(int i = 21; i < lines.size(); ++i)
 			out << lines[i] << std::endl;
 	}
 	out.close();
 }
-void createEssentials(const std::string& mode, const std::string& extension, const std::string& outfile){
+void createEssentials(const std::string& mode, const std::string& extension, const std::string& outline){
 	auto dirs = getDirs("./");
 	if(find(dirs, "./depsAndObjects") == -1){
 		std::string cmd = ("mkdir " + depFolder); 
 		system(cmd.c_str());
 	}
-	if(mode == "stat"){
-		if(find(dirs, "./staticLibs") == -1){
-			std::string cmd = ("mkdir " + staticLibsFolder); 
-			system(cmd.c_str());
-		}
-	}
-	else if(mode == "shar"){
-		if(find(dirs, "./sharedLibs") == -1){
-			std::string cmd = ("mkdir " + sharedLibsFolder); 
-			system(cmd.c_str());
-		}
-	}
-	else if(mode == "onefile"){
+	if(mode == "oneline"){
 		if(find(dirs, std::string("./code." + extension)) == -1){
 			std::string cmd = ("touch " + contFile + "." + extension);
 			system(cmd.c_str());
@@ -176,28 +194,35 @@ std::string defineEntryPoint(const std::string& mainFile){
 	}
 	return "";
 }
-void includeFiles(std::vector<std::string>& includes,const std::vector<std::string>& allHeaders,const std::string& file){
+void includeFiles(std::vector<std::string>& includes,const std::vector<std::string>& allHeaders,const std::vector<std::string>& allSource,const std::string& line){
     std::string l;
-    std::ifstream input(file);
+    std::ifstream input(line);
     if (input.is_open()){
   		while (std::getline(input, l)){
         	if(l.find("#include") != std::string::npos){
         		std::string s;
+        		
         		for(int j = 10; j < l.size() && l[j] != '>' && l[j] != '"'; ++j)
         			s+=l[j];
-        		std::string newfile;
+        		std::string newline;
         		bool b = false;
         		for(int j = 0; j < allHeaders.size(); ++j){
         			if(find(allHeaders[j], s) != -1){
         				b = true;
-        				newfile = allHeaders[j];
+        				newline = allHeaders[j];
         				break;
         			}
         		}
-        		if(b){
-        			includeFiles(includes,allHeaders,newfile);	
-        			if(find(includes, newfile) == -1)
-						includes.push_back(newfile);
+        		for(int j = 0; j < allSource.size(); ++j){
+        			if(find(allSource[j], s) != -1){
+        				b = true;
+        				newline = allSource[j];
+        				break;
+        			}
+        		}
+        		if(b && find(includes, newline) == -1){
+        			includes.push_back(newline);
+        			includeFiles(includes,allHeaders,allSource,newline);
         		}
     		}
         }
@@ -271,7 +296,7 @@ void stripExt(std::vector<std::string>& allSource, const std::string& extension)
 	}
 }
 void refreshObjects(const std::string& mode){
-	std::ifstream make("./Makefile");
+	std::ifstream make("./Makeline");
 	bool wasShared = false;
 	bool isShared = (mode == "shar");
 	std::string l;
@@ -347,7 +372,7 @@ void createOnefile(const std::string& mainFile,const std::vector<std::string>& h
 	}
 	else{
 		std::cout << "=================== ERROR ===================" << std::endl;
-		std::cout << "createOnefile: cannot open main file: " << mainFile << std::endl;
+		std::cout << "createOneline: cannot open main line: " << mainFile << std::endl;
 		std::cout << "=============================================" << std::endl;
 	}
 	main.close();
@@ -363,7 +388,7 @@ void createOnefile(const std::string& mainFile,const std::vector<std::string>& h
 	}
 	else{
 		std::cout << "=================== ERROR ===================" << std::endl;
-		std::cout << "createOnefile: cannot open code file: " << codeFile << std::endl;
+		std::cout << "createOneline: cannot open code line: " << codeFile << std::endl;
 		std::cout << "=============================================" << std::endl;
 	}
 	out.close();
@@ -433,4 +458,143 @@ void writeMainFile(std::vector<std::string>& lines, const std::vector<std::strin
       	else if(linesmain[i].find("argc") == std::string::npos)
         	push_line(lines,linesmain[i]);
 	}
+}
+void getAllStaticLibs(std::vector<std::string>& v, const std::string path){
+	auto dirs = getDirs(path);
+	for(int i = 1; i < dirs.size(); ++i){
+		std::string tmp;
+		for(int j = dirs[i].size() - 1; j >= 0; --j){
+			if(dirs[i][j] == '/'){
+				tmp = std::string(dirs[i].begin() + j + 1, dirs[i].end());
+				break;
+			}
+		}
+		if(std::filesystem::is_directory(dirs[i]))
+			getAllStaticLibs(v, dirs[i]);
+		else if(tmp.size() >= 6){
+			if(tmp[0] == 'l' && tmp[1] == 'i' && tmp[2] == 'b' &&
+				tmp[tmp.size()-1] == 'a' && tmp[tmp.size() - 2] == '.')
+				v.push_back(dirs[i]);
+		}
+		
+	}
+}
+void getAllSharedLibs(std::vector<std::string>& v, const std::string path){
+	auto dirs = getDirs(path);
+	for(int i = 1; i < dirs.size(); ++i){
+		std::string tmp;
+		for(int j = dirs[i].size() - 1; j >= 0; --j){
+			if(dirs[i][j] == '/'){
+				tmp = std::string(dirs[i].begin() + j + 1, dirs[i].end());
+				break;
+			}
+		}
+		if(std::filesystem::is_directory(dirs[i]))
+			getAllSharedLibs(v, dirs[i]);
+		else if(tmp.size() >= 7){
+			if(tmp[0] == 'l' && tmp[1] == 'i' && tmp[2] == 'b' &&
+				tmp[tmp.size()-1] == 'o' && tmp[tmp.size() - 2] == 's' && tmp[tmp.size() - 3] == '.')
+				v.push_back(dirs[i]);
+		}
+		
+	}
+}
+void getLibsFolders(std::vector<std::string>& v, const std::vector<std::string>& alllibs){
+	for(int i = 0; i < alllibs.size(); ++i){
+		std::string folder;
+		for(int j = alllibs[i].size()-1; j >= 0; --j){
+			if(alllibs[i][j] == '/'){
+				folder = std::string(alllibs[i].begin(), alllibs[i].begin() + j + 1);
+				break;
+			}		
+		}
+		if(v.size() == 0 || find(v, folder) == -1)
+			v.push_back(folder);
+	}
+}
+void getLibNamesStatic(std::vector<std::string>& v, const std::vector<std::string>& alllibs){
+	for(int i = 0; i < alllibs.size(); ++i){
+		std::string name;
+		for(int j = alllibs[i].size()-1; j >= 0; --j){
+			if(alllibs[i][j] == '/'){
+				name = std::string(alllibs[i].begin() + j + 4, alllibs[i].end() - 2);
+				break;
+			}		
+		}
+		if(v.size() == 0 || find(v, name) == -1)
+			v.push_back(name);
+	}
+}
+void getLibNamesShared(std::vector<std::string>& v, const std::vector<std::string>& alllibs){
+	for(int i = 0; i < alllibs.size(); ++i){
+		std::string name;
+		for(int j = alllibs[i].size()-1; j >= 0; --j){
+			if(alllibs[i][j] == '/'){
+				name = std::string(alllibs[i].begin() + j + 4, alllibs[i].end() - 3);
+				break;
+			}		
+		}
+		if(v.size() == 0 || find(v, name) == -1)
+			v.push_back(name);
+	}
+}
+void MrProperSourceFiles(std::vector<std::string>& source, const std::vector<std::string>& headers){
+	auto it = source.begin();
+	while(it != source.end()){
+		if(find(headers, *it) != -1)
+			source.erase(it);
+		else
+			it++;
+	}
+}
+void sourceFiles(std::vector<std::string>& source, const std::vector<std::string>& allSource,
+	const std::vector<std::string>& headers,int x){
+
+	std::vector<function> funcs;
+	std::cout << headers << std::endl;
+	for(int index = 0; index < headers.size(); ++index){
+		std::cout << "====================================" << std::endl;
+		std::cout << std::endl;
+		std::ifstream in(headers[index]);
+		std::string line, buffer = "";
+		int coolBracesCount = 0, roundBracesCount = 0;
+		while(std::getline(in,line)){
+			bool allSpaces = true;
+			bool comment = false;
+			for(int j = 0; j < line.size(); ++j){
+				if(allSpaces && j < (line.size() - 1) && line[j] == '/' && line[j+1] == '/'){
+					comment = true;
+					break;
+				}
+				if(line[j] != '\t' && line[j] != '\r' && line[j] != '\n' && line[j] != ' ')
+					allSpaces = false;
+			}
+			if(allSpaces || comment || line.find('#') != std::string::npos)
+				continue;
+			for(int i = 0; i < line.size(); ++i){
+				if(line[i] == '\r')
+					continue;
+				if(line[i] == '(')
+					roundBracesCount++;
+				if(line[i] == '{')
+					coolBracesCount++;
+				if(line[i] == ')')
+					roundBracesCount--;
+				if(line[i] == '}'){
+					coolBracesCount--;
+					if(roundBracesCount == 0 && coolBracesCount == 0)
+						buffer.clear();
+				}
+				else if(line[i] == ';' && coolBracesCount == 0 && roundBracesCount == 0){
+					std::cout << buffer << std::endl;
+					i++;
+					buffer.clear();
+				}
+				else
+					buffer += line[i];
+			}
+			buffer += ' ';	
+		}
+	}
+	
 }

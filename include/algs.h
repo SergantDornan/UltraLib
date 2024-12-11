@@ -10,12 +10,38 @@ int find(const std::vector<T>& v,const T& s){
     }
     return -1;
 }
-int find(const std::vector<std::string>& v, const char* s);
-int find(const std::string& s,const char s0);
-int find(const std::string& s,const std::string& s0);
 
+int     
+find ( const std::vector<std::string>& v,       
+
+
+    const char* s);
+
+int
+        
+        find(const std::string& s,const char s0);
+
+int         
+find(const std::string& s,
+        const std::string& s0)  
+;
+
+
+           
+
+
+           
+           
+
+           //akaakma
+//akidmamam
+//amamam
 
 template <class T>
+    
+
+
+
 int binarySearch(std::vector<T>& v,const T x, int leftoffset = 0, int rightoffset = 0) 
 {
   int l = leftoffset;

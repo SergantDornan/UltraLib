@@ -7,6 +7,8 @@ int find(const std::string& s,const char s0){
     return -1;
 }
 int find(const std::string& s,const std::string& s0){
+    if(s.size() < s0.size())
+        return -1;
     for(int i = 0; i < s.size() - s0.size() + 1; ++i){
         std::string tmp(s.begin() + i, s.begin() + i + s0.size());
         if(tmp == s0)

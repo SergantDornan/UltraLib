@@ -18,8 +18,8 @@ int main(int argc, char* argv[]){
 	std::string entryPoint = "main";
   	std::vector<std::string> allHeaders;
   	std::vector<std::string> allSource;
-  	getAllheaders(allHeaders);
-  	getAllsource(allSource);
+  	std::vector<std::string> statlibs;
+  	std::vector<std::string> sharlibs;
   	bool remakeMakefile = false;
   	std::string arg;
   	if(argc >= 2 && argv[1][0] != '-')
@@ -28,8 +28,10 @@ int main(int argc, char* argv[]){
   		std::cout << "===================== SELF COMPILE =====================" << std::endl;
   		std::vector<std::string> source;
   		std::vector<std::string> headers;
+  		getAllheaders(allHeaders, sourceCodeFolder);
+  		getAllsource(allSource, sourceCodeFolder);
   		stripExt(allSource, "cpp");
-  		includeFiles(headers,allHeaders,mainSourceFileName);
+  		includeFiles(headers,allHeaders,allSource,mainSourceFileName);
   		sourceFiles(source,allSource,headers);
   		std::vector<std::string> headerfoldesrs;
   		for(int i = 0; i < headers.size(); ++i){
@@ -44,7 +46,7 @@ int main(int argc, char* argv[]){
   			if(find(headerfoldesrs, tmp) == -1)
   				headerfoldesrs.push_back(tmp);
   		}
-  		std::string self_compile = "g++ ";
+  		std::string self_compile = "g++ -g3";
   		for(int i = 0; i < headerfoldesrs.size(); ++i)
   			self_compile += (" -I" + headerfoldesrs[i] + " ");
   		for(int i = 0; i < source.size(); ++i)
@@ -53,6 +55,8 @@ int main(int argc, char* argv[]){
   		system(self_compile.c_str());
   		return 0;
   	}
+  	getAllheaders(allHeaders);
+  	getAllsource(allSource);
   	for(int i = 1; i < argc; ++i){
   		if(std::string(argv[i]) == "-make" || std::string(argv[i]) == "--Makefile"){
   			remakeMakefile = true;
@@ -137,8 +141,9 @@ int main(int argc, char* argv[]){
   	std::vector<std::string> headers;
   	source.push_back(mainFile);
   	stripExt(allSource, extension);
-  	includeFiles(headers,allHeaders,mainFile);
-  	sourceFiles(source,allSource,headers);
+  	includeFiles(headers,allHeaders,allSource,mainFile);
+  	sourceFiles(source,allSource,headers,0);
+  	MrProperSourceFiles(source,headers);
   	if(remakeMakefile){
   		if(find(dirs,"./Makefile") != -1)
   			system("rm ./Makefile");
@@ -155,36 +160,6 @@ int main(int argc, char* argv[]){
   		if(find(dirs, codeFile) != -1){
   			std::string cmd = ("rm " + codeFile);
   			system(cmd.c_str());
-  		}
-  		std::string statFldr = ("./" + staticLibsFolder); 
-  		if(find(dirs, statFldr) != -1){
-  			auto statLibs = getDirs(statFldr);
-  			std::string statlibgen = ("./" + staticLibsFolder + "/lib" + STATICLIBGEN_name + ".a");
-  			if(statLibs.size() <= 2){
-  				std::string cmd = ("rm -rf " + statFldr);
-  				system(cmd.c_str());
-  			}
-  			else{
-  				if(find(statLibs, statlibgen) != -1){
-  					std::string cmd = ("rm " + statlibgen);
-  					system(cmd.c_str());
-  				}
-  			}
-  		}
-  		std::string sharFldr = ("./" + sharedLibsFolder); 
-  		if(find(dirs, sharFldr) != -1){
-  			auto sharLibs = getDirs(sharFldr);
-  			std::string sharlibgen = ("./" + sharedLibsFolder + "/lib" + SHAREDLIBGEN_name + ".so");
-  			if(sharLibs.size() <= 2){
-  				std::string cmd = ("rm -rf " + sharFldr);
-  				system(cmd.c_str());
-  			}
-  			else{
-  				if(find(sharLibs, sharlibgen) != -1){
-  					std::string cmd = ("rm " + sharlibgen);
-  					system(cmd.c_str());
-  				}
-  			}
   		}
   		std::string depFldr = ("./" + depFolder);
   		if(find(dirs, depFldr) != -1){
@@ -204,5 +179,4 @@ int main(int argc, char* argv[]){
   		std::string runcmd = "./" + outfile;
   		system(runcmd.c_str());
   	}
-	return 0;
-}
+	return 0;}
