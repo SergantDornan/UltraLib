@@ -4,9 +4,9 @@ struct function{
 	std::string type, name;
 	std::vector<std::string> args;
 };
-struct variable{
-	std::string type, name;
-};
+const std::vector<char> spaces = {' ', '\n', '\r', '\t'};
+const std::vector<std::string> serv = {"+", "-", "=", "*", "%", "/", ">", "<", "^", 
+										"|", "||", "&","&&", "!", "~"};
 const std::string sourceCodeFolder = "/home/sergantdornan/MasterFolder/UBERMENSCHENAMOGUS228/";
 const std::string builderOutfile = "builder";
 const std::string mainSourceFileName = sourceCodeFolder + "buildercode/source/build.cpp";
@@ -28,8 +28,8 @@ void createMakeFile(const std::string&,const std::string&,const std::string&,
 void createEssentials(const std::string&, const std::string&, const std::string&);
 void includeFiles(std::vector<std::string>&,const std::vector<std::string>&, 
 	const std::vector<std::string>&,const std::string&);
-void sourceFiles(std::vector<std::string>&,const std::vector<std::string>&,
-	const std::vector<std::string>&);
+// void sourceFiles(std::vector<std::string>&,const std::vector<std::string>&,
+// 	const std::vector<std::string>&);
 std::string defineEntryPoint(const std::string&);
 std::string rulesGen(const std::vector<std::string>&);
 std::string objectsGen(const std::vector<std::string>&);
@@ -50,7 +50,11 @@ void getLibNamesStatic(std::vector<std::string>&, const std::vector<std::string>
 void getLibNamesShared(std::vector<std::string>&, const std::vector<std::string>&);
 void MrProperSourceFiles(std::vector<std::string>&, const std::vector<std::string>&);
 void sourceFiles(std::vector<std::string>&, const std::vector<std::string>&,
-	const std::vector<std::string>&,int);
-void findFunctionsVarsDeclarations(std::vector<function>&,std::vector<variable>&,
-	const std::vector<std::string>&,const std::vector<std::string>&);
-void functionVarsParsing(std::vector<function>&, std::vector<variable>&,const std::string&);
+	const std::vector<std::string>&);
+void findFunctionsDeclarations(std::vector<function>&,const std::vector<std::string>&);
+void functionParsing(std::vector<function>&,const std::string&,
+	const std::string& className = "");
+void methodParsing(std::vector<function>&,const std::string&, const std::string&);
+std::string findType(const std::string&, std::string&);
+bool operator==(function,function);
+std::ostream& operator << (std::ostream&,function);

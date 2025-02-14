@@ -4,6 +4,7 @@
 template <class T>
 class Range{
 public:
+    int func();
     std::vector<std::pair<T,T>> v;
     Range(Range<T>& r){
         v = r.v;

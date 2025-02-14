@@ -1,6 +1,7 @@
 #include <algs.h>
 #include <filework.h>
-#include <clock.h>
+#include <dHeap.h>
+#include "clock.h"
 // typedef unsigned short u16;
 // typedef short int i16;
 typedef int i32;
@@ -14,13 +15,7 @@ int main(int argc, char* argv[]){
 	std::vector<std::vector<int>> res;
 	if(argc >= 2)
 	 	readVectors(input, argv[1]);
-	std::string aboba = "";
-	std::string line = "abcdefghijklmnopqrstuvwxyz";
-	for(int i = 0; i < line.size(); ++i){
-		aboba += line[i];
-		std::cout << aboba << std::endl;
-	}
  	if(argc >= 3)
-		writeVectors(res,argv[2]);	
+		writeVectors(res,argv[2]);
 	return 0;
 }

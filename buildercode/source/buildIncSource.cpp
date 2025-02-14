@@ -48,7 +48,11 @@ std::string defineEntryPoint(const std::string& mainFile){
 	}
 	return "";
 }
-void includeFiles(std::vector<std::string>& includes,const std::vector<std::string>& allHeaders,const std::vector<std::string>& allSource,const std::string& line){
+void includeFiles(std::vector<std::string>& includes,
+	const std::vector<std::string>& allHeaders,
+	const std::vector<std::string>& allSource,
+	const std::string& line)
+{
     std::string l;
     std::ifstream input(line);
     if (input.is_open()){
@@ -83,31 +87,31 @@ void includeFiles(std::vector<std::string>& includes,const std::vector<std::stri
     }
     input.close();
 }
-void sourceFiles(std::vector<std::string>& source,const std::vector<std::string>& allSource,const std::vector<std::string>& headers){
-	std::string l;
-    for(int i = 0; i < allSource.size(); ++i){
-    	std::ifstream input(allSource[i]);
-    	if (input.is_open()){
-  			while (std::getline(input, l)){
-        		if(l.find("#include") != std::string::npos){
-        			std::string s;
-        			for(int j = 10; j < l.size() && l[j+2] != '>' && l[j+2] != '"'; ++j)
-        				s+=l[j];
-        			if(find(allSource[i], s) != -1){
-        				for(int k = 0; k < headers.size(); ++k){
-        					if(find(headers[k], s) != -1){
-        						if(find(source,allSource[i]) == -1)
-        							source.push_back(allSource[i]);
-        						break;
-        					}
-        				}
-        			}
-    			}
-        	}
-    	}
-    	input.close();
-    }
-}
+// void sourceFiles(std::vector<std::string>& source,const std::vector<std::string>& allSource,const std::vector<std::string>& headers){
+// 	std::string l;
+//     for(int i = 0; i < allSource.size(); ++i){
+//     	std::ifstream input(allSource[i]);
+//     	if (input.is_open()){
+//   			while (std::getline(input, l)){
+//         		if(l.find("#include") != std::string::npos){
+//         			std::string s;
+//         			for(int j = 10; j < l.size() && l[j+2] != '>' && l[j+2] != '"'; ++j)
+//         				s+=l[j];
+//         			if(find(allSource[i], s) != -1){
+//         				for(int k = 0; k < headers.size(); ++k){
+//         					if(find(headers[k], s) != -1){
+//         						if(find(source,allSource[i]) == -1)
+//         							source.push_back(allSource[i]);
+//         						break;
+//         					}
+//         				}
+//         			}
+//     			}
+//         	}
+//     	}
+//     	input.close();
+//     }
+// }
 void stripExt(std::vector<std::string>& allSource, const std::string& extension){
 	auto it = allSource.begin();
 	while (it != allSource.end()){
@@ -199,23 +203,22 @@ void MrProperSourceFiles(std::vector<std::string>& source, const std::vector<std
 			it++;
 	}
 }
-void sourceFiles(std::vector<std::string>& source, const std::vector<std::string>& allSource,
-	const std::vector<std::string>& headers,int x){
+void sourceFiles(std::vector<std::string>& source, 
+	const std::vector<std::string>& allSource,
+	const std::vector<std::string>& headers){
 
-	std::vector<function> funcs;
-	std::vector<variable> vars;
-	findFunctionsVarsDeclarations(funcs,vars,source,headers);
-}
-void findFunctionsVarsDeclarations(std::vector<function>& funcs,std::vector<variable>& vars,
-	const std::vector<std::string>& source,const std::vector<std::string>& headers){
-
-	std::cout << headers << std::endl;
-	for(int index = 0; index < headers.size(); ++index){
-		std::cout << "====================================" << std::endl;
+	std::vector<function> funcsDeclarations;
+	findFunctionsDeclarations(funcsDeclarations,headers);
+	std::cout << funcsDeclarations << std::endl;
+	for(int index = 0; index < allSource.size(); ++index){
+		std::cout << "=============================" << std::endl;
+		std::cout << allSource[index] << std::endl;
 		std::cout << std::endl;
-		std::ifstream in(headers[index]);
+		std::ifstream in(allSource[index]);
+		std::vector<function> funcs;
 		std::string line, buffer = "";
 		int coolBracesCount = 0, roundBracesCount = 0;
+		std::string currClass = "";
 		while(std::getline(in,line)){
 			bool allSpaces = true;
 			bool comment = false;
@@ -224,10 +227,87 @@ void findFunctionsVarsDeclarations(std::vector<function>& funcs,std::vector<vari
 					comment = true;
 					break;
 				}
-				if(line[j] != '\t' && line[j] != '\r' && line[j] != '\n' && line[j] != ' ')
+				if(find(spaces, line[j]) == -1)
 					allSpaces = false;
 			}
-			if(allSpaces || comment || line.find('#') != std::string::npos)
+			if(allSpaces || comment)
+				continue;
+			auto it = line.begin();
+			while(it != line.end()){
+				if(find(spaces,*it) != -1)
+					line.erase(it);
+				else
+					break;
+			}
+			if(find(line,"#include") == 0)
+				continue;
+			for(int i = 0; i < line.size(); ++i){
+				if(line[i] == '\r')
+					continue;
+				if(line[i] == '(')
+					roundBracesCount++;
+				if(line[i] == ')')
+					roundBracesCount--;
+				if(line[i] == ';' && roundBracesCount == 0 && coolBracesCount == 0){
+					buffer.clear();
+					i++;
+				}
+				if(line[i] == '}'){
+					coolBracesCount--;
+					if(roundBracesCount == 0 && coolBracesCount == 0)
+						buffer.clear();
+				}
+				else if(line[i] == '{'){
+					if(coolBracesCount == 0 && roundBracesCount == 0){
+						functionParsing(funcs, buffer);
+						i++;
+						buffer.clear();
+					}
+					coolBracesCount++;
+				}
+				else
+					buffer += line[i];
+			}
+			buffer += ' ';	
+		}
+		in.close();
+		std::cout << funcs << std::endl;
+		for(int i = 0; i < funcs.size(); ++i){
+			if(find(funcsDeclarations, funcs[i]) != -1){
+				source.push_back(allSource[index]);
+				break;
+			}
+		}
+	}
+}
+void findFunctionsDeclarations(std::vector<function>& funcs,const std::vector<std::string>& headers){
+
+	for(int index = 0; index < headers.size(); ++index){
+		std::ifstream in(headers[index]);
+		std::string line, buffer = "";
+		int coolBracesCount = 0, roundBracesCount = 0;
+		std::string currClass = "";
+		while(std::getline(in,line)){
+			bool allSpaces = true;
+			bool comment = false;
+			for(int j = 0; j < line.size(); ++j){
+				if(allSpaces && j < (line.size() - 1) && line[j] == '/' && line[j+1] == '/'){
+					comment = true;
+					break;
+				}
+				if(find(spaces, line[j]) == -1)
+					allSpaces = false;
+			}
+			if(allSpaces || comment)
+				continue;
+			auto it = line.begin();
+			while(it != line.end()){
+				if(find(spaces,*it) != -1)
+					line.erase(it);
+				else
+					break;
+			}
+			if(find(line,"#include") == 0)
 				continue;
 			for(int i = 0; i < line.size(); ++i){
 				if(line[i] == '\r')
@@ -243,48 +323,161 @@ void findFunctionsVarsDeclarations(std::vector<function>& funcs,std::vector<vari
 					if(roundBracesCount == 0 && coolBracesCount == 0)
 						buffer.clear();
 				}
-				else if(line[i] == ';' && coolBracesCount == 0 && roundBracesCount == 0){
-					//std::cout << buffer << std::endl;
-					functionVarsParsing(funcs,vars, buffer);
-					i++;
-					buffer.clear();
+				else if(roundBracesCount == 0 && line[i] == ';'){
+					if(line[i] == ';' && find(buffer,"//") == -1 &&
+						find(buffer,"template") == -1){
+						if(coolBracesCount == 0)
+							functionParsing(funcs,buffer);
+						else if(coolBracesCount == 1){
+							if(find(buffer, "class") != -1){
+								int ind = find(buffer,"class");
+								ind += 5;
+								for(int k = ind; k < buffer.size(); ++k){
+									if(find(spaces,buffer[k]) == -1){
+										ind = k;
+										break;
+									}
+								}
+								std::string name = "";
+								for(int k = ind; k < buffer.size(); ++k){
+									if(buffer[k] == '{')
+										break;
+									else
+										name += buffer[k];
+								}
+								currClass = name;
+							}
+							methodParsing(funcs,buffer,currClass);
+						}
+						++i;
+						buffer.clear();
+					}
 				}
 				else
 					buffer += line[i];
 			}
 			buffer += ' ';	
 		}
+		in.close();
 	}	
 }
-void functionVarsParsing(std::vector<function>& funcs, std::vector<variable>& vars,
-	const std::string& buffer){
+void methodParsing(std::vector<function>& funcs, const std::string& buffer,
+	const std::string& currClass){
 	
-	bool var = false;
+	std::string s;
+	if(find(buffer, currClass) != -1 && find(buffer, "class") != -1){
+		int ind = find(buffer, '{') + 1;
+		s = std::string(buffer.begin() + ind, buffer.end());
+		auto it = s.begin();
+		while(it != s.end()){
+			if(find(spaces, *it) == -1)
+				break;
+			else
+				s.erase(it);
+		}
+		if(find(s,"public") == 0 || find(s,"private") == 0 || 
+			find(s, "protected") == 0)
+			s = std::string(s.begin() + find(s, ':') + 1, s.end());
+	}
+	else
+		s = buffer;
+	functionParsing(funcs,s,currClass);
+}
+void functionParsing(std::vector<function>& funcs,const std::string& buffer,
+	const std::string& className){
+	std::string tail = "";
+	std::string type = findType(buffer, tail);
+	if(type == "class" || tail.find('(') == std::string::npos)
+		return;
+	auto it = tail.begin();
+	while(it != tail.end()){
+		if((*it) == '(')
+			break;
+		if(find(spaces, *it) != -1)
+			tail.erase(it);
+		else
+			++it;
+	}
+	it = tail.end()-1;
+	while(it != tail.begin()){
+		if((*it) == ')')
+			break;
+		if(find(spaces, *it) != -1)
+			tail.erase(it);
+		else
+			--it;
+	}
+	int index = find(tail,'(');
+	std::string name(tail.begin(), tail.begin() + index);
+	if(className != "")
+		name = (className + "::" + name);
+	tail = std::string(tail.begin() + index + 1, tail.end());
+	auto v = split(tail, ",");	
+	for(int i = 0; i < v.size(); ++i){
+		auto iter = v[i].begin();
+		while(iter != v[i].end()){
+			if(find(spaces, *iter) != -1)
+				v[i].erase(iter);
+			else
+				break;
+		}
+		iter = v[i].end()-1;
+		while(iter != v[i].begin()){
+			if(find(spaces, *iter) != -1)
+				v[i].erase(iter);
+			else
+				break;
+		}
+	}
+	std::vector<std::string> args;
+	for(int i = 0; i < v.size(); ++i)
+		args.push_back(findType(v[i], tail));
+	funcs.push_back({type,name,args});
+}
+std::string findType(const std::string& buffer, std::string& tail){
 	std::string type = "";
 	std::string tmp = "";
-	std::string tail;
-	for(int i = 0; i < buffer.size(); ++i){
-		if(i == (buffer.size()-1) || buffer[i] == '\n' || buffer[i] == ' ' || buffer[i] == '\t' || buffer[i] == '\r'){
-			if(i > 0 && buffer[i-1] != '\n' && buffer[i-1] != '\r' &&
-				buffer[i-1] != '\t' && buffer[i-1] != ' ')
-			{
-				if(tmp == "template")
-					break;
-				if(tmp == "extern" || type == "")
-					type = tmp;
-				else if(type == "extern" || type == "const" || type == "extern const")
-					type += (" " + tmp);
-				else{
-					tail = (tmp + std::string(buffer.begin() + i, buffer.end()));
-					break;
-				}
-			}
-			tmp.clear();
+	int ind = 0;
+	for(int i = 0; i < buffer.size();++i){
+		if(find(spaces,buffer[i]) == -1){
+			ind = i;
+			break;
 		}
-		else
-			tmp += buffer[i];
 	}
-	if(type != "")
-		std::cout << type << std::endl;
-	std::cout << tail << std::endl;
+	for(int i = ind; i < buffer.size();++i){
+		if(find(spaces,buffer[i]) != -1)
+			break;
+		else if(buffer[i] == '('){
+			tail = buffer;
+			return type;
+		}
+	}
+	ind = find(buffer,'(');
+	if(ind < 0)
+		return "";
+	for(int i = ind - 1; i >= 0; --i){
+		if(find(spaces,buffer[i]) == -1){
+			ind = i;
+			break;
+		}
+	}
+	int stop = ind;
+	for(int i = ind; i >= 0; --i){
+		if(find(spaces,buffer[i]) != -1)
+			break;
+		else
+			stop = i;
+	}
+	type = std::string(buffer.begin(), buffer.begin() + stop);
+	tail = std::string(buffer.begin() + stop, buffer.end());
+	if(find(type, "extern") != -1)
+		type = std::string(type.begin() + find(type,"extern") + 6, type.end());
+	return type;
+}
+bool operator==(function f1,function f2){
+	return (f1.type == f2.type) && (f1.name == f2.name) && (f1.args == f2.args);
+}
+std::ostream& operator << (std::ostream& out, function f){
+	out << f.type << ", " << f.name << ", " << f.args << std::endl;
+	return out;
 }

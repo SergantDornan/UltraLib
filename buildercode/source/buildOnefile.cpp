@@ -3,6 +3,7 @@
 void createOnefile(const std::string& mainFile,const std::vector<std::string>& headers,
  const std::vector<std::string>& source, const std::string& entryPoint, 
  const std::string& extension){
+ 	
 	std::vector<std::string> lines;
 	std::vector<std::string> mainlines;
 	std::string line;

@@ -24,37 +24,37 @@ int main(int argc, char* argv[]){
   	std::string arg;
   	if(argc >= 2 && argv[1][0] != '-')
   		arg = argv[1];
-  	if(arg == "self"){
-  		std::cout << "===================== SELF COMPILE =====================" << std::endl;
-  		std::vector<std::string> source;
-  		std::vector<std::string> headers;
-  		getAllheaders(allHeaders, sourceCodeFolder);
-  		getAllsource(allSource, sourceCodeFolder);
-  		stripExt(allSource, "cpp");
-  		includeFiles(headers,allHeaders,allSource,mainSourceFileName);
-  		sourceFiles(source,allSource,headers);
-  		std::vector<std::string> headerfoldesrs;
-  		for(int i = 0; i < headers.size(); ++i){
-  			int index = -1;
-  			for(int j = headers[i].size()-1;j >= 0; --j){
-  				if(headers[i][j] == '/'){
-  					index = j;
-  					break;
-  				}
-  			}
-  			std::string tmp(headers[i].begin(), headers[i].begin() + index);
-  			if(find(headerfoldesrs, tmp) == -1)
-  				headerfoldesrs.push_back(tmp);
-  		}
-  		std::string self_compile = "g++ -g3";
-  		for(int i = 0; i < headerfoldesrs.size(); ++i)
-  			self_compile += (" -I" + headerfoldesrs[i] + " ");
-  		for(int i = 0; i < source.size(); ++i)
-  			self_compile += (" " + source[i] + " ");
-  		self_compile += (" -o ./" + builderOutfile);
-  		system(self_compile.c_str());
-  		return 0;
-  	}
+  	// if(arg == "self"){
+  	// 	std::cout << "===================== SELF COMPILE =====================" << std::endl;
+  	// 	std::vector<std::string> source;
+  	// 	std::vector<std::string> headers;
+  	// 	getAllheaders(allHeaders, sourceCodeFolder);
+  	// 	getAllsource(allSource, sourceCodeFolder);
+  		// stripExt(allSource, "cpp");
+  		// includeFiles(headers,allHeaders,allSource,mainSourceFileName);
+  		// sourceFiles(source,allSource,headers);
+  		// std::vector<std::string> headerfoldesrs;
+  	// 	for(int i = 0; i < headers.size(); ++i){
+  	// 		int index = -1;
+  	// 		for(int j = headers[i].size()-1;j >= 0; --j){
+  	// 			if(headers[i][j] == '/'){
+  	// 				index = j;
+  	// 				break;
+  	// 			}
+  	// 		}
+  	// 		std::string tmp(headers[i].begin(), headers[i].begin() + index);
+  	// 		if(find(headerfoldesrs, tmp) == -1)
+  	// 			headerfoldesrs.push_back(tmp);
+  	// 	}
+  	// 	std::string self_compile = "g++ -g3";
+  	// 	for(int i = 0; i < headerfoldesrs.size(); ++i)
+  	// 		self_compile += (" -I" + headerfoldesrs[i] + " ");
+  	// 	for(int i = 0; i < source.size(); ++i)
+  	// 		self_compile += (" " + source[i] + " ");
+  	// 	self_compile += (" -o ./" + builderOutfile);
+  	// 	system(self_compile.c_str());
+  	// 	return 0;
+  	// }
   	getAllheaders(allHeaders);
   	getAllsource(allSource);
   	for(int i = 1; i < argc; ++i){
@@ -90,50 +90,59 @@ int main(int argc, char* argv[]){
   		}
   	}
 
-  	std::string mainFile = "main";
+  	std::string mainFile;
   	bool run = (find(arg,"run") != -1 && arg != "");
-  	if(!(arg == "" || arg == "run")){
-  		int index = find(arg,"run");
-  		if(index == 0)
-  			mainFile = std::string(arg.begin() + 3, arg.end());
-  		else if(index == arg.size() - 3)
-  			mainFile = std::string(arg.begin(), arg.end() - 3);
-  		else
-  			mainFile = arg;
+  	if(arg == "self"){
+  		std::cout << "===================== SELF COMPILE =====================" << std::endl;
+  		mainFile = mainSourceFileName;
+  		outfile = builderOutfile;
+  		extension = "cpp";
   	}
-  	if(outfile == "default")
-  		outfile = mainFile;
-  	std::ifstream makefile("./Makefile");
-  	if(makefile.is_open()){
-  		std::string l;
-  		std::getline(makefile, l);
-  		std::string name(l.begin() + 7, l.end());
-  		if(name != outfile)
-  			remakeMakefile = true;
-  	}
-  	bool b = false;
-  	for(int i = 0; i < allSource.size(); ++i){
-  		for(int j = allSource[i].size()-1; j >=0; --j){
-  			if(allSource[i][j] == '/'){
-  				std::string tmp(allSource[i].begin() + j + 1, allSource[i].end());
-  				int f = find(tmp,'.');
-  				std::string tmp1(tmp.begin(), tmp.begin() + f);
-  				if(tmp1 == mainFile){
-  					b = true;
-  					extension = std::string(tmp.begin() + f + 1, tmp.end());
-  					mainFile = allSource[i];
-  					break;
-  				}			
+  	else{
+  		mainFile = "main";
+  		if(!(arg == "" || arg == "run")){
+  			int index = find(arg,"run");
+  			if(index == 0)
+  				mainFile = std::string(arg.begin() + 3, arg.end());
+  			else if(index == arg.size() - 3)
+  				mainFile = std::string(arg.begin(), arg.end() - 3);
+  			else
+  				mainFile = arg;
+  		}
+  		if(outfile == "default")
+  			outfile = mainFile;
+  		std::ifstream makefile("./Makefile");
+  		if(makefile.is_open()){
+  			std::string l;
+  			std::getline(makefile, l);
+  			std::string name(l.begin() + 7, l.end());
+  			if(name != outfile)
+  				remakeMakefile = true;
+  		}
+  		bool b = false;
+  		for(int i = 0; i < allSource.size(); ++i){
+  			for(int j = allSource[i].size()-1; j >=0; --j){
+  				if(allSource[i][j] == '/'){
+  					std::string tmp(allSource[i].begin() + j + 1, allSource[i].end());
+  					int f = find(tmp,'.');
+  					std::string tmp1(tmp.begin(), tmp.begin() + f);
+  					if(tmp1 == mainFile){
+  						b = true;
+  						extension = std::string(tmp.begin() + f + 1, tmp.end());
+  						mainFile = allSource[i];
+  						break;
+  					}			
+  				}
   			}
   		}
-  	}
-  	if(!b){
-  		std::cout << "====================== ERROR ======================" << std::endl;
-  		std::cout << "============  CANNOT FIND ENTRY POINT  ============" << std::endl;
-  		std::cout << "====== create main file or specify entry file ======" << std::endl;
-  		std::cout << "===================================================" << std::endl;
-  		return 0;
-  	}
+  		if(!b){
+  			std::cout << "====================== ERROR ======================" << std::endl;
+  			std::cout << "============  CANNOT FIND ENTRY POINT  ============" << std::endl;
+  			std::cout << "====== create main file or specify entry file ======" << std::endl;
+  			std::cout << "===================================================" << std::endl;
+  			return 0;
+  		}
+  	}	
   	entryPoint = defineEntryPoint(mainFile);
   	refreshObjects(mode);
   	createEssentials(mode,extension,outfile);
@@ -142,7 +151,7 @@ int main(int argc, char* argv[]){
   	source.push_back(mainFile);
   	stripExt(allSource, extension);
   	includeFiles(headers,allHeaders,allSource,mainFile);
-  	sourceFiles(source,allSource,headers,0);
+  	sourceFiles(source,allSource,headers);
   	MrProperSourceFiles(source,headers);
   	if(remakeMakefile){
   		if(find(dirs,"./Makefile") != -1)

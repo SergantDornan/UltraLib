@@ -33,8 +33,8 @@ public:
 	duration& operator += (const int);
 	duration& operator-=(const int);
 };
-duration operator - (  const timePoint&,const timePoint&);
-timePoint operator +(const timePoint&,const duration&);
+duration operator-(const timePoint&,const timePoint&);
+timePoint operator+(const timePoint&,const duration&);
 timePoint operator+(const timePoint&,const int);
 timePoint operator-(const timePoint&,const duration&);
 timePoint operator-(const timePoint&,const int);

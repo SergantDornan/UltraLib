@@ -4,15 +4,15 @@ void createMakeFile (const std::string& mode, const std::string& extension, cons
 	
 	auto dirs = getDirs("./");
 	bool newline = false;
-	if (find (dirs,"./Makeline") == -1)
+	if (find (dirs,"./Makefile") == -1)
 	{
 		newline = true;
-		system ("touch Makeline");
+		system ("touch Makefile");
 	}
 	std::vector<std::string> lines;
 	std::string l;
 	if(!newline){
-		std::ifstream in("./Makeline");
+		std::ifstream in("./Makefile");
 		while (std::getline(in, l))
 			lines.push_back(l);
 		in.close();
@@ -43,7 +43,7 @@ void createMakeFile (const std::string& mode, const std::string& extension, cons
 			}
 		}
 	}
-	std::ofstream out("./Makeline");
+	std::ofstream out("./Makefile");
 	out << "OUTPUT=" << outline << std::endl;
 	out << "EXT=" << extension << std::endl;
 	if(extension == "cpp")
@@ -142,7 +142,7 @@ std::string objectsGen(const std::vector<std::string>& sourcenames){
 	return s;
 }
 void refreshObjects(const std::string& mode){
-	std::ifstream make("./Makeline");
+	std::ifstream make("./Makefile");
 	bool wasShared = false;
 	bool isShared = (mode == "shar");
 	std::string l;
